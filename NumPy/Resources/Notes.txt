@@ -1,0 +1,10 @@
+
+
+
+# Jupyter Notebook Open Command : 
+- jupyter notebook
+
+
+# Rishab Mishra Notes : 
+
+https://colab.research.google.com/drive/1yNZvxG1Y19joUFkJ3mv7O5l9kXLsgeoH#scrollTo=pziNldSOwtY-
