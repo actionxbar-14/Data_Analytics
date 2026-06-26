@@ -1,0 +1,29 @@
+
+
+
+:--> NOTE :  10 lakh rows , 5 lakh columns in excel sheet.
+
+
+## 1. for edit the cell content, press F2.
+
+
+## 2. for making the new sheet, press Shift + F11.
+
+
+
+## 3. for making the Sr No. 1  to N , press Ctrl + Enter after entering the first number in the cell and then drag down the fill handle to fill the series.
+
+
+## 4.  for undo the last action, press Ctrl + Z , and for redo the last action, press Ctrl + Y.
+
+## 5. alt + h + o + i  for auto fit the column width.
+
+
+## 6. For generating the random numbers in excel, use the formula =RANDBETWEEN(1,100) and then drag down the fill handle to fill the series , and for making the random numbers static, copy the cells and paste as values.  [ ctrl + r for fill rows and ctrl + d for fill columns ]
+
+
+
+
+
+
+## 7. For adding or performing the sum operation on the selected cells, press Alt + =  and then press Enter to get the sum of the selected cells.
