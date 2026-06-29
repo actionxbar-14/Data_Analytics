@@ -1,0 +1,69 @@
+
+
+
+
+:--> To add a new column in excel, select the column where you want to add a new column and then press Ctrl + Shift + + (plus sign) to insert a new column , and to add a new row in excel, select the row where you want to add a new row and then press Ctrl + Shift + + (plus sign) to insert a new row.
+
+:: IF Formula :
+=IF(condition, value_if_true, value_if_false)
+
+
+:: Nested IF Formula  / IFS Formula :
+=IF(condition1, value_if_true1, IF(condition2, value_if_true2, value_if_false2))
+
+
+=IFS(condition1, value_if_true1, condition2, value_if_true2, condition3, value_if_true3, ...)
+
+
+
+
+
+
+Shortcuts :
+
+
+1. press ctrl + space to select the entire column and press shift + space to select the entire row.
+
+
+2. for using the conditional formatting in the form of making a new formula , write =$cellname="condition" and then select the formatting style you want to apply.
+
+
+
+3. press ctrl + alt + l to filter the data in excel.
+
+
+
+
+NOTE :
+
+Question : In the IFS function, how many arguments are needed for each condition?
+Answer : In the IFS function, each condition requires two arguments: the condition itself and the value to return if that condition is true.
+
+
+
+Question : In a Nested IF formula, where is the second IF statement usually placed?
+Answer : In a Nested IF formula, the second IF statement is usually placed in the 'value_if_false' argument of the first IF statement. This allows for multiple conditions to be evaluated in a sequential manner.
+
+
+
+
+Question : In which tab and group is the ?Conditional Formatting? option available in Excel?
+Answer : The 'Conditional Formatting' option is available in the 'Home' tab, within the 'Styles' group in Excel.
+
+
+
+
+
+
+
+4. For seperating the text in a cell into multiple columns based on a delimiter, select the cell(s) and then go to the 'Data' tab and click on 'Text to Columns'. Choose the delimiter and follow the wizard to separate the text into columns.
+
+5.  to quicky seperater the text in a cell use ctrl + e to use the Flash Fill feature in Excel. This will automatically fill in the remaining cells based on the pattern you provide.
+
+
+6. to delete the black rows using ctrl + g and then click on 'Special' and select 'Blanks' and then press ctrl + - (minus sign) to delete the blank rows.
+
+
+
+7. To make a table(mathmatics) in excel , go to what if analysis in the 'Data' tab and click on 'Data Table'. This will allow you to create a table for mathematical calculations based on input values.
+
