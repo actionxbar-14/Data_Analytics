@@ -1,0 +1,31 @@
+
+
+
+:: Topics :
+
+1. Pivot Table
+2. Pivot Chart 
+3. Slicer & Slicer Settings
+4. Timeline 
+5. Grouping ,Custom Grouping. 
+6. Pivot Table Options/Settings. 
+7. Show Values as 
+8. Calculated Fields. 
+9. Filter & Filter report pages. 
+10. Dynamic Pivot Table.
+11. GetPivot Data Formula. 
+12. Auto Refresh Pivot Table.
+
+
+__________________________________________________________________________________________________________________________________________
+
+
+:: Pivot Table :
+
+- Data can be confusing , overwhelming and  , difficult for the ordinary human to understand. Pivot tables are a powerful tool in Excel that allow you to summarize, analyze, explore, and present your data in a more manageable format. They enable you to extract meaningful insights from large datasets by organizing and rearranging the data dynamically.
+
+:-> Rows or Columns --> Two Dimensional --> Chart Visualization --> Slice Data. 
+
+
+NOTE : For making Pivot table , remember one thing that no two columns should have the same/Common  name in the data set. If there are duplicate column names, Excel will not be able to create a pivot table correctly. It is important to ensure that each column has a unique name to avoid confusion and errors when analyzing the data.
+

@@ -21,9 +21,13 @@
 
 ## 6. For generating the random numbers in excel, use the formula =RANDBETWEEN(1,100) and then drag down the fill handle to fill the series , and for making the random numbers static, copy the cells and paste as values.  [ ctrl + r for fill rows and ctrl + d for fill columns ]
 
-
-
-
-
-
 ## 7. For adding or performing the sum operation on the selected cells, press Alt + =  and then press Enter to get the sum of the selected cells.
+
+
+NOTE : By default , excel uses the relative cell reference[C4:E4], but if you want to use the absolute cell reference, then press F4 after selecting the cell reference in the formula bar.
+
+
+NOTE:
+
+Question : What happens if you do not include the value_if_false part in an IF formula and the condition is false?
+Answer : If you do not include the value_if_false part in an IF formula and the condition is false, Excel will return FALSE as the result of the formula.
