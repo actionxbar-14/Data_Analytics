@@ -1,0 +1,243 @@
+
+:: POWER BI DAX SYLLABUS :-
+
+
+DAX :  Data Analysis EXpressions. 
+
+__________________________________________________________________________________________________________________________________________
+
+1. SUM Formula in DAX. 
+
+2. Calculated Columns in Power BI. 
+
+3. Differene Between Calculated Columns and & Measures. 
+
+4. SUMX Formula. 
+
+5. Difference Between SUM & SUMX.
+
+6. COUNT Formula. 
+
+7. COUNTA Formula. 
+
+8. COUNTBLANK Formula. 
+
+9. COUNTROWS Formula. 
+
+10. DISTINCTCOUNT Formula. 
+
+11. COUNTX FOrmula. 
+
+12. COUNTAX Formula. 
+
+13. COUNTROWS with FILTER Formula. 
+
+14. Extract Day , Month & Year. 
+
+15. Extract Hour , Minute & Second. 
+
+16. DATEDIFF Formula. 
+
+17. Create Custom Calender. 
+
+18. MTD , QTD & YTD DAX Formula. 
+
+19. NETWORKDAYS DAX Formula. 
+
+20. DATESINPERIOD & DATESBETWEEN DAX Formula.
+
+21. SAMEPERIODLASTYEAR DAX Formula.
+
+22. Advanced DAX Formulas. 
+
+23. Create Calender Table. 
+
+24. Creating Seperate Table for Measures. 
+
+25. KEEPFILTERS Formula. 
+
+26. REMOVEFILTERS Formula.
+
+27. DISTINCT Formula. 
+
+28. RANKX Function. 
+
+29. CALCULATETABLE Formula. 
+
+30. PARALLELPERIOD Formula. 
+
+
+
+__________________________________________________________________________________________________________________________________________
+
+
+
+:: NOTE_1 :
+
+## MEASURES IN POWER BI :-
+
+- Measures are calculations used in Power BI to perform aggregations and calculations on data. They are created using DAX (Data Analysis Expressions) and can be used in visuals, reports, and dashboards.
+- It has two types :
+
+
+1.Implicit Measures :
+- Implicit measures are automatically created by Power BI when you drag a numeric field into the Values.
+
+
+2.Explicit Measures :
+- Explicit measures are created by the user using DAX formulas and can be reused across multiple visuals and reports.
+
+
+
+
+## Calculated Columns in Power BI :- 
+
+- A Calculated Column is a new column that you create in a table using DAX ( Data Analysis Expressions ). The Value for each row is calculated when the column is created , and it remains static unless the data is refreshed. 
+
+- Example :
+
+Tax = SalesData[Total_Sales] * 18/100. 
+
+
+--> Use Case : Suitable for scenarios where you need a value for each row in the table , such as adding a new field derived from existing data(e.g., creating a "Total Price" column by multiplying "Quantity" and "Price"). 
+
+--> Performance : Since calculated columns are stored in the model , they can affect performance , especially if the model is large. 
+
+
+
+
+
+## Difference Between Calculated Columns and Measures :-
+
+
+1. Calculation Timing : 
+
+--> Calculated Column :- Calculated when tha data is loaded or refreshed. 
+--> Measure :- Calculated dynamically during reporting. 
+
+
+2. Storage : 
+
+--> Calculated Column :- Stored in the data model as a new column.
+--> Measure :- Not stored in the data model ; calculated on-the-fly. 
+
+
+3. Context : 
+
+--> Calculated Column :- Row context ( Calculation per row ). 
+--> Measure :- Filter / context-dependeent ( Changes dynamically ). 
+
+
+
+4. USE :
+
+-->  Calculated Column :- Adding new fields for each row. 
+-->  Measure :- Aggregating or summarizing data. 
+
+
+
+5. Performance Impact : 
+
+-->  Calculated Column :- Can increase model size and memory usage.
+-->  Measure :-  Impacts report performance, not model size. 
+
+
+
+
+
+
+__________________________________________________________________________________________________________________________________________
+
+
+
+
+
+
+1. SUM Formula in DAX :- 
+
+- SUM is a simple aggregation function that adds up all the values in a single column. 
+
+--> Example  : 
+
+Total Sales = SUM(SalesData[Sales])   [ Where SalesData is the table name and Sales is the column name ]
+
+
+--> Use Case :
+- Use SUM When you want to sum up all the values in a numeric column Without any complex row-by-row operations. 
+
+--> Performance :
+- Since it operates directly on a column , it's fast and efficient for simple summations. 
+
+
+
+
+__________________________________________________________________________________________________________________________________________
+
+
+2. SUMX Formula : 
+
+- SUMX is an iterator function that performs row-by-row calculations and then sums the results. 
+
+- Example : 
+ 
+Total_Sales_2 =  SUMX(SalesData , SalesData[Quantity] * SalesData[Unit Price ( INR ) ])
+
+
+--> Use Case : Use SUMX when you need to perform a calculation for each row before summing , such as multiplying two columns together or applying conditional logic. 
+
+--> Performance : SUMX can be slower than SUM because it performs calculations on each row individually before summing. It's ideal for more complex scenarios that require row context. 
+
+
+
+
+
+
+
+
+## Difference Between SUM and SUMX : 
+
+
+- In PowerBI , both SUM and SUMX are used to perform summation , but they work differently and are used in different scenarios. Here's a breakdown of the key differences : 
+
+1. Function Type :-
+
+-->  SUM  : Aggregation Function. 
+-->  SUMX : Iterator function. 
+
+
+
+2. Operation :-
+
+--> SUM  : Sums all values in a single column directly. 
+--> SUMX : Calculates row by row based on an expression , then sums. 
+
+
+3. Input :- 
+
+--> SUM  : Single Column.
+--> SUMX : Table and an expression. 
+
+
+
+4. Use Case :- 
+
+--> SUM  : Simple Summation of a numeric column. 
+--> SUMX : When you need to calculate something for each row before summing. 
+
+
+
+5. Performance :- 
+
+--> SUM  : Fast and efficient. 
+--> SUMX : Slower for large datasets  , as it iterates over rows. 
+
+
+
+
+
+
+
+
+
+__________________________________________________________________________________________________________________________________________
+
