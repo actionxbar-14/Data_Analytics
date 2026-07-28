@@ -157,6 +157,8 @@ ________________________________________________________________________________
 
 - SUM is a simple aggregation function that adds up all the values in a single column. 
 
+- Syntax : SUM(<column>)
+
 --> Example  : 
 
 Total Sales = SUM(SalesData[Sales])   [ Where SalesData is the table name and Sales is the column name ]
@@ -177,6 +179,8 @@ ________________________________________________________________________________
 2. SUMX Formula : 
 
 - SUMX is an iterator function that performs row-by-row calculations and then sums the results. 
+
+- Syntax : SUMX(<table>, <expression>)
 
 - Example : 
  
@@ -241,3 +245,168 @@ Total_Sales_2 =  SUMX(SalesData , SalesData[Quantity] * SalesData[Unit Price ( I
 
 __________________________________________________________________________________________________________________________________________
 
+
+
+3. COUNT Formula :
+
+- COUNT counts the number of non-blank values in a column. 
+
+- Syntax : COUNT(<column>)
+
+- Example : 
+
+Number of Customers = COUNT('Table'[Customer ID])
+
+
+--> Use Case : When you want to count the non-empty values in a column. 
+
+
+
+
+__________________________________________________________________________________________________________________________________________
+
+
+
+4. COUNTA Formula : 
+
+- COUNTA counts the number of non-blank values in a column , including text , numeric values and logical values even counts "Boolean values" where only Count will not count Boolean data type. 
+
+- Syntax : COUNTA(<column>)
+
+- Ex : 
+
+Number of Reviews  = COUNTA('Table'[Review Status])
+
+
+--> Use Case : 
+- When you need to count all non-blank values , regardless of the data type (text , numbers , etc). 
+
+
+
+
+
+__________________________________________________________________________________________________________________________________________
+
+
+
+
+5. COUNTBLANK Formula : 
+
+- COUNTBLANK counts the number of blank(empty) values in a column. 
+
+- Syntax : COUNTBLANK(<column>)
+
+- Ex : 
+
+Blank Reviews = COUNTBLANK('Table'[Review Points])
+
+
+--> Use Case : When you want to count the number of blank or missing values in a column. 
+
+
+
+
+__________________________________________________________________________________________________________________________________________
+
+
+
+6. COUNTROWS Formula : 
+
+- COUNTROWS counts the number of rows in a table.
+
+- Syntax : COUNTROWS(Table_name)
+
+- Ex : 
+
+Total Records = COUNTROWS('Table')
+
+
+
+NOTE : ( COUNTROWS with Filter)
+
+- Ex : 
+
+
+--> Use Case :  When you want to count the total number of rows in a table or in a filtered table. 
+
+
+
+__________________________________________________________________________________________________________________________________________
+
+
+7. DISTINCTCOUNT : 
+
+- DISTINCTCOUNT counts the number of unique , non-blank values in a column. 
+
+- Syntax : DISTINCT(<column>)
+
+- Ex : 
+
+Unique States = DISTINCTCOUNT('Table'[State])
+
+
+--> Use Case : When you need to count the distinct (Unique) values in a column , excluding blanks. 
+
+
+__________________________________________________________________________________________________________________________________________
+
+
+
+8. COUNTX Formula : 
+
+- COUNTX is an iterator function that counts non-blank results of an expression evaluated row by row over a table. 
+
+- Syntax : COUNTX(Table_name , Expressions(for ex : IF , ..))
+
+- Ex : CountX = COUNTX('Table' , IF('Table'[Review Points] >= 7 , 1 , BLANK()) )
+
+
+
+
+NOTE :-  ( COUNTX with FILTER )
+
+- Ex : 
+
+CountXFilter = COUNTX(FILTER('Table' , 'Table'[State] = "Maharashtra") , 'Table'[State])
+
+
+
+
+--> Use Case : When you need to count based on an expression that is evaluated for each row in a table. 
+
+
+__________________________________________________________________________________________________________________________________________
+
+
+
+9. COUNTAX Formula : 
+
+- COUNTAX is the iterator version of COUNTA. It evalutes and expression for each row and counts the number of non-blanks results. 
+
+- Syntax : COUNTAX(Table_name , Expressions(for ex : IF , ..))
+
+- Ex : 
+
+CountAX = COUNTAX('Table' , IF('Table'[Review Status]=TRUE, 1 , BLANK()) )
+
+
+
+NOTE :-    ( COUNTAX with Filter )
+
+
+- Ex : 
+
+CountAXFilter = COUNTAX(FILTER('Table' , 'Table'[Review Status] = FALSE()) , 'Table'[Review Status])
+
+
+
+--> Use Case :  When you need to count based on an expression that is evaluated for each row in a table even there is Binary data type. 
+
+
+
+__________________________________________________________________________________________________________________________________________
+
+
+10. DATE Formula : 
+
+- 
