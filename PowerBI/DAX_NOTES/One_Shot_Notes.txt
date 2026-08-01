@@ -407,6 +407,17 @@ CountAXFilter = COUNTAX(FILTER('Table' , 'Table'[Review Status] = FALSE()) , 'Ta
 __________________________________________________________________________________________________________________________________________
 
 
-10. DATE Formula : 
+10. DATE & TIME Functions : 
 
-- 
+
+
+--> Exract Hour / Minute / Seconds
+
+
+
+
+
+
+
+
+2. 
