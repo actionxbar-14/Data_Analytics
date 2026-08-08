@@ -1,0 +1,18 @@
+
+
+:--> Steps involved in Data Cleaning :
+
+1. Handling Missing Values .
+2. Standardization / Normalization of the data.
+3. Outlier Treatment. 
+4. Handle Invalid values. 
+
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+

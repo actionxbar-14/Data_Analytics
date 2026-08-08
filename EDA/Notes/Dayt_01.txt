@@ -1,0 +1,88 @@
+
+:: What is Exploratory Data Analysis (EDA) : 
+
+1. Exploratory Data Analysis (EDA) is an approach to analyzing data sets to summarize their main characteristics in the form of visual methods. 
+
+2. EDA is nothing but a data explporation technique to understand various aspects of the data. 
+
+3. The main aim of EDA is to obtain confidence in a data to an extent where we are ready to engage a machine learning model. 
+
+4. EDA is important to analyze the data  , it's a first steps in data analysis process. 
+
+5. EDA give a basic idea to understand the data and make sense of the data to figure out the question you need to ask and find out the best way to manipulate the dataset to get the answer to your question. 
+
+6. EDA helps us to finding the errors , discovering data , mapping out data structure , finding out anomalies / outliers. 
+
+7. EDA is important for business process because we are preparing dataset for deep thorough analysis that will detect you business problem. 
+
+8. EDA help to build a quick and dirty model , or a baseline model , which can serve as a comparison against later models that you will build. 
+
+
+
+_______________________________________________________________________________________________________________________
+
+
+:: Visulization : 
+
+- Visulization in the presentation of the data in the graphical or visual form to understand the data more clearly. Visulzation is easy to understand the data. 
+
+
+_______________________________________________________________________________________________________________________
+
+
+
+:: Steps involve in EDA Process : 
+
+
+1. Data Sourcing       2. Data Cleaning         3. Categorical Anlysis        4. Numerical Anlysis      5. Derived Metrics.
+
+
+
+
+
+
+1. Data Sourcing : 
+
+- Data Sourcing is the process of gathering data from multiple sources as external or internal data collection. 
+- There are two major kind of data which can be classified according to the source: 
+
+i) Public data 
+
+ii) Private data 
+
+
+
+
+i) Public data : 
+- The data which is easy to access without taking any permission from the agencies is called public data. 
+- The agencies made the data public for the purpose of the research.
+- Ex : Government and other public sector or ecommerce sites made the data public. 
+
+
+
+
+ii) Private data : 
+- The data which is not available on public platform and to access the data we have to take the permission or organization is called private data. 
+- Ex : Banking , Telecom , retail sector are there which not made their data publicly available. 
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+2. Data Cleaning : 
+
+- After Collecting the data , the next step is data cleaning. Data cleaning means that you get rid of any information that doesn't need to be there and clean up by mistake. 
+
+- Data cleaning is the process of clean the data to improve the quality of the data for further data analysis and building a machine learning model. 
+
+- The benifit of data cleaning is that all the incorrect and irrelevant data is gone , and we get the good quality of data which will help in improving the accuracy of our machine learning model. 
+
+
+
