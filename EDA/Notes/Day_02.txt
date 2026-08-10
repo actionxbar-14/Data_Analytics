@@ -33,6 +33,3 @@
 - Prediction model is one of the advanced method to handle missing values. In this method datasets with no missing value become training set and dataset with missing value become the test set and the missing values is treated as target variables.
 
 
-
-
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
