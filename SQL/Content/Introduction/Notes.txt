@@ -1,0 +1,17 @@
+
+
+
+:: Database:
+- It is a container that is used to store the data in an organized manner.
+- database is used for its secure and easily access mechanism.
+
+:: DBMS:
+- it is defined as the collection of interrelated data and set of programs to access the data.
+
+:: SQL :
+- Language to interact with database.
+
+:: SERVER :
+- Where Database lives.
+
+
