@@ -1,0 +1,267 @@
+
+:: Data Gathering : 
+
+1. Import 
+2. Export
+3. API 
+4. Web Scraping 
+
+
+
+_________________________________________________________________________________________________________________________________
+
+
+
+1. Import : 
+
+- database
+- csv 
+- excel
+- text 
+- json 
+
+
+2. Export : 
+
+- csv 
+- json 
+- excel 
+- database 
+- html 
+
+
+
+3. API 
+
+
+4. Web Scraping 
+
+
+
+_________________________________________________________________________________________________________________________________
+
+
+
+:: DAP(Data Analysis Process) :
+
+1. Asking Questions  ---->  2. Data Wrangling  ---->  3. Exploratory Data Analysis  ---->  4.  Drawing Conclusions ----> 5. Communicating Results 
+
+
+
+
+_________________________________________________________________________________________________________________________________
+
+
+
+
+
+
+1. Asking Questions :   [ Subject Matter Expert (SME) --> Domain Knowledge  ,  Experience]
+
+- What features will contribute to my analysis? 
+- whatt features are not important for my analysis? 
+- Which of the features have a strong correlation ? 
+- Do I need data preprocessing?  
+- What kind of feature / Manipulation engineering is required? 
+
+
+_________________________________________________________________________________________________________________________________
+
+
+
+
+
+
+
+
+2. Data Wrangling/ Munging :
+
+- Data wrangling , sometimes referred to as data munging , is the process of transforming and mapping data from one "raw" data into another format with the intent of making it more appropriate and valuable for a variety of downstream purposes such as analytics. 
+
+
+:- Steps: 
+
+i) Gathering Data [ csv files , excel files , text files , json files , database , API , web scraping ].
+
+ii) Assessing Data [
+    1. Finding the number of rows/ columns ( shape ). 
+    2. Data types of various columns ( info() ). 
+    3. Checking for missing values ,  duplicates( is_unique() , isnull() , notnull() , dropna() , fillna() ).
+    4. memory occupied by the dataset ( info )
+    5. High level mathematical overview of the data ( describe() ). 
+].
+
+iii) Cleaning Data [
+    1. Missing Data ( e.g : rakhna hai ya hatana hai or agar rakhna hai toh mean , median , mode kisse replace krna hai )
+    2. Remove duplicate data ( drop_duplicates )
+    3. Incorrect datatype ( astype )
+]
+
+
+
+
+
+_________________________________________________________________________________________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3.  Exploratory Data Analysis : 
+
+i) Exploring Data [ 
+    1. Finding  Correlation and Covariance. 
+    2. Doing univariate and multivariate analysis. 
+    3. Plotting graphs ( data visualizations )
+]
+
+
+
+
+
+ii) Augument [
+    1. Removing Outliers. 
+    2. Merging Dataframes. 
+    3. Adding a new Column. 
+]
+
+
+
+NOTE : The Collection of All three process of Augument are known as Feature Engineering. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+_________________________________________________________________________________________________________________________________
+
+
+
+
+
+
+
+4. Drawing Conclusions [ 
+    1. Machine Learning. 
+    2. Inferential stastics. 
+    3. Descriptive Stastics ( it is used to draw conclusion )
+]
+
+
+
+
+NOTE: Some example conclusions based on descriptive Stastics : 
+
+1. Transaction Amount
+
+Mean transaction = ₹4,500
+Median transaction = ₹2,800
+Maximum transaction = ₹1,50,000
+
+Conclusion:
+Mean median se kaafi higher hai, which indicates that transaction amount distribution is right-skewed. Kuch high-value transactions average ko increase kar rahe hain.
+
+Banking Use:
+High-value transactions ko further monitor kiya ja sakta hai.
+
+
+
+
+
+
+
+2. Customer Age
+
+Mean age = 34 years
+Median age = 33 years
+SD = 7 years
+
+Conclusion:
+Mean aur median close hain, indicating that customer age distribution is relatively balanced. Standard deviation 7 years suggests moderate variation in customer ages.
+
+Business Use:
+Bank ka customer base mainly working-age customers par concentrated hai.
+
+
+
+
+
+
+
+
+3. Loan Amount
+
+Mean = ₹8 lakh
+Median = ₹5 lakh
+SD = ₹6 lakh
+
+Conclusion:
+Mean loan amount median se significantly higher hai, suggesting the presence of some high-value loans. High standard deviation indicates considerable variation in loan sizes.
+
+Banking Use:
+High-value loans ko credit-risk analysis ke liye separately examine kiya ja sakta hai.
+
+
+
+
+
+
+
+
+4. Credit Score
+
+Mean = 720
+Median = 725
+Minimum = 580
+Maximum = 850
+
+Conclusion:
+Mean aur median almost similar hain, indicating a relatively balanced credit-score distribution. Most customers appear to have reasonably good credit profiles.
+
+Banking Use:
+Credit-score distribution ko loan approval aur risk segmentation mein use kiya ja sakta hai.
+
+
+
+
+
+_________________________________________________________________________________________________________________________________
+
+
+
+
+5.  Communicating Results / Data Storytelling :  
+
+- In person.
+- Reports.
+- PPT's  / Slide .
+- Blog Post. 
+
+
+
+
+
+
