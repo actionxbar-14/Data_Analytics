@@ -1,0 +1,209 @@
+
+:: Prompt Engineering :
+
+- It is a relatively new discipline for developing and optimizing prompts to efficiently use language models(LMs) for a wide variety of applications and research topics.
+- Prompt engineering skills help to better understand the capabilities and limitations of large language models(LLMs).
+
+
+:: LLMs( Large Language Models ) :
+
+- LLMs are AI models trained on massive text data.
+- They learn to predict and generate text.
+- Ex : GPT-4 , BERT , LLaMA , claude , Gemini , Deepseek.
+
+
+:--> What Makes an LLM "Large" ?
+
+- "Large" : millions to billions of parameters.
+- The more parameters , the better it understand language.
+- Trained on terabytes of text data.
+
+
+
+
+
+:--> Capabilities of LLMs :-
+
+1. Answer questions.
+2. Summarize text.
+3. Translate languages.
+4. Generate stories or code.
+5. Chat like a human.
+6. Write emails , blogs , reports.
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+
+
+:: Under the hood - How do LLMs Work ?
+
+
+--> Trained on billions of words from books , websites , code , etc.
+--> Learn patterns , grammar , facts and logic.
+--> Use transformer architecture to process text.
+--> predict the next word / token based on the input.
+
+
+
+:: Popular LLMs Today :
+
+1. GPT-4 : ( openAI )
+- chat ,coding , content writin.
+
+
+2. LLaMA 2 : ( Meta )
+- Open source research , custom fine-tuning.
+
+
+3. Claude :  ( Anthropic )
+- Safer conversational AI , constitutional AI.
+
+4. Gemini : ( Google DeepMind )
+- MultiModel LLMs ( text , image , code , more )
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+
+::  Rules to write efficient prompt :
+
+-->  Positive Do's | Negative Don't
+-->  Context [ Role , data , Web Search ]
+-->  Check & Refine
+-->  Validate the output [ Supervise ]
+-->  Be Clear and Specific
+-->  Use Complete Sentences
+-->  Include Context
+-->  Use Prompts as Input Examples
+-->  Specify Output Format
+-->  Experiment with Different Phrasings
+-->  Use Appropriate Length
+-->  Test and Refine
+-->  Handle Edge Cases
+-->  Avoid Bias and inappropriate Content
+-->  Leverage Prompts for Fine-Tuning
+-->  Collaborate and Share Insights
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+:: Prompt Design Strategies :
+
+
+
+1. Clarity and Specificity :-  [ Clear task + specific requirements + expected output format ]
+- Be clear and specific in your prompts. Vague requests can lead to equally vague responses.
+
+- Ex :
+
+:--> ❌ Bad prompt:
+"Analyze this sales data."
+
+->AI ko pata nahi hai ki kya analyze karna hai.
+
+
+
+:--> ✅ Good prompt:
+"Analyze the sales data and calculate total sales, average sales, highest-selling product, and monthly sales trend. Present the results in a table."
+
+
+
+
+
+
+
+
+2. Providing Context :-  [ Context → Better understanding → Better analysis ]
+- Matlab AI ko background/information do taaki woh situation ko properly understand kar sake.
+- Ex :
+
+
+:--> ❌ Without context:
+
+"Why did sales decrease?"
+->AI ko pata hi nahi hai ki business kya hai, kaunsa period hai, etc.
+
+:--> ✅ With context:
+
+"You are analyzing sales data for an e-commerce company. Sales decreased by 15% in March compared with February. The dataset contains product, region, revenue, and order count. Identify possible reasons for the decline and suggest 3 business actions."
+
+->Ab AI ko business + data + problem ka context mil gaya.
+
+
+
+
+
+
+
+
+
+
+
+3. Use of Instructive language :-  [ Calculate → Identify → Explain ]
+- Matlab prompt mein direct commands/instructions use karo. AI ko clearly batao ki kya karna hai.
+- Ex :
+
+:--> ❌ Weak:
+
+"Sales data ke baare mein kuch batao."
+
+:--> ✅ Instructive:
+
+"Calculate the month-over-month sales growth, identify the month with the highest growth, and provide two possible business reasons for the result."
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+
+:: Types of Prompt Engineering :
+
+
+1. Zero-Shot Prompting :
+
+- Zero shot prompts require the model to respond to a task without any prior examples. It's like asking someone to perform a task they've never done before , relying solely on their existing knowledge.
+
+- Ex :  Asking GPT-4o " What is the capital of France ?" expects an accurate response based on its pre-training , without needing examples of capital cities.
+
+
+
+2. Few-Shot Prompting :
+
+- Few shot prompts give the model a few examples to "learn" from before asking it to complete a similar task. This is like teaching someone through a handful of examples and then expecting them to apply that knowledge to a new situation.
+
+- Ex : Providing GPT-3 with a list of country-capital pairs before asking , "What is the capital of Japan ?" helps guide the model towards the correct answer type.
+
+
+
+
+
+3. Chain-of-Thought Prompting : [ Complex problem ko logical steps mai solve karwana. ]
+
+- chain-of-thought prompting involves asking the model to detail its thought process , leading to more complex problem-solving. It encourages the model to "think aloud" , making it easier to follow its logic.
+
+- Ex : "Analyze the monthly sales data step-by-step. First identify missing values, then calculate total and average sales, identify the highest-sales month, and finally give a business insight."
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+
+
+::  Advanced Prompt Strategies : 
+
+
+
+
+
+
+
+
+
