@@ -1,11 +1,11 @@
 
 /* ==============================================================================
-   SQL SELECT Query
+::   SQL SELECT Query  : -
 -------------------------------------------------------------------------------
    This guide covers various SELECT query techniques used for retrieving, 
    filtering, sorting, and aggregating data efficiently.
 
-   Table of Contents:
+  # Table of Contents:
      1. SELECT ALL COLUMNS
      2. SELECT SPECIFIC COLUMNS
      3. WHERE CLAUSE
