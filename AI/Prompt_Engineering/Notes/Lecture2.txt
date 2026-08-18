@@ -1,0 +1,24 @@
+
+:: Prompting for Exploratory data analysis [ EDA ] :
+
+
+
+:--> STEPS :
+
+1. Data Composition
+2. Data Relationship
+   i) Correlation
+   ii) Causation
+3. Data Comparison
+4. Data Distribution
+
+
+
+
+
+:--> Use Prompts To :
+
+1. Understand structure of datasets
+2. Ask for column-wise summarises
+3. Detect missing or outlier values
+4. Ask for visualizations

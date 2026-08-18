@@ -201,6 +201,59 @@
 
 
 
+            Strategies                                             Description
+
+1.  Chain of Thought                                       Step-by-step reasoning
+
+2.  Role Prompting                                         Assigning AI as a persona("Act as a analyst")
+
+3.  Few-shot Prompting                                     Provide Examples
+
+4.  Zero-shot Prompting                                    No examples ; ask directly
+
+5.  Tool-aware Prompting                                   Ask it to use tools like Python , SQL ,Markdown.
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+
+
+:: Prompt Anatomy :
+
+:-> Structure :-  [ Instruction ] + [ Context + Role , advance / Output Format ] + [ Constraints ]
+
+:-> Ex :-
+
+"Clean this data [Instruction] using Python [Context] and remove all rows with missing values [ constraints ]."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
