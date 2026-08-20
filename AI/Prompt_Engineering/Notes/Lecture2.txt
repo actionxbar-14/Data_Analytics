@@ -19,6 +19,6 @@
 :--> Use Prompts To :
 
 1. Understand structure of datasets
-2. Ask for column-wise summarises
+2. Ask for column-wise summarizes
 3. Detect missing or outlier values
 4. Ask for visualizations

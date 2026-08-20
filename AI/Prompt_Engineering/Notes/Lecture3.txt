@@ -1,0 +1,25 @@
+
+
+NOTE :
+
+--> USE triple hash ( ### ) or triple quote ( """ """ ) for main text.
+
+-->  Persona / Act as " 3+ experienced data analyst"
+
+--> sepcify a detail prompt format and assign it to one word.
+
+--> Task documentation :
+
+1. Breaking Down tasks into smaller tasks.
+2. Task Decomposition Technique :
+--> Divide and conquer approach
+--> Functional decomposition
+--> Input-output analysis
+3. Creating a Hierarchy of Tasks of Effective Prompt Engineering.
+
+
+
+
+--> Input - output analysis.
+
+--> Creating a Hierarchy of Tasks for Effective Prompt
