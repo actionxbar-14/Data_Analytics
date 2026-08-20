@@ -464,7 +464,7 @@ annual_income > 800000
 
 
 
-
+/*
 ============================================================
 SECTION 6 — LIKE
 ============================================================
@@ -558,6 +558,13 @@ WHERE customer_name LIKE '%a%' AND annual_income > 800000
 
 
 
+*/
+
+
+
+
+
+
 
 
 
@@ -565,18 +572,105 @@ WHERE customer_name LIKE '%a%' AND annual_income > 800000
 SECTION 7 — DISTINCT
 ============================================================
 
+
+
+
+
+
 Q31. Display all unique cities from the Customers table.
+
+Ans: 
+
+USE BFSI_Analytics
+SELECT * FROM Customers
+
+SELECT DISTINCT city FROM customers
+
+
+
+
+
+
+
+
+
 
 Q32. Display all unique occupations.
 
+Ans: 
+
+SELECT DISTINCT occupation FROM Customers
+
+
+
+
+
+
+
+
 Q33. Display all unique account types.
+
+Ans: 
+
+SELECT DISTINCT account_type FROM Accounts
+
+
+
+
+
+
+
+
 
 Q34. Display all unique transaction channels.
 
+Ans: 
+
+
+SELECT DISTINCT transaction_type
+FROM Transactions
+
+
+
+
+
+
+
+
+
+
+
+
 Q35. Display all unique loan types.
+
+Ans: 
+
+
+SELECT DISTINCT loan_type
+FROM Loans
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Q36. Display all unique states in which the bank has customers.
 
+Ans:
+
+
+SELECT * FROM Customers
+
+SELECT DISTINCT state
+FROM Customers
 
 
 
@@ -608,90 +702,657 @@ Q36. Display all unique states in which the bank has customers.
 SECTION 8 — ORDER BY
 ============================================================
 
+
+
+
+
+
+
+
+
+
+
 Q37. Display customers in ascending order of annual income.
+
+Ans: 
+
+SELECT * FROM Customers 
+ORDER BY annual_income ASC
+
+
+
+
+
+
+
+
+
+
 
 Q38. Display customers in descending order of annual income.
 
+Ans: 
+
+SELECT * FROM Customers 
+ORDER BY annual_income DESC
+
+
+
+
+
+
+
+
+
+
+
+
+
 Q39. Display accounts from highest balance to lowest balance.
+
+Ans: 
+
+
+
+SELECT *
+FROM Accounts
+ORDER BY balance DESC
+
+
+
+
+
+
+
+
+
+
+
+
 
 Q40. Display loans from highest interest rate to lowest
     interest rate.
 
+Ans: 
+
+
+SELECT * 
+FROM Loans
+ORDER BY interest_rate DESC
+
+
+
+
+
+
+
+
+
+
+
 Q41. Display customers first by customer_segment in ascending
     order and then by annual_income in descending order.
+
+Ans: 
+
+SELECT * FROM Customers
+ORDER BY customer_segment ASC , annual_income DESC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
 SECTION 9 — TOP
 ============================================================
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 Q42. Find the top 5 customers with the highest annual income.
+
+Ans: 
+
+SELECT TOP 5* FROM Customers
+ORDER BY annual_income DESC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Q43. Find the top 10 accounts with the highest balance.
 
+Ans:  
+
+
+
+SELECT TOP 10* FROM Accounts
+ORDER BY balance DESC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Q44. Find the top 5 largest loans based on loan_amount.
+
+Ans: 
+
+
+SELECT TOP 5* FROM Loans
+ORDER BY loan_amount  DESC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Q45. Find the top 3 credit cards with the highest
     outstanding_amount.
 
+Ans: 
+
+SELECT TOP 3* FROM Credit_Cards
+ORDER BY outstanding_amount DESC
+
+
+
+
+
+
+
+
+
+
+
+
 Q46. Find the top 5 high-income customers.
+
+Ans: 
+
+SELECT TOP 5* FROM Customers
+ORDER BY annual_income DESC
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
 SECTION 10 — GROUP BY
 ============================================================
 
+
+
+
+
+
+
 Q47. Find the number of customers in each city.
+
+Ans:  
+
+SELECT * FROM Customers
+
+SELECT COUNT(customer_id) AS Total_Customer , city FROM Customers
+GROUP BY city 
+ORDER BY Total_Customer DESC
+
+
+
+
+
+
+
+
+
+
+
+
 
 Q48. Find the number of customers in each state.
 
+Ans: 
+
+
+SELECT COUNT(customer_id) AS Total_Customer , state FROM Customers
+GROUP BY state 
+ORDER BY Total_Customer DESC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Q49. Find the number of customers in each customer segment.
+
+Ans: 
+
+
+SELECT COUNT(customer_id) AS Total_Customer , customer_segment FROM Customers
+GROUP BY customer_segment 
+ORDER BY Total_Customer DESC
+
+
+
+
+
+
+
+
+
+
 
 Q50. Find the number of accounts for each account type.
 
+Ans: 
+
+SELECT * FROM Accounts
+
+SELECT COUNT(account_id) As Total_Accounts , account_type FROM Accounts 
+GROUP BY account_type 
+ORDER BY Total_Accounts DESC
+
+
+
+
+
+
+
+
+
+
+
+
+
 Q51. Find the average account balance for each account type.
+
+Ans: 
+
+
+SELECT AVG(balance) AS Avg_balance , account_type FROM Accounts
+GROUP BY account_type 
+ORDER BY Avg_balance
+
+
+
+
+
+
 
 Q52. Find the average annual income for each city.
 
+Ans: 
+
+SELECT AVG(annual_income) AS Avg_income , city FROM Customers
+GROUP BY city 
+ORDER BY Avg_income
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Q53. Find the total loan amount for each loan type.
 
+Ans: 
+
+SELECT * FROM Loans
+
+SELECT SUM(loan_amount) AS Total_amount , loan_type FROM Loans
+GROUP BY loan_type
+ORDER BY Total_amount DESC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Q54. Find the average interest rate for each loan type.
+
+Ans: 
+
+
+SELECT * FROM Loans
+
+SELECT AVG(interest_rate) AS Avg_interest,  loan_type FROM Loans
+GROUP BY loan_type 
+ORDER BY Avg_interest DESC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
 SECTION 11 — HAVING
 ============================================================
 
+
+
+
+
+
+
+
+
+
 Q55. Find cities having more than 2 customers.
+
+Ans: 
+
+SELECT COUNT(customer_id) AS Total_Customers , city FROM Customers
+GROUP BY city 
+ORDER BY Total_Customers DESC
+
+
+
+
+
+
+
+
+
+
+
+
 
 Q56. Find customer segments whose average annual income
     is greater than 800000.
 
+Ans: 
+
+SELECT * FROM Customers
+
+
+SELECT customer_segment , AVG(annual_income) AS Avg_income FROM Customers
+GROUP BY customer_segment 
+HAVING AVG(annual_income) > 800000
+
+
+
+
+
+
+
+
+
+
+
+
+
 Q57. Find loan types whose total loan amount is greater than
     5000000.
 
+Ans: 
+
+SELECT * FROM Loans
+
+
+SELECT SUM(loan_amount) AS Total_Amount , loan_type FROM Loans
+GROUP BY loan_type 
+HAVING SUM(loan_amount) > 5000000
+
+
+
+
+
+
 Q58. Find account types whose average balance is greater
     than 200000.
+
+Ans: 
+
+
+SELECT * FROM Accounts
+
+SELECT AVG(balance) AS Avg_balance , account_type FROM Accounts
+GROUP BY account_type 
+HAVING AVG(balance) > 200000
+
+
+
+
+
+
+
+
+
+
 
 Q59. Find states where:
 
     - At least 2 customers exist
     - Average annual income is greater than 800000
 
+Ans: 
+
+
+SELECT COUNT(customer_id) AS Total_Customers, AVG(annual_income) AS Avg_income , state FROM Customers
+GROUP BY state
+HAVING AVG(annual_income) > 800000 and COUNT(customer_id) >= 2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ============================================================
 SECTION 12 — COMBINATION QUESTIONS
 ============================================================
 
+
+
+
+
+
+
+
+
+
+
 Q60. Find the top 5 customers based on annual income.
 
+Ans: 
+
+
+SELECT TOP 5* FROM Customers
+ORDER BY annual_income DESC
+
+
+
+
+
+
+
+
 Q61. Find the top 3 highest-income customers from Haryana.
+
+Ans:  
+
+
+SELECT TOP 3* FROM Customers
+WHERE state = 'Haryana'
+ORDER BY annual_income DESC
+
+
+
+
+
+
+
+
+
+
 
 Q62. Find the top 5 Premium customers whose annual income
     is greater than 1000000.
 
+Ans: 
+
+
+SELECT TOP 5* FROM Customers 
+WHERE customer_segment = 'Premium' and annual_income > 1000000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Q63. Find the customer count, average income, maximum income
     and minimum income for each customer segment.
+
+Ans:  
+
+SELECT COUNT(customer_id) AS Total_Customer ,  AVG(annual_income) AS Avg_income , MAX(annual_income) As Max_income , 
+MIN(annual_income) As Min_income FROM Customers
+GROUP BY customer_segment
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
@@ -709,6 +1370,13 @@ Q64. Customer Segmentation Analysis
 
     Display only those segments where average annual income
     is greater than 800000.
+
+
+
+
+
+
+
 
 
 Q65. Loan Portfolio Analysis
@@ -757,6 +1425,25 @@ Q68. High-Interest Loan Analysis
     Sort the result by loan amount from highest to lowest.
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ============================================================
 SECTION 14 — CHALLENGE QUESTIONS
 ============================================================
@@ -803,6 +1490,51 @@ Q71. Premium Customer Banking Profile
     - balance
     - credit_limit
     - outstanding_amount
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
