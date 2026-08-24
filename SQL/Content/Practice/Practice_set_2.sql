@@ -224,6 +224,32 @@ ORDER BY loan_amount DESC
 Q5. Display customer names along with their credit card
     type and credit limit.
 
+Ans:  
+
+
+
+SELECT 
+      c.customer_name ,
+      cc.card_type , 
+      cc.credit_limit 
+FROM Customers AS c
+INNER JOIN 
+Credit_Cards AS cc
+ON
+c.customer_id = cc.customer_id
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Q6. Display transaction details along with the customer name.
 
@@ -234,32 +260,219 @@ Q6. Display transaction details along with the customer name.
     - transaction_type
     - amount
 
+Ans: 
+
+
+
+SELECT * FROM Customers
+
+SELECT * FROM Transactions
+
+SELECT * FROM Accounts
+
+
+SELECT 
+      t.transaction_id ,
+      c.customer_name , 
+      t.transaction_date , 
+      t.transaction_type , 
+      t.amount 
+FROM Customers AS c 
+INNER JOIN 
+Accounts  AS a ON
+c.customer_id = a.customer_id 
+INNER JOIN
+Transactions AS t ON 
+t.account_id = a.account_id
+
+
+
+
+
+
+
+
 
 Q7. Display customers who have an account with the bank.
+
+Ans: 
+
+
+SELECT * FROM Customers
+
+SELECT * FROM Accounts
+
+SELECT 
+     c.customer_id , 
+     c.customer_name , 
+     a.account_id  , 
+     a.balance
+FROM Customers AS c 
+INNER JOIN 
+Accounts AS a ON 
+c.customer_id = a.customer_id
+
+
+
+
+
+
+
 
 
 Q8. Display customers who have taken a loan from the bank.
 
+Ans: 
+
+
+SELECT 
+     c.customer_id , 
+     c.customer_name , 
+     l.loan_id , 
+     l.loan_amount 
+FROM Customers AS c 
+INNER JOIN 
+Loans As l ON
+c.customer_id = l.customer_id 
+
+
+
+
+
+
+
+
+
 
 Q9. Display customers who have a credit card.
+
+Ans: 
+
+
+SELECT * FROM Credit_Cards
+
+SELECT 
+     c.customer_id , 
+     c.customer_name , 
+     cc.card_id , 
+     cc.credit_limit 
+FROM Customers AS c 
+INNER JOIN 
+Credit_Cards As cc ON
+c.customer_id = cc.customer_id 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Q10. Display customers along with their branch city and
      branch manager name.
 
 
+Ans: 
+
+SELECT * FROM Customers
+
+SELECT * FROM Branches
+
+
+SELECT 
+     c.customer_id ,
+     c.customer_name , 
+     b.city ,
+     b.manager_name 
+FROM Customers As c 
+LEFT JOIN 
+Branches As b ON 
+c.branch_id = b.branch_id
+
+
+
+
+
+
+
+
+
+
+
+
+
 ------------------------------------------------------------
 B. LEFT JOIN
 ------------------------------------------------------------
+
+
+
+
 
 Q11. Display all customers along with their account details.
 
      Include customers even if they do not have an account.
 
+Ans: 
+
+
+SELECT * FROM Customers
+
+SELECT * FROM Accounts
+
+
+SELECT  
+      c.customer_id ,
+      c.customer_name , 
+      a.account_type , 
+      a.balance 
+FROM Customers As c 
+LEFT JOIN 
+Accounts As a ON 
+c.customer_id = a.customer_id
+
+
+
+
+
+
+
+
+
 
 Q12. Display all customers along with their loan details.
 
      Include customers even if they have not taken a loan.
+
+Ans: 
+
+SELECT * FROM Loans
+
+SELECT  
+      c.customer_id ,
+      c.customer_name , 
+      l.loan_type , 
+      l.loan_amount 
+FROM Customers As c 
+LEFT JOIN 
+Loans As l ON 
+c.customer_id = l.customer_id
+
+
+
+
+
+
+
+
+
 
 
 Q13. Display all customers along with their credit card details.
@@ -267,10 +480,73 @@ Q13. Display all customers along with their credit card details.
      Include customers even if they do not have a credit card.
 
 
+Ans: 
+
+SELECT * FROM Credit_Cards
+
+SELECT  
+      c.customer_id ,
+      c.customer_name , 
+      cc.card_type , 
+      cc.credit_limit 
+FROM Customers As c 
+LEFT JOIN 
+Credit_Cards As cc ON 
+c.customer_id = cc.customer_id
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Q14. Display all branches and their customers.
 
      Include branches even if no customer is associated
      with them.
+
+Ans:
+
+
+
+SELECT * FROM Customers
+
+
+SELECT * FROM Branches
+
+
+
+SELECT 
+     b.branch_id ,
+     b.branch_name , 
+     c.customer_name , 
+     c.annual_income  
+FROM Branches AS b 
+LEFT JOIN 
+Customers AS c ON 
+b.branch_id = c.branch_id 
+
+
+
+
+
+
+
+
+
+
 
 
 Q15. Display all customers with their account balance.
@@ -279,14 +555,56 @@ Q15. Display all customers with their account balance.
      information should still be visible as NULL.
 
 
+Ans: 
+
+SELECT * FROM Customers 
+
+SELECT * FROM Accounts
+
+
+SELECT 
+     c.customer_id ,
+     c.customer_name , 
+     a.account_type ,
+     a.balance 
+FROM Customers As c 
+LEFT JOIN 
+Accounts As a 
+ON 
+c.customer_id = a.customer_id
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ------------------------------------------------------------
 C. RIGHT JOIN
 ------------------------------------------------------------
 
+
+
+
+
 Q16. Display all customers and their accounts using
      RIGHT JOIN.
 
-     Understand which table's records are preserved.
+     Understand which tables records are preserved.
 
 
 Q17. Display all branches and their customers using
@@ -324,6 +642,22 @@ Q23. Compare customers and loans using FULL OUTER JOIN.
      - Customers having loans
      - Customers without loans
      - Loan records without matching customers
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
@@ -724,7 +1058,7 @@ Q74. High-Value Customer Identification
 
 Q75. Customer Credit Exposure
 
-     Calculate each customer's:
+     Calculate each customers:
 
      - Account balance
      - Total loan amount
@@ -852,6 +1186,18 @@ Q90. Find the customer with the highest combined exposure:
      Loan Amount
      +
      Credit Card Outstanding
+
+
+
+
+
+
+
+
+
+
+     
+
 
 
 ============================================================
