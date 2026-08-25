@@ -1,0 +1,6 @@
+
+
+
+:: Data Cleaning & Transforming Steps:  
+
+1. Write a summary for your data.
