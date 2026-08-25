@@ -11,7 +11,7 @@
    
    Table of Contents:
      1. GETDATE | Date Values
-     2. Date Part Extractions (DATETRUNC, DATENAME, DATEPART, YEAR, MONTH, DAY)
+     2. Date Part Extractions (YEAR, MONTH, DAY , DATEPART, DATENAME, DATETRUNC,).
      3. DATETRUNC
      4. EOMONTH
      5. Date Parts
