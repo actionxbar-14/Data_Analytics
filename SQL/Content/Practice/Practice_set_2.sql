@@ -1021,20 +1021,85 @@ WHERE cc.customer_id IS NULL
 
 
 
+
+
+
+
 ------------------------------------------------------------
 B. RIGHT ANTI JOIN
 ------------------------------------------------------------
 
+
+
+
+
+
+
 Q29. Find accounts that do not have a matching customer.
+
+Ans: 
+
+
+SELECT 
+     a.account_id ,
+     a.account_type , 
+     a.balance ,
+     c.customer_name ,
+     c.annual_income
+FROM Accounts As a 
+LEFT JOIN 
+Customers As c   
+On 
+a.customer_id = c.customer_id 
+WHERE c.customer_id IS NULL
+
+
 
 
 Q30. Find loans that do not have a matching customer.
 
+Ans: 
+
+SELECT  
+      l.loan_id ,
+      l.loan_type ,
+      c.customer_name,
+      c.annual_income 
+FROM Loans as l 
+LEFT JOIN 
+Customers as c 
+ON 
+l.customer_id = c.customer_id 
+WHERE c.customer_id IS NULL
+
+
+
+
+
 
 Q31. Find credit cards that do not have a matching customer.
 
+Ans: 
+
+
+
+
+
+
+
+
+
+
 
 Q32. Find branches that do not have matching customers.
+
+
+
+
+
+
+
+
 
 
 ------------------------------------------------------------
