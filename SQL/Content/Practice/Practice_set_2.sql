@@ -600,40 +600,191 @@ C. RIGHT JOIN
 
 
 
-
 Q16. Display all customers and their accounts using
      RIGHT JOIN.
 
      Understand which tables records are preserved.
 
 
+Ans: 
+
+
+SELECT 
+     c.customer_id , 
+     c.customer_name ,
+     a.account_type ,
+     a.balance 
+FROM Customers As c 
+RIGHT JOIN 
+Accounts As a ON
+c.customer_id = a.customer_id 
+
+
+
+
+
+
+
 Q17. Display all branches and their customers using
      RIGHT JOIN.
+
+Ans: 
+
+SELECT 
+      c.customer_id ,
+      c.customer_name ,
+      b.branch_name
+FROM Customers As c 
+RIGHT JOIN
+Branches As b ON 
+c.branch_id = b.branch_id
+
+
+
+
+
+
+
+
 
 
 Q18. Display all customers and their loans using
      RIGHT JOIN.
+
+Ans: 
+
+SELECT * FROM Loans
+
+SELECT
+      c.customer_id , 
+      c.customer_name , 
+      l.loan_type ,
+      l.loan_amount 
+FROM Customers As c 
+RIGHT JOIN 
+Loans As l ON 
+c.customer_id = l.customer_id
+
+
+
+
+
+
+
 
 
 Q19. Display all branches and their customers using
      RIGHT JOIN and identify branches that may not have
      customers.
 
+Ans:
+
+
+SELECT 
+      c.customer_id ,
+      c.customer_name ,
+      b.branch_name , 
+      b.state
+FROM Customers As c 
+RIGHT JOIN 
+Branches As b ON 
+c.branch_id = b.branch_id
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ------------------------------------------------------------
 D. FULL OUTER JOIN
 ------------------------------------------------------------
 
+
+
+
+
+
 Q20. Display all customers and all accounts using
      FULL OUTER JOIN.
+
+Ans: 
+
+SELECT 
+     c.customer_id , 
+     c.customer_name ,
+     a.account_type ,
+     a.balance
+FROM Customers As c 
+FULL JOIN 
+Accounts As a ON 
+c.customer_id = a.customer_id
+
+
+
+
+
+
+
+
+
 
 
 Q21. Display all customers and all loans using
      FULL OUTER JOIN.
 
+Ans: 
+
+
+SELECT 
+      c.customer_id , 
+      c.customer_name , 
+      l.loan_type , 
+      l.loan_type
+FROM Customers As c 
+FULL JOIN 
+Loans As l ON 
+c.customer_id = l.customer_id
+
+
+
+
+
+
+
 
 Q22. Display all branches and all customers using
      FULL OUTER JOIN.
+
+Ans: 
+
+SELECT 
+      b.branch_id , 
+      b.branch_name ,
+      c.customer_name ,
+      c.annual_income
+FROM Branches As b 
+FULL JOIN 
+Customers As c ON 
+b.branch_id = c.branch_id
+
+
+
+
+
+
+
+
+
 
 
 Q23. Compare customers and loans using FULL OUTER JOIN.
@@ -642,6 +793,22 @@ Q23. Compare customers and loans using FULL OUTER JOIN.
      - Customers having loans
      - Customers without loans
      - Loan records without matching customers
+
+
+Ans: 
+
+SELECT 
+      c.customer_id ,
+      c.customer_name , 
+      l.loan_type,
+      l.loan_amount 
+FROM Customers As c 
+FULL JOIN
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+
+
 
 
 
@@ -664,6 +831,23 @@ Q23. Compare customers and loans using FULL OUTER JOIN.
 SECTION 2 — ADVANCED JOINS
 ============================================================
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ------------------------------------------------------------
 A. LEFT ANTI JOIN
 ------------------------------------------------------------
@@ -680,20 +864,161 @@ Usually we implement it using:
     WHERE right_table.key IS NULL
 
 
+
+
+
+
+
 Q24. Find customers who do NOT have any loan.
+
+Ans: 
+
+SELECT * FROM Customers
+SELECT * FROM Loans
+
+
+
+SELECT 
+     c.customer_id ,
+     c.customer_name , 
+     l.loan_type ,
+     l.loan_amount 
+ FROM Customers As c 
+ LEFT JOIN 
+ Loans As l ON 
+ c.customer_id = l.customer_id
+ WHERE l.customer_id IS NULL
+
+
+
+
 
 
 Q25. Find customers who do NOT have a credit card.
 
+Ans: 
+
+SELECT * FROM Customers
+SELECT * FROM Credit_Cards
+
+
+SELECT 
+     c.customer_id ,
+     c.customer_name , 
+     cc.card_type, 
+     cc.credit_limit
+FROM Customers c 
+LEFT JOIN  
+Credit_Cards As cc 
+ON 
+c.customer_id = cc.customer_id 
+WHERE cc.customer_id  IS NULL
+
+
+
+
+
+
+
+
+
+
+
 
 Q26. Find customers who do NOT have an account.
+
+Ans: 
+
+
+SELECT * FROM Customers
+SELECT * FROM Accounts
+
+SELECT 
+     c.customer_id,
+     c.customer_name ,
+     a.account_type , 
+     a.balance
+FROM Customers As c 
+LEFT JOIN 
+Accounts As a 
+ON 
+c.customer_id = a.customer_id
+WHERE a.customer_id IS NULL
+
+
+
+
+
+
+
 
 
 Q27. Find branches that do NOT have any customers.
 
 
+Ans: 
+
+
+SELECT * FROM Branches
+SELECT * FROM Customers
+
+
+SELECT 
+      b.branch_id , 
+      b.branch_name ,
+      c.customer_name ,
+      c.annual_income 
+FROM Branches As b 
+LEFT JOIN 
+Customers As c 
+ON 
+b.branch_id = c.branch_id
+WHERE c.branch_id IS NULL
+
+
+
+
+
+
+
+
 Q28. Find customers who have an account but do NOT have
      a credit card.
+
+Ans: 
+
+SELECT * FROM Customers
+SELECT * FROM Accounts 
+SELECT * FROM Credit_Cards
+
+
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     a.account_type,
+     a.balance ,
+     cc.card_type,
+     cc.credit_limit 
+FROM Customers As c 
+LEFT JOIN 
+Accounts As a 
+ON 
+c.customer_id = a.customer_id
+LEFT JOIN 
+Credit_Cards As cc 
+ON 
+c.customer_id = cc.customer_id 
+WHERE cc.customer_id IS NULL
+
+
+
+
+
+
+
+
+
+
 
 
 ------------------------------------------------------------
@@ -739,6 +1064,21 @@ Q36. Find customers who have both an account and a loan.
 
 Q37. Find customers who have an account with balance
      greater than 300000.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
