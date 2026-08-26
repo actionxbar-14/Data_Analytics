@@ -1082,7 +1082,17 @@ Q31. Find credit cards that do not have a matching customer.
 Ans: 
 
 
-
+SELECT 
+      cc.card_id , 
+      cc.card_type ,
+      c.customer_name , 
+      c.annual_income 
+FROM Credit_Cards As cc 
+LEFT JOIN 
+Customers As c 
+ON 
+cc.customer_id = c.customer_id 
+WHERE c.customer_id IS NULL
 
 
 
@@ -1092,6 +1102,21 @@ Ans:
 
 
 Q32. Find branches that do not have matching customers.
+
+Ans: 
+
+SELECT 
+      b.branch_id ,
+      b.branch_name ,
+      c.customer_name, 
+      c.annual_income 
+FROM Branches As b 
+LEFT JOIN 
+Customers As c 
+ON 
+b.branch_id = c.branch_id 
+WHERE c.customer_id IS NULL
+
 
 
 
@@ -1106,8 +1131,19 @@ Q32. Find branches that do not have matching customers.
 C. ALTERNATIVE INNER JOIN
 ------------------------------------------------------------
 
+
+
+
+
+
+
 Instead of using INNER JOIN, solve the following questions
 using alternative techniques wherever logically possible.
+
+
+
+
+
 
 Q33. Find customers who have at least one account.
 
@@ -1162,38 +1198,224 @@ It can be simulated using:
        OR right_key IS NULL
 
 
+
+
+
+
+
+
 Q38. Find customers who do not have a corresponding loan
      AND loan records that do not have a corresponding
      customer.
+
+Ans: 
+
+
+
+SELECT * FROM Customers 
+SELECT * FROM Loans
+
+
+
+
+SELECT
+      c.customer_id , 
+      c.customer_name ,
+      l.loan_type,
+      l.loan_amount 
+FROM Customers AS c 
+FULL JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id 
+WHERE c.customer_id IS NULL OR l.customer_id IS NULL
+
+
+
+
+
+
+
+
+
 
 
 Q39. Find customers and loans that do not have matching
      records.
 
+Ans: 
+
+
+
+
+SELECT
+      c.customer_id , 
+      c.customer_name ,
+      l.loan_type,
+      l.loan_amount 
+FROM Customers AS c 
+FULL JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id 
+WHERE c.customer_id IS NULL OR l.customer_id IS NULL
+
+
+
+
+
+
 
 Q40. Find unmatched records between Customers and Accounts.
+
+Ans: 
+
+
+SELECT
+      c.customer_id , 
+      c.customer_name ,
+      a.account_type,
+      a.balance 
+FROM Customers AS c 
+FULL JOIN 
+Accounts As a
+ON 
+c.customer_id = a.customer_id 
+WHERE c.customer_id IS NULL OR a.customer_id IS NULL
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
 SECTION 4 — CROSS JOIN
 ============================================================
 
+
+
+
+
+
+
 Q41. Generate every possible combination of customers
      and branches.
 
+Ans: 
+
+SELECT 
+      c.customer_id , 
+      c.customer_name , 
+      b.branch_name ,
+      b.city 
+FROM Customers As c
+CROSS JOIN 
+Branches As b 
+
+
+
+
+
+
+
+
+
+
 Q42. Generate every possible combination of account types
      and branch types.
+
+Ans: 
+
+SELECT 
+      c.customer_id , 
+      c.customer_name , 
+      a.account_type ,
+      a.balance 
+FROM Customers As c
+CROSS JOIN 
+Accounts As a
+
+
+
+
+
+
+
+
 
 Q43. Generate every possible combination of loan types
      and branch types.
 
 
+Ans: 
+
+SELECT * FROM Loans 
+
+SELECT * FROM Branches
+   
+
+SELECT 
+     l.loan_type,
+     l.loan_amount ,
+     b.branch_name ,
+     b.city 
+FROM loans As l 
+CROSS JOIN 
+Branches As b
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 BFSI BUSINESS QUESTION:
+
+
+
+
+
+
 
 Q44. Management wants to evaluate every possible combination
      of customer segment and account type.
 
      Generate all possible combinations using CROSS JOIN.
+
+
+Ans: 
+
+SELECT 
+      c.customer_id,
+      c.customer_name , 
+      a.account_type ,
+      a.balance 
+FROM Customers As c 
+CROSS JOIN 
+Accounts As a 
+
+
+
+
 
 
 Q45. Generate every possible combination of:
@@ -1204,9 +1426,55 @@ Q45. Generate every possible combination of:
      Do not use customer transaction data.
 
 
+Ans: 
+
+SELECT 
+      c.customer_id , 
+      c.customer_name ,
+      l.loan_type ,
+      l.loan_amount 
+FROM Customers As c 
+CROSS JOIN 
+Loans As l
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ============================================================
 SECTION 5 — MULTIPLE TABLE JOINS
 ============================================================
+
+
+
+
+
+
+
 
 Q46. Display customer name, account type, account balance
      and branch name.
@@ -1215,6 +1483,35 @@ Q46. Display customer name, account type, account balance
      Customers
      Accounts
      Branches
+
+Ans: 
+
+SELECT * FROM Customers
+SELECT * FROM Accounts 
+SELECT * FROM Branches
+
+
+ SELECT 
+       c.customer_name , 
+       a.account_type,
+       a.balance,
+       b.branch_name 
+FROM Customers As c 
+INNER JOIN 
+Accounts As a 
+ON 
+c.customer_id = a.customer_id 
+INNER JOIN 
+Branches As b 
+ON
+a.branch_id = b.branch_id
+
+
+
+
+
+
+
 
 
 Q47. Display customer name, loan type, loan amount and
@@ -1225,6 +1522,35 @@ Q47. Display customer name, loan type, loan amount and
      Loans
      Branches
 
+Ans: 
+
+
+
+ SELECT 
+       c.customer_name , 
+       l.loan_type,
+       l.loan_amount,
+       b.branch_name 
+FROM Customers As c 
+INNER JOIN 
+Loans As l
+ON 
+c.customer_id = l.customer_id 
+INNER JOIN 
+Branches As b 
+ON
+c.branch_id = b.branch_id
+
+
+
+
+
+
+
+
+
+
+
 
 Q48. Display customer name, account balance and transaction
      details.
@@ -1234,6 +1560,34 @@ Q48. Display customer name, account balance and transaction
      Accounts
      Transactions
 
+Ans: 
+
+SELECT * FROM Transactions
+
+
+ SELECT 
+       c.customer_name , 
+       a.account_type,
+       a.balance,
+       t.transaction_type 
+FROM Customers As c 
+INNER JOIN 
+Accounts As a 
+ON 
+c.customer_id = a.customer_id 
+INNER JOIN 
+Transactions As t
+ON
+a.account_id = t.account_id
+
+
+
+
+
+
+
+
+
 
 Q49. Display customer name, loan details and credit card
      details.
@@ -1242,6 +1596,41 @@ Q49. Display customer name, loan details and credit card
      Customers
      Loans
      Credit_Cards
+
+
+Ans: 
+
+
+SELECT * FROM Credit_Cards
+
+
+
+ SELECT 
+       c.customer_name , 
+       l.loan_type,
+       cc.card_type,
+       cc.credit_limit
+FROM Customers As c 
+INNER JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id 
+INNER JOIN 
+Credit_Cards As cc
+ON
+c.customer_id = cc.customer_id
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Q50. Display customer name, account balance, loan amount
@@ -1254,97 +1643,71 @@ Q50. Display customer name, account balance, loan amount
      Credit_Cards
 
 
-============================================================
-SECTION 6 — 4 TABLE JOINS
-============================================================
-
-Q51. Display the following:
-
-     - Customer Name
-     - Account ID
-     - Account Type
-     - Account Balance
-     - Transaction ID
-     - Transaction Date
-     - Transaction Type
-     - Transaction Amount
-
-     Tables:
-
-     Customers
-        ↓
-     Accounts
-        ↓
-     Transactions
+Ans: 
 
 
-Q52. Display:
-
-     - Customer Name
-     - City
-     - Branch Name
-     - Account Type
-     - Account Balance
-
-     Tables:
-
-     Customers
-     Accounts
-     Branches
+SELECT * FROM Credit_Cards
+SELECT * FROM Loans
 
 
-Q53. Display:
 
-     - Customer Name
-     - Branch Name
-     - Account Balance
-     - Loan Type
-     - Loan Amount
-
-     Tables:
-
-     Customers
-     Branches
-     Accounts
-     Loans
-
-
-Q54. Display:
-
-     - Customer Name
-     - Account Balance
-     - Transaction Amount
-     - Transaction Channel
-     - Branch Name
-
-     Tables:
-
-     Customers
-     Accounts
-     Transactions
-     Branches
+ SELECT 
+       c.customer_name , 
+       a.account_type,
+       l.loan_type,
+       l.loan_amount,
+       cc.card_type,
+       cc.credit_limit
+FROM Customers As c 
+INNER JOIN 
+Accounts As a 
+ON 
+c.customer_id = a.customer_id 
+INNER JOIN 
+Loans As l 
+ON
+a.customer_id = l.customer_id
+INNER JOIN 
+Credit_Cards As cc 
+ON
+c.customer_id = cc.customer_id
 
 
-Q55. Display:
 
-     - Customer Name
-     - Branch Name
-     - Account Balance
-     - Loan Amount
-     - Credit Card Limit
 
-     Tables:
 
-     Customers
-     Branches
-     Accounts
-     Loans
-     Credit_Cards
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
 SECTION 7 — JOIN + WHERE
 ============================================================
+
+
+
+
+
+
+
 
 Q56. Find customers whose account balance is greater
      than 300000.
