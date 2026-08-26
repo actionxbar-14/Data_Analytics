@@ -4,3 +4,19 @@
 :: Data Cleaning & Transforming Steps:  
 
 1. Write a summary for your data.
+
+2. Write a summary for your  all Columns. 
+
+4. Add any additional information. 
+
+5. Do Assessment of the data.
+    --> Manual Assessment .
+    --> Programming Assessment. 
+
+
+
+    i). Manual Assessment :  
+    -- Column wise column scan the data in each Table and find the messy and dirty data and write in the document.
+    -- randomely scan the rows in each Table and find misplaced and vanished data. 
+
+
