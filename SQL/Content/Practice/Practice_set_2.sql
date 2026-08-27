@@ -2089,24 +2089,141 @@ GROUP BY b.branch_name
 SECTION 9 — JOIN + GROUP BY + HAVING
 ============================================================
 
+
+
+
+
 Q68. Find branches having more than 2 customers.
+
+Ans: 
+
+
+SELECT 
+      COUNT(c.customer_id) As No_of_Customers,
+      b.branch_name 
+FROM Customers As c 
+LEFT JOIN 
+Branches As b 
+ON 
+c.branch_id = b.branch_id 
+GROUP BY branch_name
+HAVING COUNT(c.customer_id) > 2
+
+
+
+
+
+
+
 
 
 Q69. Find branches whose total account balance is greater
      than 1000000.
 
+Ans: 
+
+
+
+SELECT 
+      SUM(a.balance) As Total_balance ,
+      b.branch_name
+FROM Accounts As a 
+LEFT JOIN 
+Branches as b 
+ON 
+a.branch_id = b.branch_id
+GROUP BY b.branch_name
+HAVING SUM(a.balance) > 1000000
+
+
+
+
+
+
+
+
+
+
+
+
 
 Q70. Find branches whose total loan amount is greater
      than 5000000.
+
+Ans: 
+
+
+SELECT 
+      SUM(l.loan_amount) As Total_loan_amount ,
+      b.branch_name 
+FROM Loans As l
+LEFT JOIN 
+Customers As c 
+On 
+l.customer_id = c.customer_id 
+LEFT JOIN 
+Branches As b 
+ON 
+c.branch_id = b.branch_id
+GROUP BY b.branch_name
+
+
+
+
+
+
 
 
 Q71. Find customer segments whose total account balance
      is greater than 1000000.
 
 
+Ans: 
+
+
+SELECT 
+      SUM(a.balance) As Account_balance,
+      c.customer_segment 
+FROM Customers As c 
+LEFT JOIN 
+Accounts As a 
+ON 
+c.customer_id = a.customer_id
+GROUP BY c.customer_segment 
+HAVING SUM(a.balance) > 1000000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ============================================================
 SECTION 10 — BFSI DATA ANALYST CASE STUDIES
 ============================================================
+
+
+
+
+
+
+
+
 
 Q72. Customer Banking Profile
 
