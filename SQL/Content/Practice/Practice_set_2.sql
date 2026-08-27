@@ -31,7 +31,8 @@ TABLES:
 
 
 
-
+USE 
+BFSI_Analytics
 
 
 
@@ -1717,6 +1718,28 @@ Q56. Find customers whose account balance is greater
      - account_type
      - balance
 
+Ans: 
+
+
+SELECT 
+     c.customer_id ,
+     a.account_type ,
+     a.balance 
+FROM Customers As c 
+LEFT JOIN
+Accounts As a 
+ON 
+c.customer_id = a.customer_id 
+WHERE balance > 300000
+
+
+
+
+
+
+
+
+
 
 Q57. Find customers who have taken a Home Loan.
 
@@ -1725,22 +1748,133 @@ Q57. Find customers who have taken a Home Loan.
      - loan_amount
      - interest_rate
 
+Ans: 
+
+
+SELECT 
+      c.customer_name ,
+      l.loan_type,
+      l.loan_amount,
+      l.interest_rate
+FROM Customers As c 
+LEFT JOIN
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+
+
+
+
+
+
+
+
+
 
 Q58. Find Premium customers whose account balance is
      greater than 300000.
+
+Ans: 
+
+SELECT 
+      c.customer_id ,
+      c.customer_name , 
+      a.account_type,
+      c.customer_segment,
+      a.balance   
+FROM Customers As c
+LEFT JOIN
+Accounts As a
+ON 
+c.customer_id = a.customer_id 
+WHERE c.customer_segment = 'Premium' AND
+a.balance > 300000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Q59. Find customers from Haryana who have taken a
      Business Loan.
 
+Ans: 
+
+
+SELECT 
+      c.customer_id ,
+      c.customer_name ,
+      c.state ,
+      l.loan_type,
+      c.customer_segment
+FROM Customers As c 
+LEFT JOIN
+Loans As l 
+ON 
+c.customer_id = l.customer_id 
+WHERE c.state = 'Haryana' AND 
+l.loan_type = 'Business Loan'
+
+
+
+
+
+
+
+
+
+
+
 
 Q60. Find customers whose credit card outstanding amount
      is greater than 75000.
+
+Ans: 
+
+SELECT 
+      c.customer_id ,
+      c.customer_name ,
+      cc.card_type ,
+      cc.outstanding_amount 
+FROM Customers As c 
+LEFT JOIN 
+Credit_Cards As cc 
+ON 
+c.customer_id = cc.customer_id
+WHERE cc.outstanding_amount > 75000
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
 SECTION 8 — JOIN + GROUP BY
 ============================================================
+
+
+
+
+
+
 
 Q61. Find the number of customers in each branch.
 
@@ -1748,23 +1882,207 @@ Q61. Find the number of customers in each branch.
      - branch_name
      - customer_count
 
+Ans: 
+
+SELECT 
+      COUNT(c.customer_id) As Customer_count,
+      b.branch_name 
+FROM Customers As c 
+LEFT JOIN 
+Branches As b 
+ON 
+c.branch_id = b.branch_id
+GROUP BY b.branch_name
+
+
+
+
+
+
 
 Q62. Find the total account balance for each branch.
 
+Ans: 
+
+
+
+SELECT * FROM Accounts
+SELECT * FROM Branches
+
+SELECT 
+      SUM(a.balance) As Total_balance,
+      b.branch_name 
+FROM Accounts As a 
+LEFT JOIN 
+Branches As b 
+ON 
+a.branch_id = b.branch_id
+GROUP BY b.branch_name
+ORDER BY SUM(a.balance) DESC
+
+
+
+
+
 
 Q63. Find the average account balance for each branch.
+
+Ans: 
+
+
+
+SELECT 
+      AVG(a.balance) As Avg_balance,
+      b.branch_name 
+FROM Accounts As a 
+LEFT JOIN 
+Branches As b 
+ON 
+a.branch_id = b.branch_id
+GROUP BY b.branch_name
+ORDER BY SUM(a.balance) DESC
+
+
+
+
+
+
+
+
+
+
 
 
 Q64. Find the total loan amount handled by each branch.
 
 
+SELECT * FROM Loans
+SELECT * FROM Branches
+SELECT * FROM Customers
+
+
+Ans: 
+
+
+SELECT 
+      SUM(l.loan_amount) As Total_loan_amount,
+      b.branch_name 
+FROM Loans As l 
+LEFT JOIN 
+Customers As c 
+ON 
+l.customer_id = c.customer_id
+LEFT JOIN 
+Branches As b
+ON 
+c.branch_id = b.branch_id
+GROUP BY b.branch_name
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Q65. Find the number of loans for each branch.
+
+Ans: 
+
+SELECT 
+      COUNT(l.loan_id) As Total_loans,
+      b.branch_name 
+FROM Loans As l 
+LEFT JOIN 
+Customers As c 
+ON 
+l.customer_id = c.customer_id
+LEFT JOIN 
+Branches As b
+ON 
+c.branch_id = b.branch_id
+GROUP BY b.branch_name
+
+
+
 
 
 Q66. Find the total transaction amount for each branch.
 
+SELECT * FROM Transactions
+SELECT * FROM Branches 
+SELECT * FROM Accounts
+
+
+
+
+SELECT 
+      SUM(t.amount) as Total_transaction_amount ,
+      b.branch_name 
+FROM Transactions as t 
+LEFT JOIN
+Accounts As a 
+ON 
+t.account_id = a.account_id 
+LEFT JOIN 
+Branches As b  
+ON 
+b.branch_id = a.branch_id
+GROUP BY b.branch_name
+
+
+
+
+
+
+
+
+
+
+
+
 
 Q67. Find the average transaction amount for each branch.
+
+Ans: 
+
+
+
+SELECT 
+      AVG(t.amount) as Total_transaction_amount ,
+      b.branch_name 
+FROM Transactions as t 
+LEFT JOIN
+Accounts As a 
+ON 
+t.account_id = a.account_id 
+LEFT JOIN 
+Branches As b  
+ON 
+b.branch_id = a.branch_id
+GROUP BY b.branch_name
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
