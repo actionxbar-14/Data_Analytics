@@ -2217,7 +2217,8 @@ HAVING SUM(a.balance) > 1000000
 SECTION 10 — BFSI DATA ANALYST CASE STUDIES
 ============================================================
 
-
+USE 
+BFSI_Analytics
 
 
 
@@ -2238,6 +2239,49 @@ Q72. Customer Banking Profile
      - Credit Card Limit
      - Credit Card Outstanding
 
+Ans: 
+
+
+
+SELECT 
+      c.customer_name ,
+      c.city ,
+      a.account_type ,
+      a.balance ,
+      l.loan_type ,
+      l.loan_amount ,
+      cc.credit_limit ,
+      cc.outstanding_amount
+FROM Customers As c 
+FULL JOIN 
+Accounts As a 
+ON 
+c.customer_id = a.customer_id 
+FULL JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id 
+FULL JOIN 
+Credit_Cards As cc 
+ON 
+c.customer_id = cc.customer_id
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Q73. Branch Performance Analysis
 
@@ -2249,6 +2293,45 @@ Q73. Branch Performance Analysis
      - Number of loans
 
 
+Ans: 
+
+
+SELECT 
+      b.branch_name , 
+      COUNT(c.customer_id) As Total_Customer ,
+      SUM(a.balance) As Total_account_balance ,
+      SUM(l.loan_amount) As Total_loan_amount ,
+      COUNT(l.loan_id) As No_of_Loans    
+FROM Customers As c 
+LEFT JOIN 
+Branches As b 
+ON 
+c.branch_id = b.branch_id 
+LEFT JOIN 
+Accounts As a 
+ON 
+a.branch_id = b.branch_id
+LEFT JOIN
+Loans As l 
+ON
+c.customer_id = l.customer_id 
+GROUP BY b.branch_name
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Q74. High-Value Customer Identification
 
      Find customers who satisfy ALL conditions:
@@ -2257,6 +2340,51 @@ Q74. High-Value Customer Identification
      - Annual income > 1000000
      - Account balance > 300000
      - Loan amount > 2000000
+
+Ans: 
+
+
+
+SELECT  
+     c.customer_id  ,
+     c.customer_name ,
+     c.customer_segment , 
+     c.occupation , 
+     c.annual_income ,
+     a.account_type ,
+     a.balance ,
+     l.loan_type , 
+     l.loan_amount
+FROM Customers As c
+LEFT JOIN 
+Accounts As a 
+ON 
+c.customer_id = a.customer_id 
+LEFT JOIN 
+Loans As l 
+ON 
+a.customer_id = l.customer_id 
+WHERE 
+c.customer_segment = 'Premium' 
+AND
+c.annual_income > 1000000 
+AND 
+a.balance > 300000
+AND 
+l.loan_amount > 2000000
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Q75. Customer Credit Exposure
@@ -2268,12 +2396,98 @@ Q75. Customer Credit Exposure
      - Credit card outstanding amount
 
 
+Ans:
+
+
+
+SELECT * FROM Customers 
+SELECT * FROM Loans 
+SELECT * FROM Accounts
+SELECT * FROM Credit_Cards
+
+
+SELECT 
+     c.customer_name , 
+     a.balance ,
+     l.loan_amount As Total_loan_amount ,
+     cc.outstanding_amount 
+FROM Customers as c 
+LEFT JOIN 
+Accounts As a 
+ON 
+c.customer_id = a.customer_id 
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id 
+LEFT JOIN 
+Credit_Cards As cc 
+ON 
+c.customer_id = cc.customer_id
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Q76. High-Risk Customer Analysis
 
      Find customers who have:
 
      - Loan interest rate > 10%
      - Credit card outstanding > 75000
+
+Ans: 
+
+
+
+SELECT * FROM Customers 
+SELECT * FROM Loans 
+SELECT * FROM Credit_Cards
+
+
+SELECT 
+      c.customer_name , 
+      l.interest_rate ,
+      cc.outstanding_amount 
+FROM Customers As c 
+LEFT JOIN 
+Loans As l 
+ON 
+l.customer_id = c.customer_id 
+LEFT JOIN 
+Credit_Cards As cc 
+ON 
+c.customer_id = cc.customer_id 
+WHERE
+l.interest_rate > 10 
+AND 
+cc.outstanding_amount > 75000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Q77. Branch Loan Portfolio
@@ -2288,6 +2502,49 @@ Q77. Branch Loan Portfolio
      Sort branches by total loan amount descending.
 
 
+Ans: 
+
+
+SELECT 
+      b.branch_name ,
+      COUNT(l.loan_id) As No_of_loans, 
+      SUM(l.loan_amount) As Total_loan_amount ,
+      AVG(l.loan_amount) As Avg_loan_amount ,
+      AVG(l.interest_rate) As Avg_interest_rate 
+FROM Branches As b 
+LEFT JOIN 
+Customers As c 
+ON 
+c.branch_id = b.branch_id 
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id 
+GROUP BY b.branch_name
+ORDER BY Total_loan_amount DESC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Q78. Transaction Analysis by Customer
 
      For every customer calculate:
@@ -2300,9 +2557,65 @@ Q78. Transaction Analysis by Customer
      from highest to lowest.
 
 
+Ans: 
+
+
+
+
+
+
+SELECT * FROM Customers 
+SELECT * FROM Accounts 
+SELECT * FROM Transactions
+
+
+SELECT 
+      t.transaction_id ,
+      COUNT(a.account_id) As No_of_transactions,
+      c.customer_name ,
+      SUM(t.amount) As Total_transaction_amount ,
+      AVG(t.amount) As Avg_transaction_amount 
+FROM Customers As c 
+LEFT JOIN 
+Accounts As a 
+On 
+c.customer_id = a.customer_id 
+LEFT JOIN 
+Transactions As t 
+ON 
+a.account_id = t.account_id 
+GROUP BY t.transaction_id , a.account_id , c.customer_name
+ORDER BY Total_transaction_amount DESC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ============================================================
 SECTION 11 — HIGH-LEVEL JOIN CHALLENGES
 ============================================================
+
+
+
+
 
 Q79. Identify customers who have:
 
@@ -2346,6 +2659,11 @@ Q83. Find branches having:
      - More than 2 customers
      - Total account balance > 1000000
      - Total loan amount > 5000000
+
+
+
+
+
 
 
 ============================================================
@@ -2401,84 +2719,3 @@ Q90. Find the customer with the highest combined exposure:
 
      
 
-
-
-============================================================
-DIFFICULTY PROGRESSION
-============================================================
-
-LEVEL 1 — BASIC JOIN
-Q1 - Q23
-
-LEVEL 2 — ADVANCED JOIN
-Q24 - Q45
-
-LEVEL 3 — MULTIPLE TABLE JOIN
-Q46 - Q55
-
-LEVEL 4 — JOIN + FILTERING
-Q56 - Q60
-
-LEVEL 5 — JOIN + AGGREGATION
-Q61 - Q71
-
-LEVEL 6 — BFSI DATA ANALYST CASE STUDIES
-Q72 - Q78
-
-LEVEL 7 — HIGH-LEVEL / INTERVIEW
-Q79 - Q90
-
-
-============================================================
-JOIN CONCEPTS COVERED
-============================================================
-
-INNER JOIN
-LEFT JOIN
-RIGHT JOIN
-FULL OUTER JOIN
-
-LEFT ANTI JOIN
-RIGHT ANTI JOIN
-FULL ANTI JOIN
-
-EXISTS
-CROSS JOIN
-
-Multiple Table JOIN
-3 Table JOIN
-4 Table JOIN
-
-JOIN + WHERE
-JOIN + GROUP BY
-JOIN + HAVING
-JOIN + ORDER BY
-JOIN + TOP
-
-BFSI Customer Analytics
-BFSI Account Analytics
-BFSI Loan Analytics
-BFSI Transaction Analytics
-BFSI Credit Risk Analytics
-BFSI Branch Performance Analytics
-
-
-============================================================
-IMPORTANT
-============================================================
-
-Q1-Q45:
-Focus on understanding JOIN behavior.
-
-Q46-Q55:
-Focus on joining multiple tables.
-
-Q56-Q71:
-Focus on combining JOIN with filtering and aggregation.
-
-Q72-Q90:
-Solve these like Data Analyst interview/case-study questions.
-
-Do not look at solutions while solving.
-First write the JOIN logic yourself.
-============================================================
