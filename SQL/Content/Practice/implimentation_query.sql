@@ -288,3 +288,64 @@ FROM
 )t
 
      
+
+
+
+
+
+ --_____________________________________________________________________________________   
+
+
+
+
+
+
+
+--> Find the average scores of the customers : 
+
+SELECT 
+      COUNT(CustomerID) As Valid_Values,
+      AVG(Score) As Avg_Score 
+FROM Sales.Customers
+
+-- Ans :  625 
+
+ 
+-->  After Handelling the null values : 
+
+SELECT 
+      COUNT(CustomerID) As Valid_Values, 
+      -- AVG(ISNULL(Score,0)) As Avg_Score 
+      AVG(COALESCE(Score , 0)) As Avg_Score
+FROM Sales.Customers
+
+-- Ans :  500 
+
+
+
+
+
+
+
+
+
+
+-- Display the full name of customers in a single field. 
+-- by merging their first and last names 
+-- and add 10 bonus points to each customer's score. :
+
+SELECT 
+     CustomerID , 
+     FirstName ,
+     LastName ,
+     FirstName + ' ' + COALESCE(LastName , ' ') As FullName ,
+     Score ,
+     COALESCE(Score , 0) +  10 As ScoreWithBonus
+FROM Sales.Customers
+
+
+
+
+
+
+
