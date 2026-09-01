@@ -148,3 +148,143 @@ SELECT
      CAST(CreationTime As DATE) As [ Datetime to Date ] 
 FROM Sales.Orders
 
+
+
+
+
+-- -------------------------------------------------------------------------------------------------------------------------
+
+
+USE 
+SalesDB
+
+
+
+
+
+
+SELECT 
+     OrderID, 
+     OrderDate,
+     DATEADD(year , -2 , OrderDate) As TwoYearsBefore,
+     DATEADD(month , -2 , OrderDate) As TwoMonthsBefore,
+     DATEADD(Day , -2 , OrderDate) As TwoDaysBefore,
+     DATEADD(year , 2 , OrderDate) As TwoYearsAfter,
+     DATEADD(Month , 2 , OrderDate) As TwoMonthsAfter,
+     DATEADD(Day , 2 , OrderDate) As TwoDaysAfter
+FROM Sales.Orders  
+
+
+
+
+
+
+
+
+-- Calculate the age of employees : 
+
+SELECT * FROM Sales.Employees
+
+SELECT 
+      EmployeeID ,
+      BirthDate ,
+      DATEDIFF(year , BirthDate , GETDATE()) As Age 
+FROM Sales.Employees
+
+
+
+
+-- Find the shipping duration in days  : 
+
+
+
+SELECT 
+      OrderID ,
+      OrderDate ,
+      ShipDate , 
+      DATEDIFF(day , OrderDate , ShipDate) As Day_2_ship
+FROM Sales.Orders
+
+
+
+
+
+
+-- Find the 'Average' shipping duration in days for each 'month' : 
+
+
+SELECT 
+      MONTH(OrderDate) As OrderDate_num ,
+      DATENAME(Month , OrderDate) As Month_Name,
+      AVG(DATEDIFF(day , OrderDate , ShipDate)) As Avg_ship
+FROM Sales.Orders
+GROUP BY MONTH(OrderDate) ,  DATENAME(Month , OrderDate)
+
+
+
+
+
+    
+-- Time Gap Analysis :  
+
+
+
+-- Find the number of days between each order and the previous order. 
+
+
+USE 
+SalesDB
+
+
+SELECT * FROM Sales.Orders
+
+
+
+SELECT 
+      OrderID  , 
+      OrderDate CurrentOrderDate , 
+      LAG(OrderDate)  OVER  (ORDER BY OrderDate) As PreviousOrderDate,
+      DATEDIFF(day , LAG(OrderDate) OVER (ORDER BY OrderDate) , OrderDate) As No_of_Days
+FROM Sales.Orders
+
+
+
+
+
+
+SELECT 
+      ISDATE('1234') As DateCheck1 ,    
+      ISDATE('2025-08-20') As DateCheck3,   -- > 1
+      ISDATE('20-08-2025') As DateCheck3,
+      ISDATE('2025') As DateCheck4,         -- > 1
+      ISDATE('08') As DateCheck5
+      
+
+
+
+
+
+
+-- :: Validateing the List of Dates using ISDATE and CAST it into str to DATE : 
+
+
+SELECT
+      OrderDate ,
+      ISDATE(OrderDate),
+      CASE WHEN ISDATE(OrderDate) = 1
+      THEN
+      CAST(OrderDate AS DATE) 
+      END NewOrderDate
+
+FROM 
+(
+    SELECT '2025-08-20' As OrderDate
+    UNION 
+    SELECT '2025-08-21' 
+    UNION 
+    SELECT '2025-08-23' 
+    UNION 
+    SELECT '2025-08' 
+)t
+
+     
