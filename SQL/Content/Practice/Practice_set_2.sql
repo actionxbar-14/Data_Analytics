@@ -2628,11 +2628,86 @@ Q79. Identify customers who have:
      - balance
 
 
+Ans: 
+
+
+
+SELECT * FROM Customers
+SELECT * FROM Credit_Cards
+SELECT * FROM Accounts
+
+
+
+
+SELECT  
+      c.customer_name , 
+      a.account_type ,
+      a.balance,
+      cc.card_id
+FROM Customers As c 
+LEFT JOIN 
+Credit_Cards As cc 
+ON 
+c.customer_id = cc.customer_id 
+LEFT JOIN 
+Accounts As a 
+ON 
+a.customer_id = c.customer_id 
+WHERE cc.customer_id IS NULL
+
+
+
+
+
+
+
+
+
+
+
 Q80. Identify customers who have:
 
      - An account
      - A loan
      - But no credit card
+
+Ans: 
+
+
+
+SELECT * FROM Loans
+SELECT * FROM Credit_Cards
+SELECT * FROM Accounts
+
+
+
+SELECT  
+      l.loan_type , 
+      a.account_type ,
+      a.balance,
+      cc.card_id
+FROM Loans As l
+LEFT JOIN 
+Credit_Cards As cc 
+ON 
+l.customer_id = cc.customer_id 
+LEFT JOIN 
+Accounts As a 
+ON 
+a.customer_id = l.customer_id 
+WHERE cc.customer_id IS NULL
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Q81. Identify Premium customers who have:
@@ -2640,6 +2715,53 @@ Q81. Identify Premium customers who have:
      - Account balance > 300000
      - Loan amount > 2000000
      - Credit card outstanding > 75000
+
+Ans: 
+
+
+
+SELECT * FROM Customers 
+SELECT * FROM Accounts
+SELECT * FROM Loans 
+SELECT * FROM Credit_Cards
+
+
+
+
+
+SELECT 
+      c.customer_name , 
+      c.customer_segment ,
+      a.balance , 
+      l.loan_amount ,
+      cc.outstanding_amount,
+      cc.card_id
+FROM Customers As c 
+LEFT JOIN 
+Accounts As a 
+ON 
+c.customer_id = a.customer_id 
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id 
+LEFT JOIN 
+Credit_Cards As cc 
+ON 
+c.customer_id = cc.customer_id
+WHERE customer_segment = 'Premium'
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Q82. Find the top 5 customers based on combined financial
@@ -2654,11 +2776,109 @@ Q82. Find the top 5 customers based on combined financial
      Credit Card Outstanding
 
 
+Ans:
+
+
+
+SELECT * FROM Customers 
+SELECT * FROM Accounts 
+SELECT * FROM Loans
+SELECT * FROM Credit_Cards
+
+
+
+
+
+
+
+SELECT 
+    TOP(5)
+     c.customer_name , 
+     a.balance ,
+     l.loan_amount ,
+     cc.outstanding_amount 
+FROM Customers As c 
+LEFT JOIN 
+Accounts As a 
+ON 
+c.customer_id = a.customer_id 
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id 
+LEFT JOIN 
+Credit_Cards As cc 
+ON 
+c.customer_id = cc.customer_id
+WHERE cc.outstanding_amount IS NOT NULL
+ORDER BY a.balance DESC
+
+
+
+
+
+
+
+
+
 Q83. Find branches having:
 
      - More than 2 customers
      - Total account balance > 1000000
      - Total loan amount > 5000000
+
+
+Ans:
+
+
+SELECT * FROM Customers 
+SELECT * FROM Branches 
+SELECT * FROM Accounts
+SELECT * FROM Loans
+
+
+
+SELECT 
+     b.branch_name,
+     COUNT(c.customer_id) As Total_Customers ,
+     SUM(a.balance) As Total_Account_Balance , 
+     SUM(loan_amount) As Total_loan_amount
+FROM Customers As c 
+LEFT JOIN 
+Branches AS b 
+ON 
+c.branch_id = b.branch_id 
+LEFT JOIN 
+Accounts As a 
+ON 
+b.branch_id = a.branch_id 
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+GROUP BY b.branch_name
+HAVING COUNT(c.customer_id) > 2 
+AND 
+SUM(a.balance) > 1000000
+AND 
+SUM(loan_amount) > 5000000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2670,6 +2890,17 @@ Q83. Find branches having:
 SECTION 12 — INTERVIEW-STYLE CHALLENGES
 ============================================================
 
+
+
+
+
+
+
+
+
+
+
+
 Q84. Find customers who have an account but have never
      performed a transaction.
 
@@ -2677,14 +2908,115 @@ Q84. Find customers who have an account but have never
      Think about LEFT ANTI JOIN.
 
 
+Ans: 
+  
+
+SELECT * FROM Customers 
+SELECT * FROM Accounts
+SELECT * FROM Transactions
+
+
+SELECT 
+     c.customer_id , 
+     c.customer_name , 
+     a.balance , 
+     t.transaction_id 
+FROM Customers As c 
+LEFT JOIN 
+Accounts As a 
+ON 
+c.customer_id = a.customer_id 
+LEFT JOIN 
+Transactions As t 
+ON 
+a.account_id = t.account_id 
+WHERE t.transaction_id IS NULL
+
+
+
+
+
+
 Q85. Find customers who have a loan but do not have
      a credit card.
+
+Ans: 
+
+SELECT * FROM Customers 
+SELECT * FROM Loans 
+SELECT * FROM Credit_Cards
+
+
+
+
+SELECT 
+     c.customer_id , 
+     c.customer_name , 
+     l.loan_type, 
+     cc.card_id  
+FROM Customers As c 
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id 
+LEFT JOIN 
+Credit_Cards As cc
+ON 
+c.customer_id = cc.customer_id 
+WHERE cc.customer_id IS NULL
+
+
+
+
+
+
+
+
+
+
 
 
 Q86. Find customers who have both:
 
      - Savings Account
      - Personal Loan
+
+Ans:
+
+
+SELECT * FROM Customers 
+SELECT * FROM Accounts
+SELECT * FROM Loans
+
+
+
+
+SELECT 
+     c.customer_name , 
+     a.account_type ,
+     l.loan_type 
+FROM Customers As c 
+LEFT JOIN 
+Accounts As a 
+ON 
+c.customer_id = a.customer_id 
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id 
+WHERE a.account_type = 'Savings' 
+AND 
+l.loan_type = 'Personal Loan'
+
+
+
+
+
+
+
+
+
+
 
 
 Q87. Find customers who have:
@@ -2694,10 +3026,134 @@ Q87. Find customers who have:
      - Active Credit Card
 
 
+Ans: 
+
+
+
+SELECT * FROM Customers 
+SELECT * FROM Accounts
+SELECT * FROM Loans
+SELECT * FROM Credit_Cards
+
+
+
+
+SELECT 
+     c.customer_name , 
+     a.account_type ,
+     l.loan_type ,
+     cc.card_type ,
+     cc.card_id 
+FROM Customers As c 
+LEFT JOIN 
+Accounts As a 
+ON 
+c.customer_id = a.customer_id 
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id 
+LEFT JOIN 
+Credit_Cards As cc 
+ON 
+c.customer_id = cc.customer_id
+WHERE cc.card_id IS NOT NULL
+
+
+
+
+
+
+
+
+
+
+
+
+
 Q88. Find the branch with the highest total loan exposure.
 
 
+Ans: 
+
+
+SELECT * FROM Customers
+SELECT * FROM Branches 
+SELECT * FROM Loans
+
+
+
+SELECT 
+     COUNT(c.customer_id)  As Total_Customers, 
+     b.branch_name ,
+     SUM(l.loan_amount) As Total_Loan_amount
+FROM Customers As c 
+LEFT JOIN 
+Branches As b 
+ON 
+c.branch_id = b.branch_id 
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+GROUP BY b.branch_name
+ORDER BY SUM(l.loan_amount) DESC
+
+
+
+
+
+
+
+
+
+
 Q89. Find the branch with the highest total account balance.
+
+
+Ans:
+
+
+SELECT * FROM Customers
+SELECT * FROM Branches 
+SELECT * FROM Accounts
+
+
+
+SELECT 
+     COUNT(c.customer_id)  As Total_Customers, 
+     b.branch_name ,
+     SUM(a.balance) As Total_Account_balance
+FROM Customers As c 
+LEFT JOIN 
+Branches As b 
+ON 
+c.branch_id = b.branch_id 
+LEFT JOIN 
+Accounts As a 
+ON 
+c.customer_id = a.customer_id
+GROUP BY b.branch_name
+ORDER BY SUM(a.balance) DESC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Q90. Find the customer with the highest combined exposure:
@@ -2707,6 +3163,40 @@ Q90. Find the customer with the highest combined exposure:
      Loan Amount
      +
      Credit Card Outstanding
+
+
+Ans: 
+
+
+
+SELECT * FROM Customers
+SELECT * FROM Credit_Cards
+SELECT * FROM Loans
+SELECT * FROM Accounts
+
+
+
+SELECT 
+     c.customer_id , 
+     c.customer_name ,
+     a.balance ,
+     l.loan_amount ,
+     cc.outstanding_amount
+FROM Customers As c 
+LEFT JOIN 
+Accounts As a
+ON 
+c.customer_id = a.customer_id 
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+LEFT JOIN 
+Credit_Cards As cc 
+ON 
+c.customer_id = cc.customer_id
+WHERE cc.outstanding_amount IS NOT NULL
+ORDER BY a.balance , l.loan_amount , cc.outstanding_amount DESC
 
 
 
