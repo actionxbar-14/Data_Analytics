@@ -293,8 +293,7 @@ FROM
 
 
 
- --_____________________________________________________________________________________   
-
+ ----------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -348,4 +347,125 @@ FROM Sales.Customers
 
 
 
+
+
+
+
+ ----------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+--  :: Handle the Null Before doing Joins : 
+
+
+
+/*
+
+
+
+SELECT 
+     a.year , 
+     a.type ,
+     a.orders ,
+     b.sales ,
+FROM Table1 As a 
+INNER JOIN 
+Table2 As b
+ON 
+a.year == b.year 
+AND 
+ISNULL(a.type , '') = ISNULL(b.type , '')
+
+
+
+*/
+
+
+
+
+
+ ----------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+--  :: Handle the Nulls Sorting Data : 
+
+
+--> ORDER BY DESC : SQL always place the NULL always on the bottom of the Column. 
+
+--> ORDER BY ASC : SQL always place the NULL always on the TOP of the Column. 
+
+
+
+
+
+-- Ques :  Sort the customers from lowest to highest scores , with Nulls appearing last. 
+
+-- Ans : 
+
+
+
+
+SELECT 
+     CustomerID ,
+     Score
+FROM Sales.Customers
+ORDER BY CASE WHEN Score IS NULL THEN 1 ELSE 0 END,Score 
+
+
+
+
+
+
+ ----------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+--  :: Handle the Nulls diving by Zero : 
+
+
+-- Ques :  Find the sales price for each order by dividing sales by quantity. 
+
+SELECT 
+     OrderID ,
+     Sales ,
+     Quantity ,
+     Sales / NULLIF(Quantity , 0) As Price 
+FROM Sales.Orders
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+USE 
+SalesDB
+
+
+WITH Orders As(
+SELECT 1 Id , 'A' Category 
+UNION 
+SELECT 2 , NULL 
+UNION 
+SELECT 3 , '' 
+UNION 
+SELECT 4 , '   ' 
+)
+
+ 
+
+SELECT 
+*,
+TRIM(Category) Policy1,
+NULLIF(TRIM(Category) , '') Policy2,
+COALESCE(NULLIF(TRIM(Category) , '') , 'unknown')  Policy3
+FROM Orders
 

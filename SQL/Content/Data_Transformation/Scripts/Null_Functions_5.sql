@@ -190,8 +190,33 @@ WHERE o.CustomerID IS NULL;
 
 
 /* ==============================================================================
-   NULLs vs EMPTY STRING vs BLANK SPACES
+   NULLs vs EMPTY STRING vs BLANK SPACES  [ data policies ]
 ===============================================================================*/
+
+:: Data Policies:
+- Set of rules that defines how data should be handled. 
+
+1. Only use NULLs and empty strings , 
+but avoid blank spaces. 
+
+2. Convert blank spaces to NULLs or empty strings during data cleaning.
+
+3. Use the default value 'unknown' for NULLs and empty strings when displaying data to users.
+
+
+
+-- NOTE: 
+
+--> Use Data Policy Number 2 ( Replacing empty strings and blanks with NULLL) during data prepration before inserting into a database to optimize storage and improve query performance.
+
+
+--> Use Data Policy Number 3 ( Replacing NULLs and empty strings with 'unknown') during data preparation before using it in reporting to improve readability and reduce confusion. 
+
+
+
+
+
+
 
 /* TASK 8: 
    Demonstrate differences between NULL, empty strings, and blank spaces 
