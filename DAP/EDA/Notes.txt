@@ -1,0 +1,181 @@
+
+
+
+
+
+
+:: Why do EDA : 
+
+ - Model building.
+ - Analysis and reporting.
+ - Validate assumptions.
+ - Handelling missing values.
+ - feature engineering.
+ - detecting outliers.
+
+
+# NOTE: 
+- EDA is an iterative process. 
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+1.  UNIVARIATE ANALYSIS : 
+
+--  analysis focuses on analyzing each feature in the dataset independently.
+-- GOAL :  distribution of data , shape of data, central tendency, dispersion, outliers hai ya nahi, skewness hai ya nahi, and missing values hai ya nahi.
+
+
+
+->  **Distribution analysis**  : 
+- The distribution of each feature is examined to identify its 'shape', 'central tendency'[mean , median, mode], and 'dispersion'[spread of data].
+
+->  **Identifying potential issues**  : 
+- Univariate analysis helps in identifying potential problems with the data such as 'outliers'(different data), 'skewness'(Nature of graph of data), and  'missing values'.
+
+
+
+
+
+# NOTE : The shape of a data distribution refers to its overall pattern or form as it is represented on a graph. Some common shapes of data distributions include:
+
+
+
+1.  **Normal Distribution**: 
+A symmetrical and bell-shaped distribution where the mean, median, and mode are equal and the majority of the data falls in the middle of the distribution with gradually decreasing frequencies towards the tails.
+
+
+
+2.  **Skewed Distribution**:
+-  A distribution that is not symmetrical, with one tail being longer than the other. It can be either positively skewed (right-skewed) or negatively skewed (left-skewed).
+
+
+
+3.  **Bimodal Distribution**: 
+- A distribution with two peaks or modes.
+
+
+
+4.  **Uniform Distribution**: 
+- A distribution where all values have an equal chance of occurring.
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+:: The shape of the data distribution is important in identifying the presence of outliers, skewness, and the type of statistical tests and models that can be used for further analysis : 
+
+
+-->  **Dispersion** is a statistical term used to describe the spread or variability of a set of data. It measures how far the values in a data set are spread out from the central tendency (mean, median, or mode) of the data.
+
+--> There are several measures of dispersion, including:
+
+1. **Range**: 
+-> The difference between the largest and smallest values in a data set.
+
+
+
+2. **Variance**: 
+-> The average of the squared deviations of each value from the mean of the data set.
+
+
+
+
+3. **Standard Deviation**: 
+-> The square root of the variance. It provides a measure of the spread of the data that is in the same units as the original data.
+
+
+
+
+4. **Interquartile range (IQR)**: 
+-> The range between the first quartile (25th percentile) and the third quartile (75th percentile) of the data.
+-> Dispersion helps to describe the spread of the data, which can help to identify the presence of outliers and skewness in the data.
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+::  Steps of doing Univariate Analysis on Numerical Features(columns) :
+
+
+1.  **Descriptive Statistics** : 
+- Compute basic summary statistics for the column, such as mean, median, mode, standard deviation, range, and quartiles. These statistics give a general understanding of the distribution of the data and can help identify skewness or outliers.[ Usingg describe() function in pandas library ].
+
+
+
+
+2. **Visualizations**: 
+- Create visualizations to explore the distribution of the data. Some common visualizations for numerical data include histograms, box plots, and density plots. These visualizations provide a visual representation of the distribution of the data and can help identify skewness an outliers.
+
+
+
+3. **Identifying Outliers**: 
+- Identify and examine any outliers in the data. Outliers can be identified using visualizations. It is important to determine whether the outliers are due to measurement errors, data entry errors, or legitimate differences in the data, and to decide whether to include or exclude them from the analysis.
+
+
+
+
+4. **Skewness**: 
+- Check for skewness in the data and consider transforming the data or using robust statistical methods that are less sensitive to skewness, if necessary.
+
+
+
+5. **Conclusion**: 
+- Summarize the findings of the EDA and make decisions about how to proceed with further analysis.
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+::  Steps of doing Univariate Analysis on Categorical columns : 
+
+1. **Descriptive Statistics** : 
+- Compute the frequency distribution of the categories in the column. This will give a general understanding of the distribution of the categories and their relative frequencies.
+
+
+
+
+2. **Visualizations** : 
+- Create visualizations to explore the distribution of the categories. Some common visualizations for categorical data include count plots and pie charts. These visualizations provide a visual representation of the distribution of the categories and can help identify any patterns or anomalies in the data.
+
+
+
+
+3. **Missing Values** : 
+- Check for missing values in the data and decide how to handle them. Missing values can be imputed or excluded from the analysis, depending on the research question and the data set.
+
+
+
+
+4. **Conclusion**: 
+- Summarize the findings of the EDA and make decisions about how to proceed with further analysis.
