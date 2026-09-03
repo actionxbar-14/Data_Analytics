@@ -194,6 +194,10 @@ FROM Sales.Orders;
    DATE PARTS | USE CASES
 ===============================================================================*/
 
+
+
+
+
 /* TASK 5:
    How many orders were placed each year?
 */
@@ -202,6 +206,12 @@ SELECT
     COUNT(*) AS TotalOrders
 FROM Sales.Orders
 GROUP BY YEAR(OrderDate);
+
+
+
+
+
+
 
 /* TASK 6:
    How many orders were placed each month?
@@ -212,6 +222,13 @@ SELECT
 FROM Sales.Orders
 GROUP BY MONTH(OrderDate);
 
+
+
+
+
+
+
+
 /* TASK 7:
    How many orders were placed each month (using friendly month names)?
 */
@@ -220,6 +237,15 @@ SELECT
     COUNT(*) AS TotalOrders
 FROM Sales.Orders
 GROUP BY DATENAME(month, OrderDate);
+
+
+
+
+
+
+
+
+
 
 /* TASK 8:
    Show all orders that were placed during the month of February.
@@ -251,6 +277,12 @@ WHERE MONTH(OrderDate) = 2;
    FORMAT()
 ===============================================================================*/
 
+
+
+
+
+
+
 /* TASK 9:
    Format CreationTime into various string representations.
 */
@@ -267,6 +299,15 @@ SELECT
     FORMAT(CreationTime, 'MMMM') AS MMMM
 FROM Sales.Orders;
 
+
+
+
+
+
+
+
+
+
 /* TASK 10:
    Display CreationTime using a custom format:
    Example: Day Wed Jan Q1 2025 12:34:56 PM
@@ -278,6 +319,17 @@ SELECT
     ' Q' + DATENAME(quarter, CreationTime) + ' ' +
     FORMAT(CreationTime, 'yyyy hh:mm:ss tt') AS CustomFormat
 FROM Sales.Orders;
+
+
+
+
+
+
+
+
+
+
+
 
 /* TASK 11:
    How many orders were placed each year, formatted by month and year (e.g., "Jan 25")?
@@ -309,6 +361,12 @@ GROUP BY FORMAT(CreationTime, 'MMM yy');
 /* ==============================================================================
    CONVERT()
 ===============================================================================*/
+
+
+
+
+
+
 
 /* TASK 12:
    Demonstrate conversion using CONVERT.
@@ -342,6 +400,15 @@ FROM Sales.Orders;
    CAST()
 ===============================================================================*/
 
+
+
+
+
+
+
+
+
+
 /* TASK 13:
    Convert data types using CAST.
 */
@@ -374,6 +441,14 @@ FROM Sales.Orders;
    DATEADD() / DATEDIFF()
 ===============================================================================*/
 
+
+
+
+
+
+
+
+
 /* TASK 14:
    Perform date arithmetic on OrderDate.
 */
@@ -385,6 +460,15 @@ SELECT
     DATEADD(year, 2, OrderDate) AS TwoYearsLater
 FROM Sales.Orders;
 
+
+
+
+
+
+
+
+
+
 /* TASK 15:
    Calculate the age of employees.
 */
@@ -394,6 +478,13 @@ SELECT
     DATEDIFF(year, BirthDate, GETDATE()) AS Age
 FROM Sales.Employees;
 
+
+
+
+
+
+
+
 /* TASK 16:
    Find the average shipping duration in days for each month.
 */
@@ -402,6 +493,17 @@ SELECT
     AVG(DATEDIFF(day, OrderDate, ShipDate)) AS AvgShip
 FROM Sales.Orders
 GROUP BY MONTH(OrderDate);
+
+
+
+
+
+
+
+
+
+
+
 
 /* TASK 17:
    Time Gap Analysis: Find the number of days between each order and the previous order.
@@ -428,9 +530,22 @@ FROM Sales.Orders;
 
 
 
+
+
+
+
+
+
 /* ==============================================================================
    ISDATE()
 ===============================================================================*/
+
+
+
+
+
+
+
 
 /* TASK 18:
    Validate OrderDate using ISDATE and convert valid dates.
@@ -449,3 +564,8 @@ FROM (
     SELECT '2025-08'
 ) AS t
 -- WHERE ISDATE(OrderDate) = 0
+
+
+
+
+

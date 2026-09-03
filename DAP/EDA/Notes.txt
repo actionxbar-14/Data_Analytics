@@ -160,22 +160,73 @@ A symmetrical and bell-shaped distribution where the mean, median, and mode are 
 ::  Steps of doing Univariate Analysis on Categorical columns : 
 
 1. **Descriptive Statistics** : 
+
 - Compute the frequency distribution of the categories in the column. This will give a general understanding of the distribution of the categories and their relative frequencies.
 
 
 
 
+
+
 2. **Visualizations** : 
+
 - Create visualizations to explore the distribution of the categories. Some common visualizations for categorical data include count plots and pie charts. These visualizations provide a visual representation of the distribution of the categories and can help identify any patterns or anomalies in the data.
 
 
 
 
+
+
+
 3. **Missing Values** : 
+
 - Check for missing values in the data and decide how to handle them. Missing values can be imputed or excluded from the analysis, depending on the research question and the data set.
 
 
 
 
+
+
 4. **Conclusion**: 
+
 - Summarize the findings of the EDA and make decisions about how to proceed with further analysis.
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+:: Steps of doing Bivariate Analysis :-
+
+
+
+- Select 2 cols. 
+
+- Understand type of relationship :-- 
+
+
+    1. **Numerical - Numerical** :-
+        a. You can plot graphs like scatterplot(regression plots), 2D histplot, 2D KDEplots.
+        b. Check correlation coefficent to check linear relationship.
+
+
+    2. **Numerical - Categorical** :  create visualizations that compare the distribution of the numerical data across different categories of the categorical data.
+        a. You can plot graphs like barplot, boxplot, kdeplot violinplot even scatterplots.
+
+
+    3. **Categorical - Categorical** :
+        a. You can create cross-tabulations or contingency tables that show the distribution of values in one categorical column, grouped by the values in the other categorical column.
+        b. You can plots like heatmap, stacked barplots, treemaps.
+        
+- Write your conclusions.
+
+
+
