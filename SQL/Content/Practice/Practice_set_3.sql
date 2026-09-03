@@ -6,7 +6,10 @@ SQL FUNCTIONS PRACTICE SET
 BFSI + DATA ANALYST
 ============================================================
 
-DATABASE: BFSI_Analytics
+DATABASE: 
+
+USE
+BFSI_Analytics
 
 TABLES:
 1. Branches
@@ -17,43 +20,213 @@ TABLES:
 6. Credit_Cards
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ============================================================
 SECTION 1 — STRING MANIPULATION
 ============================================================
+
+
+
+
+
+
+
+
+
+
+
+
 
 ------------------------------------------------------------
 A. CONCAT
 ------------------------------------------------------------
 
+
+
+
+
+
+
 Q1. Display customer first information by combining
     customer_name and city into one column.
+
+Ans: 
+
+SELECT  
+      Concat(customer_name + '   ' , city) As first_information     
+FROM Customers
+
+
+
+
+
+
+
+
 
 Q2. Create a Customer_Profile column containing:
 
     Customer Name + State
 
+Ans: 
+
+SELECT 
+      Concat(customer_name + '   ' , state) As Customer_Profile
+FROM Customers
+
+
+
+
+
+
+
+
+
+
 Q3. Create a Branch_Location column containing:
 
     City + State
+
+Ans: 
+
+SELECT 
+      CONCAT(city + '   ' , State) As Branch_Location
+FROM Branches
+
+
+
+
+
+
+
+
 
 Q4. Create a Customer_Label containing:
 
     Customer Name + Customer Segment
 
+Ans: 
+
+SELECT 
+     CONCAT(customer_name + '   ' , customer_segment) As Customer_Label
+FROM Customers
+
+
+
+
+
+
+
+
+
 Q5. Create a Loan_Label containing:
 
     Customer ID + Loan Type
+
+Ans:
+
+
+SELECT 
+     CONCAT(c.customer_id  + '   ' , '  ' + l.loan_type) As Loan_Label 
+FROM Customers As c 
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ------------------------------------------------------------
 B. LOWER
 ------------------------------------------------------------
 
+
+
+
+
+
+
 Q6. Display all customer names in lowercase.
+
+Ans:
+
+
+SELECT 
+     LOWER(customer_name) As lower_Customers
+FROM Customers
+
+
+
+
+
+
+
+
 
 Q7. Display all occupations in lowercase.
 
+Ans: 
+
+
+SELECT 
+     LOWER(occupation) As lower_occupation
+FROM Customers
+
+
+
+
+
+
+
+
+
+
 Q8. Display customer city names in lowercase.
+
+Ans:
+
+
+SELECT 
+      LOWER(city) As lower_name
+FROM Customers
+
+
+
+
+
+
+
 
 Q9. Create a Customer_Email style value using the customer
     name in lowercase.
@@ -63,43 +236,243 @@ Q9. Create a Customer_Email style value using the customer
     aarav.sharma
 
 
+Ans:
+
+
+SELECT 
+     LOWER(customer_name) As lower_customers 
+FROM Customers
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ------------------------------------------------------------
 C. UPPER
 ------------------------------------------------------------
 
+
+
+
+
+
 Q10. Display all customer names in uppercase.
+
+Ans:
+
+
+SELECT 
+      UPPER(customer_name) As upper_customer_name
+FROM Customers
+
+
+
+
+
+
+
+
 
 Q11. Display all states in uppercase.
 
+Ans:
+
+SELECT 
+      UPPER(state) As upper_state 
+FROM Customers
+
+
+
+
+
+
+
+
 Q12. Display all account types in uppercase.
 
+Ans:
+
+
+SELECT 
+      UPPER(account_type) As upper_account_type
+FROM Accounts
+
+
+
+
+
 Q13. Display all transaction channels in uppercase.
+
+
+Ans:
+
+
+SELECT 
+      UPPER(channel) As Upper_channel
+FROM Transactions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ------------------------------------------------------------
 D. TRIM
 ------------------------------------------------------------
 
+
+
+
 Q14. Display customer names after removing unnecessary
      leading and trailing spaces.
 
+Ans:
+
+
+
+SELECT 
+      TRIM(customer_name) As trim_customer_name
+FROM Customers
+
+
+
+
+
+
+
+
+
+
 Q15. Display occupation values after applying TRIM.
 
+Ans: 
+
+
+SELECT 
+      TRIM(occupation) As trim_occupation
+FROM Customers
+
+
+
+
+
+
+
+
 Q16. Create a cleaned Customer_Name column using TRIM.
+
+Ans:
+
+
+
+SELECT 
+      TRIM(customer_name) As trim_customer_name
+FROM Customers
+
+
+
+
+
+
+
+
+
+
+
 
 
 ------------------------------------------------------------
 E. REPLACE
 ------------------------------------------------------------
 
+
+
+
+
+
 Q17. Replace 'Loan' with 'L' in loan_type.
+
+Ans:
+
+SELECT 
+     REPLACE(loan_type , 'LOAN' , 'L') As new_loan_type
+FROM Loans
+
+
+
+
+
+
 
 Q18. Replace spaces in customer names with underscores.
 
+Ans:
+
+
+SELECT 
+     REPLACE(customer_name , ' ' , '-') As new_customer_name 
+FROM Customers
+
+
+
+
+
+
+
+
+
 Q19. Replace spaces in city names with hyphens.
+
+Ans:
+
+
+SELECT 
+     REPLACE(city , ' ' , '-') As new_city_name 
+FROM Customers
+
+
+
+
+
+
+
+
 
 Q20. Replace 'Business Loan' with 'Business Financing'
      in the output.
+
+Ans:
+ 
+
+SELECT 
+     REPLACE(loan_type , 'Business Loan' , 'Business Financing')
+FROM Loans
+
+
+
+
+
 
 Q21. Create a cleaned loan type column where:
 
@@ -108,22 +481,131 @@ Q21. Create a cleaned loan type column where:
      Business Loan  → Business
 
 
+
+Ans:
+
+
+
+
+SELECT 
+     REPLACE(loan_type , 'Business Loan' , 'Business') ,
+     REPLACE(loan_type , 'Personal Loan' , 'Personal'),
+     REPLACE(loan_type , 'Home Loan' , 'Home')
+FROM Loans 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ============================================================
 SECTION 2 — STRING CALCULATIONS
 ============================================================
+
+
+
+
+
+
+
+
+
 
 ------------------------------------------------------------
 A. LEN
 ------------------------------------------------------------
 
+
+
+
+
 Q22. Display customer names along with the length of
      each customer name.
+
+Ans:
+
+
+SELECT 
+      customer_name ,
+      LEN(customer_name) As name_length
+FROM Customers
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Q23. Find customers whose names contain more than
      12 characters.
 
+Ans:
+
+
+
+SELECT 
+      customer_name ,
+      LEN(customer_name) As name_length
+FROM Customers
+WHERE LEN(customer_name) > 12
+
+
+
+
+
+
+
+
+
+
+
+
 Q24. Find customers whose occupation name has more than
      10 characters.
+
+Ans:
+
+
+SELECT 
+      customer_name ,
+      LEN(occupation) As occupation_length
+FROM Customers
+WHERE LEN(occupation) > 12
+
+
+
+
+
+
+
+
+
+
+
 
 Q25. Display:
 
@@ -133,38 +615,213 @@ Q25. Display:
      Sort by name length from highest to lowest.
 
 
+Ans:
+
+
+
+
+SELECT 
+      customer_name ,
+      LEN(customer_name) As name_length 
+FROM Customers
+ORDER BY LEN(customer_name) DESC
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ============================================================
 SECTION 3 — SUBSTRING EXTRACTION
 ============================================================
+
+
+
+
+
+
+
+
+
+
+
 
 ------------------------------------------------------------
 A. LEFT
 ------------------------------------------------------------
 
+
+
+
+
+
+
+
 Q26. Display the first 3 characters of every customer name.
+
+Ans:
+
+
+SELECT 
+      LEFT(customer_name , 3) As short_name 
+FROM Customers
+
+
+
+
+
+
+
+
+
 
 Q27. Display the first 2 characters of every city.
 
+Ans:
+
+
+
+SELECT 
+      LEFT(city, 2) As short_city 
+FROM Customers
+
+
+
+
+
+
+
+
+
+
+
 Q28. Display the first 4 characters of every occupation.
+
+Ans:
+
+
+
+SELECT 
+      LEFT(occupation , 4) As short_occupation
+FROM Customers
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ------------------------------------------------------------
 B. RIGHT
 ------------------------------------------------------------
 
+
+
+
+
 Q29. Display the last 3 characters of every customer name.
+
+Ans:
+
+
+SELECT 
+     RIGHT(customer_name , 3) As right_short_name 
+FROM Customers
+
+
+
+
+
+
+
+
+
+
+
 
 Q30. Display the last 2 characters of every state.
 
+Ans:
+
+
+
+SELECT 
+     RIGHT(state , 3) As right_state_name 
+FROM Customers
+
+
+
+
+
+
+
+
+
 Q31. Display the last 4 digits/characters of customer_id
      after converting it to a suitable string type.
+
+
+Ans:
+
+
+SELECT 
+     RIGHT(customer_name , 4) As right_name 
+FROM Customers
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ------------------------------------------------------------
 C. SUBSTRING
 ------------------------------------------------------------
 
+
+
+
+
 Q32. Extract characters 1 to 5 from customer_name.
+
+Ans:
+
+
+
+
+
+
+
+
+
+
 
 Q33. Extract characters 2 to 5 from city.
 
@@ -172,6 +829,15 @@ Q34. Extract characters 3 to 7 from occupation.
 
 Q35. Extract a portion of customer names using SUBSTRING
      and compare it with LEFT.
+
+
+
+
+
+
+
+
+
 
 
 ------------------------------------------------------------
