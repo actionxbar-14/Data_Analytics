@@ -3,7 +3,9 @@
 
 
 /* ==============================================================================
-   SQL CASE Statement
+   SQL CASE Statement : 
+   - Evaluates a list of conditions and returns a value when the first condition is met. 
+
 -------------------------------------------------------------------------------
    This script demonstrates various use cases of the SQL CASE statement, including
    data categorization, mapping, quick form syntax, handling nulls, and conditional 
@@ -17,6 +19,26 @@
      5. Conditional Aggregation
 =================================================================================
 */
+
+
+
+
+
+-- NOTE: 
+
+
+
+
+-- 1. The main purpose is Data Transformation Derive new information. 
+-- - Ex:  Create new Columns based on existing data. 
+
+
+
+
+-- 2. It is also used to Catogorize data based on existing data.
+-- - Ex : Group the data based into different categories based on certain conditions. 
+
+
 
 
 
@@ -191,3 +213,7 @@ SELECT
     COUNT(*) AS TotalOrders
 FROM Sales.Orders
 GROUP BY CustomerID;
+
+
+
+-- NOTE [ RULE ] :   The data type of the column in the CASE statement should be same.
