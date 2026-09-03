@@ -469,3 +469,211 @@ NULLIF(TRIM(Category) , '') Policy2,
 COALESCE(NULLIF(TRIM(Category) , '') , 'unknown')  Policy3
 FROM Orders
 
+
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+-- :: CASE WHEN Statement : 
+
+
+
+
+/* 
+
+Generate a report showing the total sales for each category : 
+
+- High : If the sales higher than 50 . 
+- Medium : If the sales between 20 and 5. 
+- Low : If the sales equal or lower than 20. 
+
+and Sort the result from lowest to highest. 
+
+*/
+
+Ans: 
+
+USE 
+SalesDB
+
+
+
+SELECT 
+     OrderID,
+     sales,
+     CASE 
+         WHEN Sales > 50 THEN 'High' 
+         WHEN Sales > 20 AND Sales <= 50 THEN 'Medium' 
+         WHEN Sales <= 20 THEN 'LOW' 
+     END As Category
+FROM Sales.Orders
+ORDER BY Sales 
+
+
+
+
+
+-- GROUP Them with catogries : 
+
+
+SELECT 
+Category ,
+SUM(Sales) As TotalSales
+FROM(
+     SELECT 
+     OrderID,
+     Sales,
+     CASE 
+         WHEN Sales > 50 THEN 'High' 
+         WHEN Sales > 20 AND Sales <= 50 THEN 'Medium' 
+         WHEN Sales <= 20 THEN 'LOW' 
+     END As Category
+FROM Sales.Orders
+ )t
+ GROUP BY Category
+ ORDER BY TotalSales DESC
+
+
+
+
+
+
+
+
+ -- Maping Values :  Transform the values one form to another. 
+
+
+ /*
+ Task : 
+
+ Retrieve employee details with gender displayed as full text. 
+
+
+ */
+
+
+
+ SELECT 
+       EmployeeID,
+       FirstName , 
+       LastName ,
+       Gender ,
+       CASE 
+           WHEN Gender = 'F' THEN 'Female'
+           WHEN Gender = 'M' THEN 'Male'
+           ELSE 'Not Available'
+        END As GenderFullText
+FROM Sales.Employees
+
+
+
+
+ /*
+ Task : 
+
+ Retrieve customer details with abbreviated country code.
+
+
+ */
+
+
+ Ans: 
+
+
+  SELECT 
+       CustomerID,
+       FirstName , 
+       LastName ,
+       Country  ,
+       CASE 
+          WHEN Country = 'Germany'  THEN 'DE' 
+          WHEN Country = 'USA' THEN  'US'
+          ELSE 'N/A'
+       END As CountryAbbr
+FROM Sales.Customers
+
+
+
+
+
+
+SELECT DISTINCT Country 
+FROM Sales.Customers
+
+
+
+
+
+
+-- Quick Format : (only for one column)
+/*
+
+
+CASE 
+    WHEN Country = 'Germany' THEN 'DE' 
+    WHEN Country = 'India' 
+    WHEN Country = 'United States' THEN 'US' 
+    WHEN Country = 'France'  THEN 'FR' 
+    WHEN Country = 'Italy'   THEN 'IT'
+    ELSE 'n/a'
+END 
+
+
+
+-- This can be written as : 
+
+
+
+CASE 
+    WHEN 'Germany' THEN 'DE' THEN 'IN'  
+    WHEN 'United States' THEN 'US' 
+    WHEN 'France'  THEN 'FR' 
+    WHEN 'Italy'   THEN 'IT' 
+    WHEN 'India'   THEN 'IN'  
+    WHEN 'United States' THEN 'US' 
+    WHEN 'France'  THEN 'FR' 
+    WHEN 'Italy'  THEN 'IT' 
+END 
+
+
+*/
+
+
+
+
+
+
+
+-- ::  Conditional Aggregation : Apply aggregate function only on subsets of data that fulfill certain conditions. 
+
+
+/*
+
+COUNT how many times each customer has made an order with sales greater than 30
+
+*/
+
+
+Ans:
+
+-- FLAG : Binary indicator(1 ,0) to be summarized to show how many times the condition is true.  [ Using CASE Statement ]
+
+
+
+SELECT 
+     CustomerID ,
+     SUM(CASE 
+         WHEN Sales > 30 THEN 1 
+         ELSE 0
+     END) TotalHIGHOrders,
+     COUNT(*) As TotalOrders
+FROM Sales.Orders 
+GROUP BY CustomerID 
+
