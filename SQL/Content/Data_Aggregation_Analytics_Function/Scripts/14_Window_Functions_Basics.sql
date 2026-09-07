@@ -1,5 +1,11 @@
+
+
+
+
+
 /* ==============================================================================
-   SQL Window Functions
+   SQL Window Functions :  
+   - Perform calculations ( e.g. aggregation ) on a specific subset of data , without losing the level of details of rows.    
 -------------------------------------------------------------------------------
    SQL window functions enable advanced calculations across sets of rows 
    related to the current row without resorting to complex subqueries or joins.
@@ -16,7 +22,22 @@
      6. SQL Window Rules
      7. SQL Window with GROUP BY
 =================================================================================
+
+
+
+
 */
+
+
+
+
+
+
+
+
+
+
+
 
 /* ==============================================================================
    SQL WINDOW FUNCTIONS | BASICS
@@ -38,8 +59,17 @@ SELECT
 FROM Sales.Orders
 GROUP BY ProductID;
 
+
+
+
+
+
+
+
+
 /* ==============================================================================
-   SQL WINDOW FUNCTIONS | OVER CLAUSE
+   SQL WINDOW FUNCTIONS | OVER CLAUSE : 
+    - Tells SQL that function used is a window function , It defines a window or subset of data. 
 ===============================================================================*/
 
 /* TASK 3: 
@@ -53,6 +83,15 @@ SELECT
     Sales,
     SUM(Sales) OVER () AS Total_Sales
 FROM Sales.Orders;
+
+
+
+
+
+
+
+
+
 
 /* ==============================================================================
    SQL WINDOW FUNCTIONS | PARTITION CLAUSE
@@ -87,6 +126,18 @@ SELECT
     SUM(Sales) OVER (PARTITION BY ProductID, OrderStatus) AS Sales_By_Product_Status
 FROM Sales.Orders;
 
+
+
+
+
+
+
+
+
+
+
+
+
 /* ==============================================================================
    SQL WINDOW FUNCTIONS | ORDER CLAUSE
 ===============================================================================*/
@@ -99,6 +150,19 @@ SELECT
     Sales,
     RANK() OVER (ORDER BY Sales DESC) AS Rank_Sales
 FROM Sales.Orders;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* ==============================================================================
    SQL WINDOW FUNCTIONS | FRAME CLAUSE
@@ -184,6 +248,22 @@ SELECT
     ) AS Total_Sales
 FROM Sales.Orders;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ==============================================================================
    SQL WINDOW FUNCTIONS | RULES
 ===============================================================================*/
@@ -212,6 +292,27 @@ SELECT
     Sales,
     SUM(SUM(Sales) OVER (PARTITION BY OrderStatus)) OVER (PARTITION BY OrderStatus) AS Total_Sales  -- Invalid nesting
 FROM Sales.Orders;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* ==============================================================================
    SQL WINDOW FUNCTIONS | GROUP BY
