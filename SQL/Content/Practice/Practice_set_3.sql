@@ -814,7 +814,9 @@ Q32. Extract characters 1 to 5 from customer_name.
 Ans:
 
 
-
+SELECT 
+     SUBSTRING(TRIM(customer_name) , 2 , 7)
+FROM Customers
 
 
 
@@ -825,10 +827,41 @@ Ans:
 
 Q33. Extract characters 2 to 5 from city.
 
+
+Ans: 
+
+
+SELECT 
+     SUBSTRING(TRIM(city), 2 , 7) 
+FROM Customers
+
+
+
+
 Q34. Extract characters 3 to 7 from occupation.
+
+Ans: 
+
+
+SELECT 
+     SUBSTRING(TRIM(occupation), 3 , 7) 
+FROM Customers
+
+
+
 
 Q35. Extract a portion of customer names using SUBSTRING
      and compare it with LEFT.
+
+
+ Ans: 
+
+
+SELECT 
+     SUBSTRING(TRIM(occupation), 3 , 7) 
+FROM Customers
+
+
 
 
 
@@ -844,13 +877,30 @@ Q35. Extract a portion of customer names using SUBSTRING
 STRING FUNCTION CHALLENGE
 ------------------------------------------------------------
 
+
+
+
 Q36. Create a Customer_Code using:
 
      First 3 characters of customer name
      +
      Last 2 characters of city
-
      Convert the final code to uppercase.
+
+Ans: 
+
+
+SELECT  
+    CONCAT(LEFT( TRIM(customer_name) , 3),
+    RIGHT( TRIM(city) , 2) )  As Customer_code
+FROM Customers
+
+
+
+
+
+
+
 
 
 Q37. Create a standardized customer identifier using:
@@ -860,15 +910,67 @@ Q37. Create a standardized customer identifier using:
      Last 4 digits of customer_id
 
 
+Ans:
+
+
+SELECT  
+    CONCAT(LEFT( TRIM(customer_name) , 3),
+    RIGHT( customer_id , 4 ))  As customer_identifier
+FROM Customers
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ============================================================
 SECTION 4 — ROUNDING FUNCTIONS
 ============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ------------------------------------------------------------
 A. ROUND
 ------------------------------------------------------------
 
+
+
+
+
 Q38. Display loan interest rates rounded to 1 decimal place.
+
+Ans: 
+
+SELECT 
+     ROUND(interest_rate , 0)
+FROM Loans
+
+
+
+
+
+
 
 Q39. Calculate loan interest amount using:
 
@@ -876,76 +978,303 @@ Q39. Calculate loan interest amount using:
 
      Round the result to 2 decimal places.
 
+
+Ans:
+ 
+
+SELECT 
+       ROUND(loan_amount * interest_rate / 100 , 2) As interest_amount 
+FROM Loans
+
+
+
+
+
+
+
+
+
 Q40. Calculate estimated annual interest for each loan
      and round it to 2 decimal places.
+
+Ans:
+
+SELECT 
+      loan_amount ,
+      interest_rate,
+      loan_amount  * (11.50/100) * 12 As annual_interest   
+FROM Loans
+
+
+
+
+
+
+
+
+
+
 
 Q41. Calculate average loan amount by loan type and round
      the result to 2 decimal places.
 
+Ans: 
+
+
+SELECT 
+      loan_type,
+      ROUND(AVG(loan_amount) , 2) As Avg_loan_amount 
+FROM Loans
+GROUP BY loan_type
+
+
+
+
+
 Q42. Calculate average account balance by account type
      and round it to 2 decimal places.
+
+
+Ans:
+ 
+
+
+ SELECT 
+      account_type,
+      ROUND(AVG(balance) , 2) As Avg_round_balance
+ FROM Accounts
+ GROUP BY account_type
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
 SECTION 5 — ABSOLUTE VALUE
 ============================================================
 
+
+
+
+
+
+
+
+
+
 ------------------------------------------------------------
 A. ABS
 ------------------------------------------------------------
 
+
+
+
+
+
 Q43. Calculate the absolute difference between:
 
-     Account Balance and 300000
+     Account Balance and 300000.
+
+Ans:
+
+
+SELECT 
+      ABS(balance - 300000)
+FROM Accounts
+
+
+
 
 Q44. Calculate the absolute difference between:
 
      Loan Amount and 2000000
+
+Ans: 
+
+
+SELECT 
+      ABS(loan_amount - 2000000)
+FROM Loans
+
+
+
+
 
 Q45. Calculate the absolute difference between:
 
      Credit Limit and Outstanding Amount.
 
 
-BFSI ANALYTICS:
-
-Q46. Find customers whose account balance is closest to
-     300000.
-
-     Display:
-
-     - customer_name
-     - balance
-     - difference from 300000
+Ans: 
 
 
-Q47. Find loans whose loan amount is closest to 2000000.
+SELECT 
+      ABS(credit_limit - outstanding_amount) As absolute_diff   
+FROM Credit_Cards
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
 SECTION 6 — GETDATE
 ============================================================
 
+
+
+
+
+
 Q48. Display the current system date and time using GETDATE.
+
+Ans: 
+
+
+SELECT 
+     GETDATE() 
+
+
+
 
 Q49. Display the current date as Current_Date.
 
+
+Ans: 
+
+
+SELECT 
+      CAST(GETDATE() AS DATE) 
+      AS currnt_date;
+
+
+
+ 
+
+
+
 Q50. Compare the current date with loan_start_date.
+
+
+Ans : 
+
+
+
+SELECT *
+FROM loans
+WHERE loan_start_date < CAST(GETDATE() AS DATE);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
 SECTION 7 — DATE PART EXTRACTION
 ============================================================
 
+
+
+
+
+
+
 ------------------------------------------------------------
 A. YEAR
 ------------------------------------------------------------
 
+
+
 Q51. Extract the year from loan_start_date.
+
+Ans: 
+
+
+SELECT 
+      YEAR(loan_start_date) As year_part
+FROM Loans
+
+
+
+
+
+
+
+
+
 
 Q52. Extract the year from account opening_date.
 
+
+Ans: 
+
+SELECT 
+      YEAR(opening_date) As year_opening_date
+FROM Accounts
+
+
+
+
+
+
+
 Q53. Count loans by loan_start year.
+
+
+Ans: 
+
+
+
+SELECT 
+     YEAR(loan_start_date) As year_loan_date ,
+     COUNT(*) as Loan_count
+FROM Loans
+GROUP BY YEAR(loan_start_date) 
+ORDER BY  YEAR(loan_start_date)
+
+
+
+
+
+
+
+
+
 
 
 ------------------------------------------------------------
@@ -989,6 +1318,17 @@ Q62. Display the month name for every transaction.
 Q63. Display the weekday name for every transaction.
 
 Q64. Count transactions by month name.
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
@@ -1409,143 +1749,3 @@ Q132. Loan Risk Screening
       - Loan Amount
       - Interest Rate
       - Loan Age
-
-
-============================================================
-DIFFICULTY PROGRESSION
-============================================================
-
-LEVEL 1 — BASIC STRING FUNCTIONS
-Q1 - Q25
-
-LEVEL 2 — SUBSTRING + STRING CHALLENGES
-Q26 - Q37
-
-LEVEL 3 — NUMERIC FUNCTIONS
-Q38 - Q47
-
-LEVEL 4 — DATE FUNCTIONS
-Q48 - Q77
-
-LEVEL 5 — FORMAT / CONVERT / CAST
-Q78 - Q94
-
-LEVEL 6 — DATEADD / DATEDIFF / ISDATE
-Q95 - Q108
-
-LEVEL 7 — BFSI ANALYTICS
-Q109 - Q127
-
-LEVEL 8 — DATA ANALYST / INTERVIEW
-Q128 - Q132
-
-
-============================================================
-CONCEPTS COVERED
-============================================================
-
-STRING FUNCTIONS
-CONCAT
-LOWER
-UPPER
-TRIM
-REPLACE
-LEN
-
-SUBSTRING FUNCTIONS
-LEFT
-RIGHT
-SUBSTRING
-
-NUMERIC FUNCTIONS
-ROUND
-ABS
-
-DATE FUNCTIONS
-GETDATE
-YEAR
-MONTH
-DAY
-DATEPART
-DATENAME
-DATETRUNC
-EOMONTH
-DATEADD
-DATEDIFF
-ISDATE
-
-DATA TYPE CONVERSION
-CAST
-CONVERT
-
-FORMATTING
-FORMAT
-Number Format Specifiers
-Date Format Specifiers
-Date Parts
-Culture Formats
-
-
-============================================================
-PRACTICE ORDER
-============================================================
-
-STRING MANIPULATION
-        ↓
-STRING CALCULATION
-        ↓
-SUBSTRING EXTRACTION
-        ↓
-ROUND / ABS
-        ↓
-GETDATE
-        ↓
-YEAR / MONTH / DAY
-        ↓
-DATEPART / DATENAME
-        ↓
-DATETRUNC / EOMONTH
-        ↓
-FORMAT
-        ↓
-CONVERT / CAST
-        ↓
-DATEADD / DATEDIFF
-        ↓
-ISDATE
-        ↓
-COMBINED FUNCTIONS
-        ↓
-BFSI DATA ANALYTICS
-        ↓
-INTERVIEW CHALLENGES
-
-
-============================================================
-IMPORTANT
-============================================================
-
-Q1-Q37:
-Focus on understanding String Functions.
-
-Q38-Q47:
-Focus on Numeric Functions.
-
-Q48-Q77:
-Focus on Date and Time Functions.
-
-Q78-Q94:
-Focus on formatting and data type conversion.
-
-Q95-Q108:
-Focus on date calculations and validation.
-
-Q109-Q127:
-Solve from a Data Analyst perspective.
-
-Q128-Q132:
-Treat these as BFSI interview/case-study questions.
-
-Do not look at solutions while solving.
-First write the logic yourself.
-============================================================
