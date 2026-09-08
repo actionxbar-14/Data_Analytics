@@ -60,7 +60,7 @@ SalesDB
 
 
 SELECT 
-     SUM(Sales ) As Total_Sales
+     SUM(Sales) As Total_Sales
 FROM Sales.Orders
 
 
@@ -88,7 +88,11 @@ GROUP BY ProductID
 
 
 
---> GROUP BY LIMITATION : 
+--> GROUP BY LIMITATION :
+-- It can't do aggregations and provide various details at same time. 
+-- by adding additional information total_sales column are not gives aggregated result!
+
+
 SELECT  
      ProductID,
      OrderID ,
@@ -108,4 +112,97 @@ SELECT
      OrderDate,
      ProductID ,
      SUM(Sales) OVER(PARTITION BY ProductID)  As total_SalesBY_Product
+FROM Sales.Orders
+
+
+
+
+
+
+
+
+-- Find the total sales across all 'orders' additionally provide details such order id & order date 
+
+
+SELECT 
+      OrderID ,
+      OrderDate ,
+      SUM(sales) OVER() As Total_Sales
+FROM Sales.Orders
+
+
+
+
+
+
+
+-- Find the total sales for each 'product' , additionally provide details such order id & order date : 
+
+SELECT 
+     ProductID,
+     OrderID ,
+     OrderDate,
+     SUM(sales) OVER(PARTITION BY ProductID) As Total_Sales
+FROM Sales.Orders
+
+
+
+
+
+ -- Find the total sales across all 'orders' additionally provide details such order id & order date &  
+ -- Find the total sales for each 'product' , additionally provide details such order id & order date : 
+
+
+
+
+ SELECT 
+     ProductID,
+     OrderID ,
+     OrderDate,
+     Sales,
+     SUM(sales) OVER() As Total_Sales,
+     SUM(sales) OVER(PARTITION BY ProductID) As Total_SalesByProducts
+FROM Sales.Orders
+
+
+
+
+
+
+
+-- find the total sales for each combination of 'product' and 'order status' : 
+
+
+
+ SELECT 
+     ProductID,
+     OrderID ,
+     OrderDate,
+     Sales,
+     OrderStatus,
+     SUM(sales) OVER() As Total_Sales,
+     SUM(sales) OVER(PARTITION BY ProductID) As Total_SalesByProducts,
+     SUM(sales) OVER(PARTITION BY ProductID, OrderStatus) As SalesByProductsAndStatus
+FROM Sales.Orders
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- Rank each order based on thir sales from highest to lowest , additionally provide details such order id & order date : 
+
+SELECT 
+      OrderID ,
+      OrderDate, 
+      sales ,
+      RANK() OVER(ORDER BY Sales DESC) AS Ranking_Sales
 FROM Sales.Orders

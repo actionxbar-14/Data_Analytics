@@ -69,7 +69,7 @@ GROUP BY ProductID;
 
 /* ==============================================================================
    SQL WINDOW FUNCTIONS | OVER CLAUSE : 
-    - Tells SQL that function used is a window function , It defines a window or subset of data. 
+   --> Tells SQL that function used is a window function , It defines a window or subset of data. 
 ===============================================================================*/
 
 /* TASK 3: 
@@ -94,8 +94,13 @@ FROM Sales.Orders;
 
 
 /* ==============================================================================
-   SQL WINDOW FUNCTIONS | PARTITION CLAUSE
+   SQL WINDOW FUNCTIONS | PARTITION CLAUSE : 
+   --> Divides the result set into partitions/Groups/ windows.
 ===============================================================================*/
+
+
+
+
 
 /* TASK 4: 
    Find the total sales across all orders and for each product,
@@ -109,6 +114,11 @@ SELECT
     SUM(Sales) OVER () AS Total_Sales,
     SUM(Sales) OVER (PARTITION BY ProductID) AS Sales_By_Product
 FROM Sales.Orders;
+
+
+
+
+
 
 /* TASK 5: 
    Find the total sales across all orders, for each product,
@@ -140,7 +150,12 @@ FROM Sales.Orders;
 
 /* ==============================================================================
    SQL WINDOW FUNCTIONS | ORDER CLAUSE
+   --> Sort the data within the window. 
 ===============================================================================*/
+
+
+
+
 
 /* TASK 6: 
    Rank each order by Sales from highest to lowest */
@@ -164,9 +179,14 @@ FROM Sales.Orders;
 
 
 
+
+
 /* ==============================================================================
    SQL WINDOW FUNCTIONS | FRAME CLAUSE
 ===============================================================================*/
+
+
+
 
 /* TASK 7: 
    Calculate Total Sales by Order Status for current and next two orders 
