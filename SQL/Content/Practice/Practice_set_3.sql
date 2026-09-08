@@ -1281,43 +1281,219 @@ ORDER BY  YEAR(loan_start_date)
 B. MONTH
 ------------------------------------------------------------
 
+
+
+
+
+
 Q54. Extract the month from transaction_date.
 
+Ans: 
+
+SELECT 
+     MONTH(transaction_date)
+FROM Transactions
+
+
+
+
+
+
+
+
+
+
+
 Q55. Count transactions by transaction month.
+
+Ans: 
+
+
+SELECT 
+      --COUNT(transaction_id ) ,
+      COUNT(MONTH(transaction_date) )as transaction_month
+FROM Transactions
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ------------------------------------------------------------
 C. DAY
 ------------------------------------------------------------
 
+
+
+
 Q56. Extract the day from transaction_date.
+
+Ans: 
+
+
+SELECT 
+     DAY(transaction_date) 
+FROM Transactions
+
+
+
+
+
+
+
 
 Q57. Find transactions that occurred on day 15
      of any month.
+
+Ans:
+
+SELECT 
+      transaction_id,
+      transaction_date 
+FROM Transactions
+WHERE DAY(transaction_date) = 15
+
+
+
+
+
+
+
+
 
 
 ------------------------------------------------------------
 D. DATEPART
 ------------------------------------------------------------
 
+
+
+
+
 Q58. Extract the year from transaction_date using DATEPART.
+
+Ans:
+
+SELECT 
+      DATEPART( year , transaction_date ) As year_transaction_date
+FROM Transactions
+
+
+
+
+
+
+
 
 Q59. Extract the month from transaction_date using DATEPART.
 
+Ans:
+
+SELECT 
+      DATEPART(month , transaction_date) as month_transaction_date
+FROM Transactions
+
+
+
+
+
+
+
 Q60. Extract the weekday from transaction_date.
 
+Ans:
+
+
+SELECT 
+     DATEPART(weekday , transaction_date) As weekday_transaction_date
+FROM Transactions
+
+
+
+
+
+
 Q61. Count transactions by weekday.
+
+Ans:
+
+
+SELECT 
+     COUNT(account_id ) as total_transaction,
+     DATEPART(weekday , transaction_date) As weekday_number
+FROM Transactions
+GROUP BY DATEPART(weekday , transaction_date)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ------------------------------------------------------------
 E. DATENAME
 ------------------------------------------------------------
 
+
+
+
+
 Q62. Display the month name for every transaction.
+
+Ans:
+
+SELECT 
+      DATENAME(month ,transaction_date) as month_name,
+      account_id 
+FROM Transactions
+
+
+
 
 Q63. Display the weekday name for every transaction.
 
+Ans:
+
+SELECT 
+      DATENAME(weekday ,transaction_date) as week_name,
+      account_id 
+FROM Transactions
+
+
+
+
+
+
+
 Q64. Count transactions by month name.
+
+Ans:
+
+
+
+SELECT 
+      DATENAME(month ,transaction_date) as month_name,
+     COUNT( account_id ) As total_transaction
+FROM Transactions
+GROUP BY DATENAME(month ,transaction_date)
+
+
 
 
 
@@ -1335,46 +1511,311 @@ Q64. Count transactions by month name.
 SECTION 8 — DATETRUNC
 ============================================================
 
+
+
+
+
+
 Q65. Truncate transaction_date to the year level.
+
+Ans:
+
+
+
+SELECT 
+      DATETRUNC(year , transaction_date ) as Year_trunc
+FROM Transactions
+
+
+
+
+
+
 
 Q66. Truncate transaction_date to the month level.
 
+Ans:
+
+
+
+SELECT 
+      DATETRUNC(year , transaction_date ) as Year_trunc
+FROM Transactions
+
+
+
+
+
+
+
 Q67. Truncate transaction_date to the day level.
+
+Ans:
+
+
+SELECT 
+      DATETRUNC(day , transaction_date ) as day_trunc
+FROM Transactions
+
+
+
+
+
+
+
+
 
 Q68. Group transactions by month using DATETRUNC and
      calculate total transaction amount.
+
+Ans:
+
+SELECT 
+     COUNT(account_id) As Total_transactions,
+     DATETRUNC(month , transaction_date) As month_trunc
+FROM Transactions
+GROUP BY DATETRUNC(month , transaction_date)
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
 SECTION 9 — EOMONTH
 ============================================================
 
+
+
+
+
 Q69. Find the last day of the month for every transaction.
 
+Ans:
+
+SELECT 
+      transaction_id ,
+      EOMONTH(transaction_date )
+FROM Transactions
+
+
+
+
+
+
+
+
+
 Q70. Find the last day of the month for every loan start date.
+
+Ans:
+
+SELECT 
+      loan_id ,
+      EOMONTH(loan_start_date )
+FROM Loans
+
+
+
+
+
+
+
 
 Q71. Display:
 
      - transaction_date
      - month_end_date
 
+Ans:
+
+
+Ans:
+
+SELECT 
+      transaction_id ,
+      EOMONTH(transaction_date )
+FROM Transactions
+
+
+
+
+
+
+
+
 Q72. Find transactions that occurred during the last
      5 days of their respective month.
+
+
+Ans:
+
+
+SELECT *
+FROM transactions
+WHERE transaction_date_time >= DATEADD(
+    DAY, -4, EOMONTH(transaction_date_time)
+)
+AND transaction_date_time < DATEADD(
+    DAY, 1, EOMONTH(transaction_date_time)
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
 SECTION 10 — DATE PARTS / DATE FILTERING
 ============================================================
 
+
+
+
+
 Q73. Find all transactions performed in 2026.
+
+Ans:
+
+
+SELECT 
+      transaction_id,
+      transaction_date
+FROM Transactions
+WHERE YEAR( transaction_date)  = 2026
+
+
+
+
+
+
+
+
+
 
 Q74. Find all transactions performed in March.
 
+Ans:
+
+
+
+SELECT 
+      transaction_id,
+      transaction_date
+FROM Transactions
+WHERE DATENAME(month, transaction_date)  = 'March'
+
+
+
+
+
+
+
+
+
+
 Q75. Find all loans started in 2024.
+
+Ans:
+
+SELECT
+      loan_id ,
+      loan_start_date
+FROM Loans
+WHERE YEAR(loan_start_date) >= 2024
+
+
+
+
+
+
+
+
+
+
+
 
 Q76. Find all accounts opened after 2021.
 
+Ans:
+
+
+SELECT 
+     account_id,
+     opening_date
+FROM Accounts
+WHERE YEAR(opening_date) >= 2021
+
+
+
+
 Q77. Find customers whose accounts were opened in 2023.
+
+Ans: 
+
+
+
+SELECT 
+      customer_id ,
+      opening_date
+FROM Accounts
+WHERE YEAR(opening_date) = 2023
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
