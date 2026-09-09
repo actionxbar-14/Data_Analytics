@@ -214,7 +214,6 @@ FROM Sales.Orders
 
 
 
-
 -- :: FRAME Practice : 
 
 
@@ -304,3 +303,5 @@ SELECT
      RANK() OVER(ORDER BY SUM(Sales) DESC) As RankCustomers
 FROM Sales.Orders 
 GROUP BY CustomerID
+
+
