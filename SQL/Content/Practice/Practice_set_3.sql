@@ -1822,42 +1822,165 @@ WHERE YEAR(opening_date) = 2023
 SECTION 11 — FORMAT
 ============================================================
 
+
+
+
+
+
+
+
+
+
 ------------------------------------------------------------
 A. NUMBER FORMAT
 ------------------------------------------------------------
+
+
+
+
+
+
+
+
 
 Q78. Display account balances with comma-separated
      formatting.
 
      Example:
 
-     125000 → 125,000
+     125000 → 125,000. 
+
+
+Ans:
+
+SELECT 
+      Format(balance , 'N') As New_balance
+FROM Accounts
+
+
+
+
+
+
+
+
 
 
 Q79. Display loan amounts with comma-separated formatting.
 
+Ans:
+
+SELECT 
+      FORMAT(loan_amount , 'N') As New_balance
+FROM Loans
+
+
+
+
+
+
+
+
+
+
 Q80. Display credit limits with comma-separated formatting.
 
+Ans:
+
+SELECT 
+      FORMAT(credit_limit, 'N') As format_credit
+FROM Credit_Cards
+
+
+
+
+
+
+
+
+
+
 Q81. Display loan interest rates with 2 decimal places.
+
+Ans:
+
+
+
+
+SELECT 
+      FORMAT(interest_rate, 'N') As format_interest
+FROM Loans
+
+
+
+
+
+
+
+
+
+
 
 
 ------------------------------------------------------------
 B. DATE FORMAT
 ------------------------------------------------------------
 
+
+
+
 Q82. Display transaction_date in:
 
      DD-MM-YYYY
+
+Ans: 
+
+SELECT 
+      FORMAT(transaction_date , 'dd-MM-yyyy') as new_formatted_date
+FROM Transactions
+
+
+
+
+
+
+
+
 
 
 Q83. Display loan_start_date in:
 
      DD/MM/YYYY
 
+Ans:
+
+SELECT 
+      FORMAT(loan_start_date , 'dd-MM-yyyy') as new_formatted_date
+FROM Loans
+
+
+
+
+
+
+
+
+
 
 Q84. Display account opening_date in:
 
      MMM YYYY
+
+Ans:
+
+
+SELECT 
+     FORMAT(opening_date , 'MMM yyyy')  as new_formatted_date
+FROM Accounts
+
+
+
+
 
 
 Q85. Display transaction_date as:
@@ -1865,81 +1988,483 @@ Q85. Display transaction_date as:
      Month Name + Year
 
 
+Ans:
+
+
+
+SELECT 
+     FORMAT(transaction_date , 'MMM yyyy') as new_formatted_date
+FROM Transactions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ============================================================
 SECTION 12 — CONVERT
 ============================================================
 
+
+
+
+
+
 Q86. Convert transaction_date into VARCHAR.
+
+Ans:
+
+SELECT 
+      CONVERT(VARCHAR , transaction_date ,  34) as new_transaction
+FROM Transactions
+
+
+
+
+
+
+
+
 
 Q87. Convert loan_start_date into VARCHAR using
      an appropriate style.
 
+Ans:
+
+
+SELECT 
+      CONVERT(VARCHAR , loan_start_date ,  34) as new_loan_date
+FROM Loans
+
+
+
+
+
+
 Q88. Convert account balance into VARCHAR.
+
+Ans:
+
+SELECT 
+      CONVERT(VARCHAR , balance ,  34) as new_balance
+FROM Accounts
+
+
+
+
+
+
 
 Q89. Convert annual_income into VARCHAR with a suitable
      conversion style.
+
+Ans:
+
+
+
+SELECT 
+      CONVERT(VARCHAR , annual_income ,  34) as new_income
+FROM Customers
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
 SECTION 13 — CAST
 ============================================================
 
+
+
+
+
 Q90. CAST annual_income into DECIMAL.
+
+Ans:
+
+SELECT 
+     CAST(annual_income As DECIMAL)
+FROM Customers
+
+
+
+
+
+
+
+
+
+
+
 
 Q91. CAST loan_amount into DECIMAL(12,2).
 
+Ans:
+
+SELECT 
+     CAST(loan_amount As DECIMAL(12,2))
+FROM Loans
+
+
+
+
+
+
+
+
+
+
+
 Q92. CAST interest_rate into DECIMAL(5,2).
+
+Ans:
+
+
+SELECT 
+     CAST(interest_rate As DECIMAL(5,2))
+FROM Loans
+
+
+
+
+
+
+
+
+
+
 
 Q93. CAST customer_id into VARCHAR.
 
+Ans:
+
+
+SELECT 
+     CAST(customer_id AS VARCHAR)
+FROM Customers
+
+
+
+
 Q94. CAST transaction amount into DECIMAL(12,2).
+
+
+Ans:
+
+
+SELECT 
+      CAST(amount As DECIMAL(12 , 2))
+FROM Transactions
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
 SECTION 14 — DATEADD
 ============================================================
 
+
+
+
 Q95. Find the date 30 days after every transaction.
+
+Ans:
+
+
+SELECT 
+      transaction_date,
+      DATEADD(day, 30 , transaction_date) As new_date
+FROM Transactions
+
+
+
+
+
 
 Q96. Find the date 90 days after every transaction.
 
+Ans:
+
+
+SELECT 
+      transaction_date,
+      DATEADD(day, 90 , transaction_date) As new_date
+FROM Transactions
+
+
+
+
+ 
+
+
+
 Q97. Find the date 1 year after every loan start date.
 
+Ans:
+
+SELECT 
+      loan_start_date,
+      DATEADD(year, 1 , loan_start_date) As new_loan_date
+FROM Loans
+
+
+
+
+
+
+
 Q98. Find the date 6 months after every account opening date.
+
+Ans:
+
+
+SELECT 
+      opening_date,
+      DATEADD(month, 6, opening_date) as new_account
+FROM Accounts
+
+
+
+
+
+
+
+
 
 Q99. Calculate the expected review date for each loan
      by adding 1 year to loan_start_date.
 
 
+Ans:
+
+SELECT 
+      loan_start_date,
+      DATEADD(year, 1 , loan_start_date) As new_review_date
+FROM Loans
+
+
+
+
+
+
+
 ============================================================
 SECTION 15 — DATEDIFF
+
 ============================================================
+
+
 
 Q100. Calculate the number of days since each transaction.
 
+Ans:
+
+SELECT 
+      transaction_date,
+      DATEDIFF(day , transaction_date , GETDATE()) as No_of_days
+FROM Transactions
+
+
+
+
+
+
+
+
+
 Q101. Calculate the number of days since each loan started.
+
+Ans:
+
+SELECT 
+      loan_start_date,
+      DATEDIFF(day , loan_start_date , GETDATE()) as no_loans
+FROM Loans
+
+
+
+
+
+
+
+
 
 Q102. Calculate the age of each account in months.
 
+Ans:
+
+SELECT 
+     opening_date ,
+     DATEDIFF(month , opening_date , GETDATE()) As account_age
+FROM Accounts
+
+
+
+
+
+
+
+
+
+
 Q103. Calculate the age of each loan in months.
 
+Ans:
+
+SELECT 
+     loan_start_date ,
+     DATEDIFF(month , loan_start_date , GETDATE()) As loan_age
+FROM Loans
+
+
+
+
+
+
+
+
+
 Q104. Find loans that have been active for more than
+
       24 months.
+
+Ans:
+
+
+SELECT 
+     loan_start_date ,
+     DATEDIFF(month , loan_start_date , GETDATE()) As loan_age
+FROM Loans
+WHERE  DATEDIFF(month , loan_start_date , GETDATE()) > 24
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
 SECTION 16 — ISDATE
 ============================================================
 
+
+
+
+
+
+
 Q105. Check whether transaction_date contains valid dates.
+
+Ans:
+
+SELECT 
+    transaction_id,
+    transaction_date,
+    CASE
+        WHEN ISDATE(transaction_date) = 1 THEN 'Valid Date'
+        ELSE 'Invalid Date'
+    END AS date_status
+FROM transactions;
+
+
+
+
+
+
+
+
+
+
 
 Q106. Check whether loan_start_date contains valid dates.
 
-Q107. Create a test result using ISDATE for a VARCHAR
-      date column.
+Ans: 
 
-Q108. Identify invalid date values from a hypothetical
-      imported banking dataset.
+
+
+SELECT 
+    --loan_start_date,
+    ISDATE(loan_start_date) As Valid_date
+FROM Loans
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
@@ -1982,6 +2507,26 @@ Q114. Transaction Recency
       for each account.
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ============================================================
 SECTION 18 — COMBINED STRING + NUMERIC FUNCTIONS
 ============================================================
@@ -2013,6 +2558,26 @@ Q117. Create a formatted Customer_Code using:
       Last 4 digits of customer_id
 
       Convert it to uppercase.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
@@ -2048,6 +2613,22 @@ Q122. Calculate the absolute difference between:
       Account Balance
       and
       Credit Card Outstanding Amount.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
@@ -2116,6 +2697,25 @@ Q127. Loan Maturity Analysis
 
       Expected End Date should be calculated using
       DATEADD.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
