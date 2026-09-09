@@ -206,3 +206,101 @@ SELECT
       sales ,
       RANK() OVER(ORDER BY Sales DESC) AS Ranking_Sales
 FROM Sales.Orders
+
+
+
+
+
+
+
+
+
+-- :: FRAME Practice : 
+
+
+
+
+SELECT  
+      OrderID ,
+      OrderDate ,
+      OrderStatus ,
+      Sales ,
+      SUM(Sales) OVER(PARTITION BY OrderStatus ORDER BY OrderDate ROWS BETWEEN CURRENT ROW AND 2 FOLLOWING) As TotalSales
+FROM Sales.Orders
+
+
+
+
+
+-- :: Compact Frame : 
+
+--> For only PRECEDING , the CURRENT ROW can be skipped. 
+ 
+
+--> Ex :  ( Normal form ) 
+-- ROWS BETWEEN CURRENT ROW AND 2 FOLLOWING 
+
+--> Ex :  ( Short form ) 
+--  ROWS 2 FOLLOWING
+
+
+
+
+SELECT  
+      OrderID ,
+      OrderDate ,
+      OrderStatus ,
+      Sales ,
+      SUM(Sales) OVER(PARTITION BY OrderStatus ORDER BY OrderDate 
+      ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) As TotalSales
+FROM Sales.Orders
+
+
+-- short form : 
+
+
+SELECT  
+      OrderID ,
+      OrderDate ,
+      OrderStatus ,
+      Sales ,
+      SUM(Sales) OVER(PARTITION BY OrderStatus ORDER BY OrderDate 
+      ROWS 2 PRECEDING) As TotalSales
+FROM Sales.Orders
+
+
+
+
+
+
+
+
+-- :: DEFAULT FRAME : ( ORDER BY always uses a FRAME )
+
+
+-- > default frame :-  " ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW " 
+
+
+SELECT  
+      OrderID ,
+      OrderDate ,
+      OrderStatus ,
+      Sales ,
+      SUM(Sales) OVER(PARTITION BY OrderStatus ORDER BY OrderDate 
+      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) As TotalSales
+FROM Sales.Orders
+
+
+
+
+
+
+
+-- Rank Customers based on their total sales :  
+
+SELECT 
+     CustomerID ,
+     SUM(Sales) As TotalSales,
+     RANK() OVER(ORDER BY SUM(Sales) DESC) As RankCustomers
+FROM Sales.Orders 
+GROUP BY CustomerID
