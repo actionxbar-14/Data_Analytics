@@ -56,26 +56,6 @@ FROM Sales.Orders;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* ==============================================================================
    DATE PART EXTRACTIONS
    (DATETRUNC, DATENAME, DATEPART, YEAR, MONTH, DAY)
