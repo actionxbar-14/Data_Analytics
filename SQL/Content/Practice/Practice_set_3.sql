@@ -2471,6 +2471,11 @@ FROM Loans
 SECTION 17 — DATE + BFSI ANALYTICS
 ============================================================
 
+
+
+
+
+
 Q109. Monthly Transaction Analysis
 
       Calculate total transaction amount for each month.
@@ -2479,6 +2484,27 @@ Q109. Monthly Transaction Analysis
       - Transaction Month
       - Total Amount
 
+Ans:
+
+
+SELECT 
+     DATENAME(month , transaction_date) As Transaction_Month,
+     SUM(amount) As Total_Transaction_amount
+FROM Transactions
+GROUP BY DATENAME(month , transaction_date)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Q110. Monthly Transaction Count
 
@@ -2486,9 +2512,49 @@ Q110. Monthly Transaction Count
       in each month.
 
 
+Ans:
+
+
+SELECT 
+      COUNT(transaction_id) As Total_Transactions ,
+      DATENAME(month , transaction_date) As Transaction_month
+FROM Transactions
+GROUP BY DATENAME(month , transaction_date)
+
+
+
+
+
+
+
+
+
+
+
+
+
 Q111. Loan Origination Analysis
 
       Calculate the number of loans originated in each year.
+
+
+Ans:
+
+
+
+SELECT 
+      COUNT(loan_id) As total_loans,
+      YEAR(loan_start_date) as Tenure_Year
+FROM Loans
+GROUP BY YEAR(loan_start_date)
+
+
+
+
+
+
+
+
 
 
 Q112. Loan Amount by Year
@@ -2496,9 +2562,48 @@ Q112. Loan Amount by Year
       Calculate total loan amount originated in each year.
 
 
+Ans:
+
+SELECT 
+     YEAR(loan_start_date) As Loan_Tenure,
+     SUM(loan_amount) As Total_Loan_Amount 
+FROM Loans 
+GROUP BY YEAR(loan_start_date)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Q113. Account Opening Trend
 
       Calculate the number of accounts opened in each year.
+
+Ans:
+
+
+SELECT 
+      YEAR(opening_date) As Tenure_Year,
+      COUNT(account_id) As Total_Accounts_Opened
+FROM Accounts
+GROUP BY  YEAR(opening_date)
+
+
+
+
+
+
+
+
 
 
 Q114. Transaction Recency
@@ -2507,7 +2612,13 @@ Q114. Transaction Recency
       for each account.
 
 
+Ans:
 
+
+SELECT 
+     account_id,
+     DATEDIFF(day , transaction_date, GETDATE()) As No_of_Days
+FROM Transactions
 
 
 
@@ -2531,6 +2642,11 @@ Q114. Transaction Recency
 SECTION 18 — COMBINED STRING + NUMERIC FUNCTIONS
 ============================================================
 
+
+
+
+
+
 Q115. Create a Customer_Profile column:
 
       CUSTOMER_NAME - CITY - CUSTOMER_SEGMENT
@@ -2541,6 +2657,24 @@ Q115. Create a Customer_Profile column:
       - Convert customer name to uppercase
       - Convert city to uppercase
 
+Ans:
+
+
+
+SELECT 
+     CONCAT(UPPER(customer_name) ,
+     UPPER(city),
+     UPPER(customer_segment) , ' ' ) As Customer_Profile
+FROM Customers
+
+
+
+
+
+
+
+
+
 
 Q116. Create a Loan_Code using:
 
@@ -2549,6 +2683,26 @@ Q116. Create a Loan_Code using:
       Last 4 digits of loan_id
 
       Convert the final result to uppercase.
+
+Ans:
+
+
+SELECT 
+     UPPER(CONCAT( LEFT(loan_type , 3),
+     RIGHT(loan_id ,  4))) As Loan_Code 
+FROM Loans
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Q117. Create a formatted Customer_Code using:
@@ -2560,6 +2714,15 @@ Q117. Create a formatted Customer_Code using:
       Convert it to uppercase.
 
 
+Ans:
+
+
+
+
+SELECT 
+     UPPER(CONCAT(LEFT(customer_name , 3) ,
+     RIGHT(customer_id , 4))) As formatted_Customer_Code 
+FROM Customers
 
 
 
@@ -2584,11 +2747,43 @@ Q117. Create a formatted Customer_Code using:
 SECTION 19 — COMBINED DATE + NUMERIC FUNCTIONS
 ============================================================
 
+
+
+
+
+
+
+
 Q118. Calculate estimated annual interest for every loan:
 
       loan_amount × interest_rate / 100
 
       Round to 2 decimal places.
+
+
+Ans:
+
+
+
+SELECT 
+      loan_type,
+      SUM(ROUND(loan_amount * interest_rate/100 , 2)) As estimated_annual_interest
+FROM Loans
+GROUP BY loan_type
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Q119. Calculate the difference between:
@@ -2600,12 +2795,62 @@ Q119. Calculate the difference between:
       Return the absolute difference.
 
 
+Ans:
+
+
+SELECT 
+     loan_amount,
+     ABS(( loan_amount - 2000000 )) As loan_diff
+FROM Loans
+
+
+
+
+
+
+
+
+
+
+
 Q120. Calculate the number of months since each loan
       started and display loans older than 24 months.
+
+Ans:
+
+
+SELECT 
+     DATEDIFF(month , loan_start_date , GETDATE()) As No_of_Months
+FROM Loans
+WHERE DATEDIFF(month , loan_start_date , GETDATE()) > 24
+
+
+
+
+
+
+
+
+
+
 
 
 Q121. Calculate transaction amount rounded to the nearest
       1000.
+
+Ans:
+
+
+SELECT 
+     ROUND(amount , 100)
+FROM Transactions
+
+
+
+
+
+
+
 
 
 Q122. Calculate the absolute difference between:
@@ -2616,6 +2861,20 @@ Q122. Calculate the absolute difference between:
 
 
 
+Ans: 
+
+
+
+
+SELECT 
+      a.balance,
+      cc.outstanding_amount,
+      ABS(a.balance - cc.outstanding_amount) As abs_diff
+FROM Accounts As a
+INNER JOIN
+Credit_Cards As cc 
+ON 
+a.customer_id = cc.customer_id
 
 
 
@@ -2624,79 +2883,6 @@ Q122. Calculate the absolute difference between:
 
 
 
-
-
-
-
-
-
-
-============================================================
-SECTION 20 — BFSI DATA ANALYST CASE STUDIES
-============================================================
-
-Q123. Customer Profile Standardization
-
-      Create a standardized output containing:
-
-      - Customer Name in uppercase
-      - City in uppercase
-      - State in uppercase
-      - Customer Segment
-      - Customer Code
-
-      Customer Code:
-
-      First 3 characters of customer name
-      +
-      Last 4 digits of customer_id
-
-
-Q124. Loan Portfolio Analysis
-
-      For every loan display:
-
-      - Loan Type
-      - Loan Amount
-      - Interest Rate
-      - Annual Interest
-      - Loan Start Date
-      - Loan Age in Months
-
-      Round financial calculations to 2 decimals.
-
-
-Q125. Transaction Trend Analysis
-
-      Calculate for each month:
-
-      - Transaction Count
-      - Total Transaction Amount
-      - Average Transaction Amount
-
-      Round average transaction amount to 2 decimals.
-
-
-Q126. Customer Financial Distance
-
-      For every customer calculate:
-
-      ABS(Account Balance - 300000)
-
-      Display customers from smallest difference
-      to largest difference.
-
-
-Q127. Loan Maturity Analysis
-
-      For every loan calculate:
-
-      - Loan Start Date
-      - Tenure in Months
-      - Expected End Date
-
-      Expected End Date should be calculated using
-      DATEADD.
 
 
 
@@ -2719,8 +2905,14 @@ Q127. Loan Maturity Analysis
 
 
 ============================================================
-SECTION 21 — HIGH-LEVEL CHALLENGES
+SECTION 20 — HIGH-LEVEL CHALLENGES
 ============================================================
+
+
+
+
+
+
 
 Q128. Monthly BFSI Transaction Dashboard
 
@@ -2735,6 +2927,35 @@ Q128. Monthly BFSI Transaction Dashboard
 
       Format the financial values appropriately.
 
+Ans:
+
+
+
+
+SELECT 
+     DATENAME(month , transaction_date) As Transaction_Month,
+     COUNT(account_id) As Transaction_Count,
+     SUM(amount) As Total_Transaction_amount,
+     AVG(amount) As AVG_Transaction_amount,
+     MAX(amount) As MAX_Transaction_amount,
+     MIN(amount) As MIN_Transaction_amount
+FROM Transactions
+GROUP BY DATENAME(month , transaction_date)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Q129. Loan Portfolio Dashboard
 
@@ -2745,9 +2966,33 @@ Q129. Loan Portfolio Dashboard
       - Total Loan Amount
       - Average Loan Amount
       - Average Interest Rate
-      - Total Estimated Annual Interest
 
       Round financial values appropriately.
+
+
+Ans:
+
+
+
+SELECT 
+      loan_type,
+      COUNT(loan_id) As No_of_loans,
+      SUM(loan_amount) As Total_Loan_amount,
+      AVG(loan_amount) As AVG_Loan_amount,
+      AVG(interest_rate) As AVG_interest_rate
+FROM Loans
+GROUP BY loan_type
+
+
+
+
+
+
+
+
+
+
+
 
 
 Q130. Customer Account Age Analysis
@@ -2762,6 +3007,36 @@ Q130. Customer Account Age Analysis
       Sort from oldest account to newest account.
 
 
+Ans:
+
+SELECT * FROM Customers 
+SELECT * FROM Accounts
+
+
+
+
+
+SELECT 
+      c.customer_name,
+      DAY(a.opening_date) As Account_Opening_date ,
+      DATEDIFF(MONTH , a.opening_date , GETDATE()) As Account_age_Months,
+      DATEDIFF(YEAR  , a.opening_date , GETDATE()) As Account_age_Years
+FROM Customers As c 
+LEFT JOIN 
+Accounts As a 
+ON 
+c.customer_id = a.customer_id
+ORDER BY DATEDIFF(YEAR  , a.opening_date , GETDATE()) DESC
+
+
+
+
+
+
+
+
+
+
 Q131. Banking Customer Identifier
 
       Create a unique-looking customer identifier using:
@@ -2773,6 +3048,32 @@ Q131. Banking Customer Identifier
       Last 4 digits of customer_id
 
       Convert the final identifier to uppercase.
+
+
+
+Ans:
+
+
+
+SELECT 
+      UPPER(CONCAT( LEFT(customer_name , 3) ,
+      LEFT(city , 2) ,
+      RIGHT(customer_id , 4))) As Customer_identifier 
+FROM Customers
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Q132. Loan Risk Screening
@@ -2790,3 +3091,19 @@ Q132. Loan Risk Screening
       - Loan Amount
       - Interest Rate
       - Loan Age
+
+
+
+Ans: 
+
+SELECT 
+      c.customer_id ,
+      l.interest_rate ,
+      l.loan_amount ,
+      l.interest_rate,
+      DATEDIFF(month , l.loan_start_date , GETDATE()) As loan_age
+FROM Customers As c 
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id
