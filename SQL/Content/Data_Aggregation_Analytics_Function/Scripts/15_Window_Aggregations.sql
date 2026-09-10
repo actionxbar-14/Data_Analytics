@@ -1,6 +1,14 @@
+
+
+
+
+
+
 /* ==============================================================================
    SQL Window Aggregate Functions
 -------------------------------------------------------------------------------
+
+
    These functions allow you to perform aggregate calculations over a set 
    of rows without the need for complex subqueries. They enable you to compute 
    counts, sums, averages, minimums, and maximums while still retaining access 
@@ -15,9 +23,27 @@
 ===============================================================================
 */
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ============================================================
-   SQL WINDOW AGGREGATION | COUNT
+   SQL WINDOW AGGREGATION | COUNT : 
+   --> Returns the number of rows within a window.
    ============================================================ */
+
+
+
+
 
 /* TASK 1:
    Find the Total Number of Orders and the Total Number of Orders for Each Customer
@@ -29,6 +55,10 @@ SELECT
     COUNT(*) OVER() AS TotalOrders,
     COUNT(*) OVER(PARTITION BY CustomerID) AS OrdersByCustomers
 FROM Sales.Orders
+
+
+
+
 
 /* TASK 2:
    - Find the Total Number of Customers
@@ -43,6 +73,12 @@ SELECT
     COUNT(Country) OVER() AS TotalCountries
 FROM Sales.Customers
 
+
+
+
+
+
+
 /* TASK 3:
    Check whether the table 'OrdersArchive' contains any duplicate rows
 */
@@ -56,9 +92,44 @@ FROM (
 ) t
 WHERE CheckDuplicates > 1
 
+
+
+
+
+
+
+
+-- NOTE :  
+
+1. COUNT(*) : includes all the null values inside the given column. 
+
+
+2. COUNT(column) :  ignores the null values present in teh column. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ============================================================
    SQL WINDOW AGGREGATION | SUM
+   --> Returns the sum of values within a window.
    ============================================================ */
+
+
+
+
+
+
+
 
 /* TASK 4:
    - Find the Total Sales Across All Orders 
@@ -73,6 +144,14 @@ SELECT
     SUM(Sales) OVER (PARTITION BY ProductID) AS SalesByProduct
 FROM Sales.Orders
 
+
+
+
+
+
+
+
+
 /* TASK 5:
    Find the Percentage Contribution of Each Product's Sales to the Total Sales
 */
@@ -84,9 +163,32 @@ SELECT
     ROUND(CAST(Sales AS FLOAT) / SUM(Sales) OVER () * 100, 2) AS PercentageOfTotal
 FROM Sales.Orders
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ============================================================
-   SQL WINDOW AGGREGATION | AVG
+   SQL WINDOW AGGREGATION | AVG : 
+   --> Returns the average of values within a window.
    ============================================================ */
+
+
+
+
+
+
+
 
 /* TASK 6:
    - Find the Average Sales Across All Orders 
@@ -101,6 +203,15 @@ SELECT
     AVG(Sales) OVER (PARTITION BY ProductID) AS AvgSalesByProduct
 FROM Sales.Orders
 
+
+
+
+
+
+
+
+
+
 /* TASK 7:
    Find the Average Scores of Customers
 */
@@ -112,6 +223,12 @@ SELECT
     AVG(Score) OVER () AS AvgScore,
     AVG(COALESCE(Score, 0)) OVER () AS AvgScoreWithoutNull
 FROM Sales.Customers
+
+
+
+
+
+
 
 /* TASK 8:
    Find all orders where Sales exceed the average Sales across all orders
@@ -128,9 +245,26 @@ FROM (
 ) t 
 WHERE Sales > Avg_Sales
 
+
+
+
+
+NOTE : window function cant we used in the WHERE clause .
+
+
+
+
+
+
 /* ============================================================
    SQL WINDOW AGGREGATION | MAX / MIN
    ============================================================ */
+
+
+
+
+
+
 
 /* TASK 9:
    Find the Highest and Lowest Sales across all orders
@@ -139,6 +273,14 @@ SELECT
     MIN(Sales) AS MinSales, 
     MAX(Sales) AS MaxSales 
 FROM Sales.Orders
+
+
+
+
+
+
+
+
 
 /* TASK 10:
    Find the Lowest Sales across all orders and by Product
@@ -152,6 +294,13 @@ SELECT
     MIN(Sales) OVER (PARTITION BY ProductID) AS LowestSalesByProduct
 FROM Sales.Orders
 
+
+
+
+
+
+
+
 /* TASK 11:
    Show the employees who have the highest salaries
 */
@@ -162,6 +311,13 @@ FROM (
 	FROM Sales.Employees
 ) t
 WHERE Salary = HighestSalary
+
+
+
+
+
+
+
 
 /* TASK 12:
    Find the deviation of each Sale from the minimum and maximum Sales
@@ -177,9 +333,30 @@ SELECT
     MAX(Sales) OVER () - Sales AS DeviationFromMax
 FROM Sales.Orders
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ============================================================
    Use Case | ROLLING SUM & AVERAGE
    ============================================================ */
+
+
 
 /* TASK 13:
    Calculate the moving average of Sales for each Product over time
@@ -192,6 +369,13 @@ SELECT
     AVG(Sales) OVER (PARTITION BY ProductID) AS AvgByProduct,
     AVG(Sales) OVER (PARTITION BY ProductID ORDER BY OrderDate) AS MovingAvg
 FROM Sales.Orders
+
+
+
+
+
+
+
 
 /* TASK 14:
    Calculate the moving average of Sales for each Product over time,
