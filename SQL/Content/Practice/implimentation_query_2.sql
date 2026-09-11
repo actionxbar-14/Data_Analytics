@@ -485,3 +485,146 @@ SELECT
      AVG(Sales) OVER() As AVG_Sales
 FROM Sales.Orders 
 )t WHERE Sales > AVG_Sales
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+
+-- :: MAX And MIN Aggregation Window Function :  
+
+
+-- Find the highest & lowest sales across all orders and the highest & lowest sales for each product. Additionally , provide details such as orderID
+-- and orderDate : 
+
+
+
+
+SELECT 
+      OrderID,
+      OrderDate,
+      ProductID ,
+      Sales,
+      MAX(Sales) OVER() As Max_Sale_Orders,
+      MIN(Sales) OVER() As Min_Sale_Orders,
+      MAX(Sales) OVER(PARTITION BY ProductID) As Max_Sale_Product,
+      MIN(Sales) OVER(PARTITION BY ProductID) As Min_Sale_Product
+FROM Sales.Orders
+
+
+
+
+
+
+
+
+
+
+
+
+-- Show the employees with the highest salaries : 
+
+
+SELECT 
+*
+FROM (
+SELECT 
+     *, 
+     MAX(Salary) OVER() As HighestSalary
+FROM Sales.Employees
+)t WHERE Salary = HighestSalary
+
+
+
+
+
+
+
+-- Calculate the deviation of each sale from both the minimun and maximum sales amounts. 
+
+
+SELECT 
+      OrderID,
+      OrderDate,
+      ProductID ,
+      Sales,
+      MAX(Sales) OVER() As Max_Sale_Orders,
+      MIN(Sales) OVER() As Min_Sale_Orders,
+      Sales - MIN(Sales) OVER() As DeviationFromMin,
+      MAX(Sales) OVER() - Sales  As DeviationFromMax
+FROM Sales.Orders
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+--> :: Analytical USE CASE  - ( Analysis over time ) : 
+-- They aggregate sequence of members , and the aggregation is updated each time a new member is added. 
+
+
+
+-- 1. Running Total  : 
+
+-- Aggreagate  all values from the beginning up to the current point without dropping off older data. 
+
+
+
+-- 2. Rolling Total  : 
+
+-- Aggregate all values within a fixed time window ( e.g 30 days). As new data is added , the oldest data point will be dropped. 
+
+
+
+
+
+
+
+
+
+-- Ques : Calculate moving/Running average of sales for each product over time :
+
+
+SELECT 
+     OrderID ,
+     OrderDate,
+     ProductID ,
+     Sales,
+     AVG(Sales) OVER(PARTITION BY ProductID) As AVGBYProduct ,
+     AVG(Sales) OVER(PARTITION BY ProductID ORDER BY OrderDate) As Moving_Avg
+FROM Sales.Orders
+
+
+
+
+
+
+-- Calculate the moving average of sales for each product over time , including only the next order. [Rolling avg]
+
+
+
+
+SELECT 
+     OrderID ,
+     OrderDate,
+     ProductID ,
+     Sales,
+     AVG(Sales) OVER(PARTITION BY ProductID) As AVGBYProduct ,
+     AVG(Sales) OVER(PARTITION BY ProductID ORDER BY OrderDate) As Moving_Avg,
+     AVG(Sales) OVER(PARTITION BY ProductID ORDER BY OrderDate ROWS BETWEEN CURRENT ROW AND 1 FOLLOWING) As Rolling_Avg
+FROM Sales.Orders
+
+
+
