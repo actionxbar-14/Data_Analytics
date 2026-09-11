@@ -8,7 +8,9 @@ SQL PRACTICE SET – NULL HANDLING & LEFT ANTI JOIN
 ============================================================
 
 Database:
-BFSI_Analytics
+
+USE
+BFSI_NULL
 
 Tables:
 1. Branches
@@ -17,6 +19,12 @@ Tables:
 4. Transactions
 5. Loans
 6. Credit_Cards
+
+
+
+
+
+
 
 
 ============================================================
@@ -35,87 +43,597 @@ Topics:
 - COALESCE()
 
 
+
+
+
 -------------------------
 BASIC
 -------------------------
 
+
+
+
 Q1. Count the total number of customers.
+
+Ans:
+
+SELECT 
+      COUNT(*) As Total_customer
+FROM Customers
+
+
+
+
+
+
+
 
 Q2. Count the number of customers whose annual_income is available
     (not NULL).
 
+Ans:
+
+SELECT 
+     COUNT(*)  As Total_customers
+FROM Customers
+WHERE annual_income IS NOT NULL
+
+
+
+
+
+
+
+
+
 Q3. Count the number of customers whose occupation is NULL.
+
+Ans:
+
+SELECT 
+    COUNT(*) As No_of_Customers
+FROM Customers
+WHERE occupation IS NULL
+
+
+
+
+
+
+
 
 Q4. Calculate the total annual income of all customers.
 
+Ans:
+
+
+SELECT 
+      SUM(annual_income) As total_annual_income
+FROM Customers
+
+
+
+
+
+
+
+
+
 Q5. Calculate the average annual income of customers.
+
+Ans:
+
+SELECT 
+     AVG(COALESCE(annual_income , 0)) As avg_annual_income
+FROM Customers
+
+
+
+
+
+
+
+
+
 
 Q6. Find the minimum and maximum annual income.
 
+Ans:
+
+
+SELECT 
+      MIN(annual_income) As min_annnual_income,
+      MAX(annual_income) As max_annnual_income
+FROM Customers
+
+
+
+
+
+
+
+
+
 Q7. Count the number of accounts whose balance is available.
+
+Ans:
+
+SELECT 
+      COUNT(*) As Total_Accounts
+FROM Accounts
+WHERE balance IS NOT NULL
+
+
+
+
+
+
+
+
 
 Q8. Calculate the total balance of all accounts.
 
+Ans:
+
+
+SELECT 
+      SUM(balance) As Total_Balance 
+FROM Accounts
+
+
+
+
+
+
+
+
+
 Q9. Calculate the average account balance.
 
+Ans:
+
+
+SELECT 
+     AVG(COALESCE(balance, 0)) As Avg_balance 
+FROM Accounts
+
+
+
+
+
+
 Q10. Count the number of loans where interest_rate is available.
+
+Ans:
+
+
+SELECT 
+    COUNT(*) As interest_rate
+FROM Loans
+WHERE interest_rate IS NULL
+
+
+
+
+
+
+
 
 
 -------------------------
 MEDIUM
 -------------------------
 
+
+
+
+
+
+
 Q11. Compare COUNT(*) and COUNT(occupation) for Customers.
+
+Ans:
+
+SELECT 
+     COUNT(*) as count_star,
+     COUNT(occupation) as count_occupation 
+FROM Customers
+
+
+
+
+
+
+
+
+
 
 Q12. Find the number of customers in each state,
      considering only customers whose annual_income is NOT NULL.
 
+Ans:
+
+SELECT 
+      state , 
+      COUNT(customer_id) As Total_Customers
+FROM Customers
+WHERE annual_income IS NOT NULL
+GROUP BY state
+
+
+
+
+
+
+
+
+
+
 Q13. Calculate the average annual_income for each customer_segment.
+
+Ans:
+
+SELECT 
+      customer_segment ,
+      AVG(COALESCE(annual_income ,0)) As avg_annual_income
+FROM Customers
+GROUP BY customer_segment
+
+
+
+
+
+
+
 
 Q14. Calculate the average loan_amount for each loan_type.
 
+Ans:
+
+
+SELECT 
+     loan_type,
+     AVG(COALESCE(loan_amount,0)) As avg_loan_amount
+FROM Loans
+GROUP BY loan_type
+
+
+
+
+
+
+
+
+
+
 Q15. Calculate the total outstanding_amount for each card_type.
 
+Ans:
+
+SELECT 
+      card_type ,
+      SUM(outstanding_amount) As total_outstanding_amount 
+FROM Credit_Cards
+GROUP BY card_type
+
+
+
+
+
+
+
+
 Q16. Find the average outstanding_amount for each card_type.
+
+Ans:
+
+
+SELECT 
+      card_type ,
+      AVG(COALESCE(outstanding_amount,0)) As AVG_outstanding_amount 
+FROM Credit_Cards
+GROUP BY card_type
+
+
+
+
+
+
+
+
+
+
 
 Q17. Count customers by occupation, including customers
      where occupation is NULL.
 
+Ans:
+
+SELECT 
+     COUNT(*) As customer_occupation
+FROM Customers
+
+
+
+
+
+
+
+
+
+
 Q18. Display the average annual_income by state and understand
      how NULL values affect the result.
 
+Ans:
+
+
+SELECT 
+      AVG(annual_income) As Avg, 
+      AVG(COALESCE(annual_income , 0)) As avg_annual_income,
+      state
+FROM Customers
+GROUP BY state
+
+
+
+
+
+
+
+
+
+
+
 Q19. Find the total transaction amount for each transaction_type.
 
+Ans:
+
+
+SELECT 
+      transaction_type,
+      SUM(amount) As total_transaction_amount
+FROM Transactions
+GROUP by transaction_type
+
+
+
+
+
+
+
+
+
+
 Q20. Calculate the average transaction amount for each channel.
+
+
+Ans:
+
+
+
+SELECT 
+      channel,
+      AVG(COALESCE(amount , 0)) As transaction_amount
+FROM Transactions
+GROUP BY channel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 -------------------------
 ADVANCED
 -------------------------
 
+
+
+
+
+
+
+
+
 Q21. Display customer_segment and average annual income.
      Replace NULL average income with 0.
+
+Ans:
+
+
+SELECT 
+      customer_segment,
+      AVG(COALESCE(annual_income,0)) As Avg_annual_income
+FROM Customers
+GROUP BY customer_segment
+
+
+
+
+
+
+
+
 
 Q22. Calculate the average loan_amount by loan_status.
      Handle NULL loan_amount values properly.
 
+Ans:
+
+SELECT 
+     loan_status,
+     AVG(COALESCE(loan_amount , 0)) As Avg_loan_amount
+FROM Loans
+GROUP BY loan_status
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Q23. Calculate the total outstanding amount for each customer.
      Customers without a credit card should also appear.
+
+Ans:
+
+
+
+SELECT 
+     customer_id,
+     outstanding_amount,
+     SUM(outstanding_amount) OVER() As Total_outstanding_amount
+FROM Credit_Cards
+
+
+
+
+
+
+
+
 
 Q24. Count the number of credit cards per customer.
      Customers without cards should show 0.
 
+Ans:
+
+
+
+SELECT 
+      customer_id ,
+      count(card_id) OVER(PARTITION BY customer_id) As no_of_cards
+FROM Credit_Cards
+
+
+
+
+
+
+
 Q25. Calculate total account balance per customer.
      Customers without accounts should show 0.
+
+Ans:
+
+
+SELECT 
+      customer_id,
+      balance
+FROM Accounts
+
+
+
+
+
+
+
+
 
 Q26. Find customers whose total account balance is NULL
      after a LEFT JOIN and replace it with 0.
 
+
+Ans:
+
+
+
+SELECT 
+      c.customer_id ,
+      c.customer_name,
+      COALESCE(a.balance , 0) as new_balance
+FROM Customers As c
+LEFT JOIN 
+Accounts As a
+ON 
+c.customer_id = a.customer_id
+WHERE a.balance IS NULL
+
+
+
+
+
+
+
+
+
+
+
+
 Q27. Calculate total loan amount per customer.
      Customers without loans should show 0.
 
+Ans:
+
+
+SELECT 
+      c.customer_id ,
+      c.customer_name,
+      l.loan_type,
+      COALESCE(l.loan_amount,0) As new_loan_amount
+FROM Customers As c
+FULL JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+
+
+
+
+
+
+
+
+
+
+
+
 Q28. Find the average transaction amount per account.
      Handle accounts that have no transactions.
+
+Ans:
+
+
+
+SELECT 
+      a.account_id,
+      t.transaction_id ,
+      AVG(COALESCE(t.amount , 0)) OVER(PARTITION BY a.account_id) As Avg_transaction_amount    
+FROM Accounts As a 
+FULL JOIN 
+Transactions As t 
+ON 
+a.account_id = t.account_id
+
+
+
+
+
+
+
+
+
+
+
+
 
 Q29. Display each customer along with:
      - Customer Name
@@ -124,6 +642,61 @@ Q29. Display each customer along with:
      - Total Credit Card Outstanding
 
      Replace missing values with 0.
+
+
+
+Ans:
+
+
+
+SELECT 
+     c.customer_name,
+     COALESCE(a.balance,0) As new_balance,
+     COALESCE(l.loan_amount,0) As loan_amount,
+     COALESCE(cc.outstanding_amount,0) As outstanding_amount
+FROM Customers As c 
+LEFT JOIN 
+Accounts As a 
+ON 
+c.customer_id = a.customer_id 
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id 
+LEFT JOIN 
+Credit_Cards As cc 
+ON 
+c.customer_id = cc.customer_id
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
@@ -138,6 +711,14 @@ Topics:
 - Arithmetic with NULL
 - ISNULL()
 - COALESCE()
+
+
+
+
+
+
+
+
 
 
 -------------------------
@@ -215,7 +796,7 @@ Q44. Calculate the average monthly loan principal:
 
      loan_amount / tenure_months
 
-Q45. Calculate each customer's:
+Q45. Calculate each customers:
 
      Total Loan Amount / Annual Income
 
@@ -230,6 +811,20 @@ Q47. Calculate:
              Annual Income
 
      Handle NULL values.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
@@ -304,6 +899,20 @@ Q61. Sort loans so that:
      - Active loans appear first
      - Closed loans appear afterward
      - Within each status, highest loan amount first.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
@@ -467,6 +1076,23 @@ Q94. Find customers who have a credit card but
 
 Q95. Find loans where loan_amount is available
      but interest_rate is NULL.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
@@ -690,6 +1316,24 @@ Q139. Identify records where occupation is:
       - Valid
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ============================================================
 8. BFSI DATA ANALYST CASE STUDIES
 ============================================================
@@ -758,6 +1402,25 @@ Q159. Find customers who have no transactions
 
 Q160. Find customers who have no transactions
       but have an active loan.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ============================================================
@@ -832,90 +1495,3 @@ Q174. How would you replace NULL/empty/blank
 Q175. How would you find customers who have
       no transactions?
 
-
-============================================================
-10. IMPORTANT CONCEPTS TO MASTER
-============================================================
-
-Before moving ahead, make sure you understand:
-
-[ ] NULL vs 0
-[ ] NULL vs ''
-[ ] NULL vs '   '
-[ ] COUNT(*) vs COUNT(column)
-[ ] SUM() with NULL
-[ ] AVG() with NULL
-[ ] MIN()/MAX() with NULL
-[ ] IS NULL
-[ ] IS NOT NULL
-[ ] ISNULL()
-[ ] COALESCE()
-[ ] NULLIF()
-[ ] Division by zero
-[ ] NULL in mathematical calculations
-[ ] NULL sorting
-[ ] CASE WHEN for NULL sorting
-[ ] LEFT JOIN + IS NULL
-[ ] LEFT ANTI JOIN
-[ ] NOT EXISTS
-[ ] TRIM()
-[ ] Handling missing data
-[ ] Data quality checks
-
-
-============================================================
-PRACTICE ORDER
-============================================================
-
-Recommended order:
-
-1. IS NULL / IS NOT NULL
-        ↓
-2. NULL vs Empty vs Blank
-        ↓
-3. NULL in Aggregations
-        ↓
-4. NULL in Mathematical Operations
-        ↓
-5. NULLIF()
-        ↓
-6. NULL Sorting
-        ↓
-7. LEFT ANTI JOIN
-        ↓
-8. BFSI Case Studies
-        ↓
-9. Interview Questions
-
-
-TOTAL QUESTIONS = 175
-
-
-============================================================
-DATA ANALYST FOCUS
-============================================================
-
-Most important questions for interviews:
-
-Q11   COUNT(*) vs COUNT(column)
-Q21   NULL aggregation
-Q35   Available credit
-Q36   Credit utilization
-Q41   NULL in percentage calculation
-Q52   NULL sorting
-Q62   NULLIF()
-Q76   IS NULL
-Q83   NULL + NOT NULL conditions
-Q96   Customers without credit cards
-Q103  Account but no credit card
-Q106  Neither loan nor credit card
-Q124  Missing data handling
-Q131  Replace missing values
-Q140  Account but no credit card
-Q147  Safe credit utilization
-Q150  Accounts without transactions
-Q156  Active Account + Active Loan + No Card
-Q170  LEFT ANTI JOIN vs NOT EXISTS
-
-
-============================================================
