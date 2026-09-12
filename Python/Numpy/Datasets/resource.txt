@@ -1,4 +1,10 @@
 
 
 
-resource : https://colab.research.google.com/drive/1GEkNfxnCPfzX8TCymkZJvWbkpGKZRgiK?usp=sharing
+Numpy_Lecture 1 : https://colab.research.google.com/drive/1GEkNfxnCPfzX8TCymkZJvWbkpGKZRgiK?usp=sharing
+
+
+Numpy_Lecture 2 : https://colab.research.google.com/drive/1RVe07-2VU4Jft8GLFyf10PrQIOVfffaR?usp=sharing
+
+
+Numpy_Lecture 3 : https://colab.research.google.com/drive/1PUW-yXxbkSYgvlhC5_zf30aOVyKYo9AC?usp=sharing
