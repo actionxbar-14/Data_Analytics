@@ -1,0 +1,107 @@
+
+
+
+
+
+:: Lecture_3 :   [ Numpy Tricks ]
+
+
+
+
+
+1.  np.sort :
+
+   -> Ascending 
+   -> Descending 
+
+
+
+2.  np.append : 
+
+    -> appending a row at the end 
+    -> appending a col at the end 
+
+
+
+3.  np.concatenate :
+ 
+   -> row-wise concatenate 
+   -> column-wise concatenate 
+
+
+
+4.  np.unique 
+
+
+
+5.  np.expand_dims : 
+
+    -> 1D array ko 2D array mai convert karna [ row vector ]
+    -> 1D array ko 2D array mai convert karna [ column vector ]
+
+
+
+6.  np.where  
+
+    
+
+7.  np.argmax / np.argmin 
+
+
+
+8.  np.cumsum 
+
+
+9.  np.percentile 
+
+
+10.  np.histogram 
+
+
+11.  np.corrcoef 
+
+
+12.  np.isin 
+
+
+13.  np.flip 
+
+
+14.  np.put 
+
+
+15.  np.delete 
+
+
+
+16.  Set Functions :
+
+    -> np.union1d
+    -> np.intersect1d
+    -> np.setdiff1d
+    -> np.setxor1d
+    -> np.in1d
+
+
+
+
+17.  np.clip 
+
+
+18.  np.swapaxes 
+
+
+19.  np.random.uniform 
+
+
+20.  np.count_nonzero()
+
+
+21.  np.tile() 
+
+
+22.  np.repeat() 
+
+
+23.  np.allclose() 
+

@@ -1,0 +1,118 @@
+
+
+
+
+:: Lecture_1 :   [ Basics of Numpy ]
+
+
+
+
+1. Creating Numpy Array : 
+
+   -> 1D , 2D , 3D arrays
+   -> dtype
+   -> np.arange
+   -> np.ones and np.zeroes
+   -> np.random 
+   -> np.linspace 
+   -> np.identity
+
+
+
+
+
+2.  Array Attributes : 
+
+   -> np.arange 
+   -> ndim 
+   -> shape
+   -> size 
+   -> itemsize 
+   -> dtype 
+
+
+
+
+3.  Changing DataType : 
+
+   -> astype 
+
+
+
+4.  Array Operations : 
+
+   -> Scaler Operations
+   -> Vector Operations
+
+
+
+5.  Array Functions :
+
+   -> max / min / sum / prod
+   -> mean / median / std / var 
+   -> Trigonometric functions 
+   -> Dot Product 
+   -> log and exponent 
+   -> round / floor / ceil 
+
+
+
+6.  Indexing & Slicing :
+
+   -> Indexing 
+   -> Slicing 
+
+
+
+
+7.  Iterating 
+
+
+8.  Reshaping : 
+
+   -> reshape 
+   -> Transpose 
+   -> ravel 
+
+
+
+9.  Stacking : 
+
+   -> Horizontal Stacking 
+   -> Vertical Stacking 
+
+
+
+10.  Splitting : 
+
+   -> Horizontal Splitting 
+   -> Vertical Splitting
+
+
+
+
+_________________________________________________________________________________________________________________________________________________
+_________________________________________________________________________________________________________________________________________________
+
+
+
+
+
+
+
+
+
+
+:: What is numpy : 
+
+- NumPy is the fundamental package for 'scientific computing' in Python.
+
+-  It is a Python library that provides a multidimensional array object, various derived objects (such as masked arrays and matrices), and an assortment of routines for fast operations on arrays, including mathematical, logical, shape manipulation, sorting, selecting, I/O, discrete Fourier transforms, basic linear algebra, basic statistical operations, random simulation and much more.
+
+- At the core of the NumPy package, is the 'ndarray' object. This encapsulates n-dimensional arrays of homogeneous data types.
+
+
+
+
+_________________________________________________________________________________________________________________________________________________
+
