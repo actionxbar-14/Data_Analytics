@@ -704,9 +704,9 @@ c.customer_id = cc.customer_id
 ============================================================
 
 Topics:
-- NULL + number
-- NULL - number
-- NULL * number
+- NULL + number  = Gives NULL.
+- NULL - number  = Gives NULL.
+- NULL * number  = Gives NULL.
 - NULL / number
 - Arithmetic with NULL
 - ISNULL()
@@ -720,10 +720,11 @@ Topics:
 
 
 
-
 -------------------------
 BASIC
 -------------------------
+
+
 
 Q30. Display account_id and calculate:
 
@@ -731,52 +732,240 @@ Q30. Display account_id and calculate:
 
      Check how NULL balance behaves.
 
+Ans:
+
+
+SELECT 
+      account_id,
+     ( balance + 1000 ) As new_balance
+FROM Accounts
+
+
+
+
+
+
+
+
+
 Q31. Display account_id and calculate:
 
      balance - 5000
+
+
+Ans:
+
+
+SELECT 
+      account_id,
+     ( balance - 1000 ) As new_balance
+FROM Accounts
+
+
+
+
+
+
 
 Q32. Display account_id and calculate:
 
      balance * 2
 
+
+Ans:
+
+
+SELECT 
+      account_id,
+     ( balance * 2 ) As new_balance
+FROM Accounts
+
+
+
+
+
+
 Q33. Display loan_id and calculate:
 
      loan_amount * 1.10
+
+
+Ans:
+
+SELECT 
+      loan_id,
+     ( loan_amount * 1.10 ) As new_balance
+FROM Loans
+
+
+
+
+
+
+
 
 Q34. Display credit card details and calculate:
 
      credit_limit - outstanding_amount
 
 
+Ans:
+
+
+SELECT 
+      card_id,
+     ( credit_limit - outstanding_amount ) As new_balance
+FROM Credit_Cards
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -------------------------
 MEDIUM
 -------------------------
 
+
+
+
+
+
 Q35. Calculate the available credit for each credit card:
 
-     credit_limit - outstanding_amount
+     credit_limit - outstanding_amount.
+
+Ans:
+
+
+SELECT 
+     COALESCE(( credit_limit - outstanding_amount ),0) As available_credit
+FROM Credit_Cards
+
+
+
+
+
+
+
 
 Q36. Calculate the outstanding percentage:
 
-     (outstanding_amount / credit_limit) * 100
+     (outstanding_amount / credit_limit) * 100.
+
+Ans:
+
+
+
+SELECT 
+   outstanding_amount ,
+   credit_limit, 
+   COALESCE(ROUND((NULLIF(outstanding_amount , 0) / credit_limit * 100 ),0),2)  As outstanding_percentage
+FROM Credit_Cards
+
+
+
+
+
+
+
+
+
 
 Q37. Calculate annual interest amount:
 
-     loan_amount * interest_rate / 100
+     loan_amount * interest_rate / 100.
+
+Ans:
+
+
+SELECT 
+      COALESCE(( loan_amount * interest_rate / 100 ),0) As annual_interest_amount
+FROM Loans
+
+
+
+
+
+
+
 
 Q38. Calculate estimated monthly interest:
 
      loan_amount * interest_rate / 100 / 12
 
+Ans:
+
+
+SELECT 
+      loan_id,
+      COALESCE((loan_amount * interest_rate / 100 / 12),0) As estimated_interest
+FROM Loans
+
+
+
+
+
+
+
+
+
 Q39. Calculate remaining balance for each account after
      deducting a hypothetical charge of ₹1,000.
 
+Ans:
+
+
+SELECT 
+     account_id,
+     balance ,
+     COALESCE(( balance - 1000 ),0) As remaining_balance 
+FROM Accounts
+
+
+
+
+
+
+
+
+
 Q40. Calculate transaction amount after applying a 2% processing fee.
+
+Ans:
+
+
+SELECT 
+      transaction_id,
+      amount ,
+      COALESCE(( amount * 0.2 ),0) As Processing_fee
+FROM Transactions
+
+
+
+
+
+
+
+
 
 
 -------------------------
 ADVANCED
 -------------------------
+
+
+
+
 
 Q41. Calculate credit utilization percentage:
 
@@ -784,7 +973,43 @@ Q41. Calculate credit utilization percentage:
 
      Handle NULL values appropriately.
 
+Ans:
+
+SELECT 
+     card_id ,
+     COALESCE(( NULLIF(outstanding_amount , 0) / credit_limit * 100 ),0) As credit_utilization
+FROM Credit_Cards
+
+
+
+
+
+
+
+
+
+
+
+
 Q42. Calculate loan interest amount and replace NULL result with 0.
+
+Ans:
+
+
+SELECT 
+     loan_type,
+     COALESCE(( loan_amount * interest_rate ),0) As loan_interest_amount
+FROM Loans
+
+
+
+
+
+
+
+
+
+
 
 Q43. Calculate:
 
@@ -792,9 +1017,45 @@ Q43. Calculate:
 
      Handle NULL values in loan_amount or tenure_months.
 
+Ans:
+
+
+
+SELECT 
+     loan_id,
+     COALESCE(( loan_amount / tenure_months ),0) As tenure_month 
+FROM Loans 
+
+
+
+
+
+
+
+
+
+
 Q44. Calculate the average monthly loan principal:
 
-     loan_amount / tenure_months
+     loan_amount / tenure_months.
+
+Ans:
+
+
+SELECT 
+     loan_id ,
+     COALESCE(( loan_amount / tenure_months ),0) As avg_monthly_loan
+FROM Loans
+
+
+
+
+
+
+
+
+
+
 
 Q45. Calculate each customers:
 
@@ -802,7 +1063,55 @@ Q45. Calculate each customers:
 
      Handle NULL values safely.
 
+Ans:
+
+
+SELECT  
+     c.customer_id,
+     l.loan_amount,
+     c.annual_income,
+     COALESCE(( NULLIF(l.loan_amount,0) / NULLIF(c.annual_income,0)),0) As customer_income
+FROM Customers As c
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+
+
+
+
+
+
+
+
+
+
+
+
 Q46. Calculate debt-to-income ratio for each customer.
+
+Ans:
+
+
+
+SELECT  
+     c.customer_id,
+     l.loan_amount,
+     c.annual_income,
+     COALESCE(( NULLIF(l.loan_amount,0) / NULLIF(c.annual_income,0)),0) As customer_income
+FROM Customers As c
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+
+
+
+
+
+
+
+
 
 Q47. Calculate:
 
@@ -811,6 +1120,27 @@ Q47. Calculate:
              Annual Income
 
      Handle NULL values.
+
+
+
+
+Ans: 
+
+
+
+SELECT  
+     c.customer_id,
+     l.loan_amount,
+     c.annual_income,
+     COALESCE(( NULLIF(l.loan_amount,0) / NULLIF(c.annual_income,0)),0) As customer_income
+FROM Customers As c
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+
+
+
 
 
 
@@ -831,6 +1161,10 @@ Q47. Calculate:
 3. HANDLE NULL – SORTING DATA
 ============================================================
 
+
+
+
+
 Topics:
 - ORDER BY
 - ASC / DESC
@@ -839,49 +1173,263 @@ Topics:
 - NULLS FIRST / NULLS LAST alternative in SQL Server
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 -------------------------
 BASIC
 -------------------------
 
+
+
+
+
 Q48. Display customers ordered by annual_income
      from highest to lowest.
 
+Ans:
+
+
+
+SELECT * FROM Customers
+ORDER BY annual_income DESC
+
+
+
+
+
 Q49. Display customers ordered by annual_income
      from lowest to highest.
+     
+Ans:
+
+
+SELECT * FROM Customers
+ORDER BY annual_income DESC
+
+
+
+
+
 
 Q50. Display accounts ordered by balance descending.
 
+Ans:
+
+SELECT 
+      balance ,
+      COALESCE(balance , 0) As balance_descending
+FROM Accounts
+ORDER BY COALESCE(balance , 0) DESC
+
+
+
+
+
 Q51. Display loans ordered by interest_rate descending.
+
+Ans:
+
+
+SELECT 
+      COALESCE(loan_amount,0) ,
+      COALESCE(interest_rate , 0) As interest_descending
+FROM Loans
+ORDER BY COALESCE(interest_rate , 0) DESC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 -------------------------
 MEDIUM
 -------------------------
 
+
+
+
 Q52. Sort customers by annual_income but place NULL values
      at the bottom.
+
+Ans:
+
+
+SELECT * FROM Customers
+ORDER BY annual_income DESC
+
+
+
+
+
+
+
+
 
 Q53. Sort customers by annual_income but place NULL values
      at the top.
 
+
+Ans:
+
+
+SELECT * FROM Customers 
+ORDER BY annual_income 
+
+
+
+
+
+
+
+
+
+
 Q54. Sort customers by occupation alphabetically,
      including NULL occupations.
+
+Ans:
+
+
+SELECT 
+     occupation
+FROM Customers 
+ORDER BY occupation DESC
+
+
+
+
+
+
+
+
+
+
 
 Q55. Sort credit cards by outstanding_amount descending
      and handle NULL values appropriately.
 
+
+Ans:
+
+
+
+
+SELECT 
+     *
+FROM Credit_Cards
+ORDER BY outstanding_amount DESC
+
+
+
+
+
+USE BFSI_NULL
+
+
+
+
 Q56. Sort loans by loan_amount descending and put NULL
      loan amounts at the bottom.
+
+Ans:
+
+
+SELECT 
+     loan_id ,
+     loan_amount 
+FROM Loans 
+ORDER BY loan_amount DESC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 -------------------------
 ADVANCED
 -------------------------
 
+
+
+
+
+
+
 Q57. Sort customers using this priority:
 
      1. Non-NULL annual_income first
      2. Highest annual_income first
+
+Ans:
+
+
+
+SELECT 
+     annual_income 
+FROM Customers
+ORDER BY annual_income 
+
+
+
+SELECT 
+     annual_income 
+FROM Customers
+ORDER BY annual_income DESC
+
+
+
+
+
+
+
+
+
+
 
 Q58. Sort customers using this priority:
 
@@ -889,16 +1437,99 @@ Q58. Sort customers using this priority:
      2. Non-NULL annual_income afterward
      3. Highest income first
 
+Ans:
+
+
+
+
+
+SELECT 
+     customer_id ,
+     customer_segment ,
+     annual_income
+FROM Customers 
+ORDER BY customer_segment DESC , annual_income 
+
+
+
+
+
+
+
+
+
+
+
 Q59. Sort customers by customer_segment and then
      annual_income descending.
 
+Ans:
+
+
+SELECT 
+     customer_id ,
+     customer_segment ,
+     annual_income
+FROM Customers 
+ORDER BY customer_segment DESC , annual_income DESC
+
+
+
+
+
+
+
+
+
+
 Q60. Sort accounts by account_status and then balance,
      while keeping NULL balances at the bottom.
+
+
+Ans:
+
+SELECT * FROM Accounts
+ORDER BY account_status DESC , balance DESC
+
+
+
+
+
+
+
+
+
+
+
+
 
 Q61. Sort loans so that:
      - Active loans appear first
      - Closed loans appear afterward
      - Within each status, highest loan amount first.
+
+
+Ans:
+
+SELECT 
+     loan_id ,
+     loan_status,
+     loan_amount,
+     SUM(loan_amount) OVER(PARTITION BY loan_status) As loan_amount
+FROM Loans
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1001,6 +1632,20 @@ Q74. Find customers whose credit utilization is above 50%,
 Q75. Find customers whose loan-to-income ratio is greater than 3.
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ============================================================
 5. IS NULL – IS NOT NULL
 ============================================================
@@ -1076,6 +1721,13 @@ Q94. Find customers who have a credit card but
 
 Q95. Find loans where loan_amount is available
      but interest_rate is NULL.
+
+
+
+
+
+
+
 
 
 
@@ -1201,6 +1853,24 @@ Q118. Find branches where customers exist
       but no customer has a credit card.
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ============================================================
 7. NULL vs EMPTY STRING vs BLANK SPACES
 ============================================================
@@ -1221,6 +1891,7 @@ String exists but contains zero characters.
 
 Example:
 occupation = ''
+
 
 
 BLANK SPACES
@@ -1334,18 +2005,103 @@ Q139. Identify records where occupation is:
 
 
 
+
+
+
+
 ============================================================
 8. BFSI DATA ANALYST CASE STUDIES
 ============================================================
 
+
+USE BFSI_NULL
+
+
 Q140. Find customers who have an account
       but no credit card.
+
+Ans:
+
+
+SELECT 
+      c.customer_id ,
+      c.customer_name,
+      a.account_id ,
+      cc.card_id 
+FROM Customers As c 
+LEFT JOIN 
+Accounts As a 
+ON 
+c.customer_id = a.customer_id
+LEFT JOIN 
+Credit_Cards As cc 
+ON 
+a.customer_id = cc.customer_id
+WHERE cc.card_id IS NULL AND 
+a.account_id IS NOT NULL
+
+
+
+
+
+
 
 Q141. Find customers who have a loan
       but no account.
 
+Ans:
+
+
+SELECT 
+      c.customer_id,
+      l.loan_id,
+      a.account_id
+FROM Customers As c
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id 
+LEFT JOIN 
+Accounts As a 
+ON 
+l.customer_id = a.customer_id
+
+
+
+
+
+USE
+BFSI_Analytics
+
 Q142. Find customers who have a credit card
       but no loan.
+
+Ans:
+
+SELECT 
+      c.customer_id,
+      cc.card_id,
+      l.loan_id
+FROM Customers As c
+LEFT JOIN
+Credit_Cards As cc 
+ON 
+c.customer_id = cc.customer_id 
+LEFT JOIN
+Loans As l 
+ON 
+cc.customer_id = l.customer_id
+WHERE l.loan_id IS NOT NULL
+
+
+
+
+
+
+
+
+
+
 
 Q143. Find customers who have neither a loan
       nor a credit card.
@@ -1411,87 +2167,4 @@ Q160. Find customers who have no transactions
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-============================================================
-9. INTERVIEW-LEVEL QUESTIONS
-============================================================
-
-Q161. What is the difference between:
-
-      COUNT(*)
-      COUNT(column)
-
-Q162. Why does:
-
-      NULL + 100
-
-      return NULL?
-
-Q163. Why does:
-
-      NULL * 10
-
-      return NULL?
-
-Q164. Why should we use:
-
-      NULLIF(denominator, 0)
-
-      during division?
-
-Q165. Explain the difference between:
-
-      NULL
-      ''
-      '   '
-
-Q166. Why does this NOT work for NULL?
-
-      WHERE occupation = NULL
-
-Q167. What is the correct way to check NULL values?
-
-Q168. Explain:
-
-      IS NULL
-      IS NOT NULL
-
-Q169. Explain LEFT ANTI JOIN.
-
-Q170. Write two different approaches to find customers
-      who do not have a credit card:
-
-      Approach 1:
-      LEFT JOIN + IS NULL
-
-      Approach 2:
-      NOT EXISTS
-
-Q171. What is the difference between:
-
-      LEFT JOIN
-      LEFT ANTI JOIN
-
-Q172. How would you calculate credit utilization
-      without getting a divide-by-zero error?
-
-Q173. How would you replace NULL numerical values
-      with 0?
-
-Q174. How would you replace NULL/empty/blank
-      occupation values with 'Unknown'?
-
-Q175. How would you find customers who have
-      no transactions?
 
