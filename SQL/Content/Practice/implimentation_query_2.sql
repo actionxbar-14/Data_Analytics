@@ -628,3 +628,178 @@ FROM Sales.Orders
 
 
 
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+-- Window Ranking Function : 
+
+
+
+
+--1.  Row_Number() : 
+
+
+-- Ques : Rank the orders based on their sales from highest to lowest. 
+
+Ans: 
+
+
+
+
+SELECT 
+      OrderID ,
+      ProductID ,
+      Sales,
+      ROW_NUMBER() OVER(ORDER BY Sales DESC) As Sales_Rank_rowNumber
+FROM Sales.Orders
+
+
+
+
+
+
+
+
+
+--2. RANK() : 
+
+
+-- Assign a rank to each row.
+-- It handles ties.
+-- it leaves gaps in ranking. 
+
+
+
+
+
+-- Ques : Rank the orders based on their sales from highest to lowest. 
+
+
+Ans:
+
+SELECT 
+      OrderID,
+      ProductID,
+      Sales,
+      RANK() OVER(ORDER BY Sales DESC) As Sales_Rank
+FROM Sales.Orders
+
+
+
+
+
+
+
+
+-- 3.  DENSE_RANK() :
+
+-- Assign a rank to each row.
+-- It handles ties.
+-- It doesn't leaves gaps in ranking. 
+
+
+
+
+
+-- Ques : Rank the orders based on their sales from highest to lowest. 
+
+
+Ans:
+
+SELECT 
+     OrderID,
+     ProductID,
+     Sales,
+     DENSE_RANK() OVER(ORDER BY Sales DESC) As Sales_rank_dense_row
+FROM Sales.Orders 
+
+
+
+
+
+
+
+-- find the top highest sales for 'each product' : 
+
+
+
+SELECT 
+ *
+FROM (
+
+SELECT 
+     OrderID,
+     ProductID,
+     Sales,
+     ROW_NUMBER() OVER(PARTITION BY ProductID ORDER BY Sales DESC) As new_Rank 
+FROM Sales.Orders )t 
+WHERE new_Rank = 1
+
+
+
+
+
+
+
+-- Find the lowest 2 'customers' based on their total sales :
+
+--Ans : 1
+
+SELECT 
+     TOP(2)
+     CustomerID,
+     SUM(Sales) As Total_Sales
+FROM Sales.Orders
+GROUP BY CustomerID
+ORDER BY SUM(Sales) 
+
+
+
+--Ans : 2
+
+
+
+SELECT 
+* FROM (
+SELECT 
+     CustomerID,
+     SUM(Sales) As Total_Sales,
+     RANK() OVER(ORDER BY SUM(Sales)) As new_rank
+FROM Sales.Orders
+GROUP BY CustomerID)t
+WHERE new_rank <= 2
+
+
+
+
+
+
+
+-- Assign unique IDs to the rows of the 'Orders Archive' table :
+
+
+SELECT 
+      ROW_NUMBER() OVER(ORDER BY OrderID , OrderDate) As UniqueID,
+      *
+FROM Sales.OrdersArchive
+
+
+
+
+
+
+
+-- Identify duplicate rows in the table 'Orders Archive' and return a clean result without any duplicates :
+
+SELECT *
+FROM (
+SELECT 
+ROW_NUMBER() OVER(PARTITION BY OrderID ORDER BY CreationTime DESC) As rn,
+* 
+FROM Sales.OrdersArchive)t 
+WHERE rn = 1
