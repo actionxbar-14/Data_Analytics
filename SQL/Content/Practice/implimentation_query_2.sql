@@ -803,3 +803,15 @@ ROW_NUMBER() OVER(PARTITION BY OrderID ORDER BY CreationTime DESC) As rn,
 * 
 FROM Sales.OrdersArchive)t 
 WHERE rn = 1
+
+
+
+
+
+
+-- --------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+-- :: NTILE :-
