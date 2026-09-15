@@ -1550,6 +1550,10 @@ FROM Loans
 4. NULLIF – DIVISION BY ZERO
 ============================================================
 
+
+
+
+
 Topics:
 - NULLIF()
 - Division by zero
@@ -1558,9 +1562,19 @@ Topics:
 - NULLIF + COALESCE()
 
 
+
+
+
+
+
 -------------------------
 BASIC
 -------------------------
+
+
+
+
+
 
 Q62. Calculate:
 
@@ -1568,13 +1582,61 @@ Q62. Calculate:
 
      using NULLIF() to avoid division by zero.
 
+
+Ans:
+
+
+SELECT 
+      outstanding_amount ,
+      credit_limit,
+      COALESCE(( NULLIF(outstanding_amount,0) / credit_limit ),0) As new_calculations
+FROM Credit_Cards
+
+
+
+
+
+
+
+
+
 Q63. Calculate credit utilization percentage safely.
+
+Ans:
+
+
+SELECT 
+      outstanding_amount ,
+      credit_limit,
+      COALESCE(( NULLIF(outstanding_amount,0) / credit_limit ),0) As new_calculations
+FROM Credit_Cards
+
+
+
+
+
+
 
 Q64. Calculate:
 
      loan_amount / tenure_months
 
      using NULLIF().
+
+Ans:
+
+
+SELECT 
+      loan_amount,
+      tenure_months,
+      COALESCE((loan_amount / tenure_months),0) As new_loan
+FROM Loans
+
+
+
+
+
+
 
 Q65. Calculate:
 
@@ -1583,18 +1645,72 @@ Q65. Calculate:
      without getting a division-by-zero error.
 
 
+
+Ans:
+
+
+SELECT 
+      t.amount,
+      a.balance,
+     COALESCE(NULLIF(t.amount,0) / NULLIF(a.balance,0),0) As new_balance
+FROM Transactions As t
+LEFT JOIN 
+Accounts As a 
+ON
+t.account_id = a.account_id
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -------------------------
 MEDIUM
 -------------------------
+
+
+
+
+
+
+
 
 Q66. Calculate credit utilization percentage:
 
      (outstanding_amount * 100.0)
      / NULLIF(credit_limit, 0)
 
+Ans:
+
+SELECT
+     COALESCE((outstanding_amount * 100.0)
+     / NULLIF(credit_limit, 0),0)
+FROM Credit_Cards
+
+
+
+
+
 Q67. Calculate loan amount per month:
 
      loan_amount / NULLIF(tenure_months, 0)
+
+Ans:
+
+
+SELECT 
+      COALESCE( loan_amount / NULLIF(tenure_months, 0), 0)
+FROM Loans
+
+
 
 Q68. Calculate:
 
@@ -1602,34 +1718,135 @@ Q68. Calculate:
 
      using NULLIF().
 
+Ans:
+
+SELECT 
+     l.loan_amount,
+     c.annual_income,
+     COALESCE( l.loan_amount/ NULLIF( c.annual_income, 0), 0)
+FROM Loans As l 
+LEFT JOIN 
+Customers As c 
+ON 
+l.customer_id = c.customer_id
+
+
+
+
+
+
+
+
 Q69. Calculate:
 
      Outstanding Amount / Annual Income
-
      using NULLIF().
+
+Ans:
+
+
+
+SELECT 
+     cc.outstanding_amount,
+     c.annual_income,
+     COALESCE(NULLIF(outstanding_amount,0) / c.annual_income  , 0)
+FROM Credit_Cards As cc
+LEFT JOIN 
+Customers As c 
+ON 
+cc.customer_id = c.customer_id
+
+
+
+
+
+
+
+
+
 
 Q70. Calculate transaction amount as a percentage
      of account balance using NULLIF().
+
+Ans:
+
+
+SELECT 
+     cc.outstanding_amount,
+     c.annual_income,
+     COALESCE(NULLIF(outstanding_amount,0) / c.annual_income  , 0)
+FROM Credit_Cards As cc
+LEFT JOIN 
+Customers As c 
+ON 
+cc.customer_id = c.customer_id
+
+
+
+
+
+
+
+
+
+
 
 
 -------------------------
 ADVANCED
 -------------------------
 
+
+
+
+
+
 Q71. Calculate customer debt-to-income ratio using:
 
      Total Loan Amount / NULLIF(Annual Income, 0)
 
+Ans:
+
+
+SELECT 
+      l.loan_amount ,
+      c.annual_income ,
+      COALESCE( l.loan_amount / NULLIF( c.annual_income , 0),0) 
+FROM Loans As l 
+LEFT JOIN 
+Customers As c
+ON 
+l.customer_id = c.customer_id
+
+
+
+
+
+
+
+
+
 Q72. Calculate credit utilization and return 0 instead
      of NULL when the denominator is 0 or NULL.
 
-Q73. Calculate loan principal-to-income ratio and safely
-     handle both NULL and zero income.
+Ans:
 
-Q74. Find customers whose credit utilization is above 50%,
-     using NULLIF() to avoid division errors.
 
-Q75. Find customers whose loan-to-income ratio is greater than 3.
+
+SELECT 
+     cc.outstanding_amount,
+     c.annual_income,
+     COALESCE(NULLIF(outstanding_amount,0) / c.annual_income  , 0)
+FROM Credit_Cards As cc
+LEFT JOIN 
+Customers As c 
+ON 
+cc.customer_id = c.customer_id
+
+
+
+
+
 
 
 
@@ -1658,69 +1875,67 @@ Topics:
 - NULL with AND / OR
 
 
+
+
+
+
+
+
+
+
+
+
+
 -------------------------
 BASIC
 -------------------------
+
+
+
+
 
 Q76. Find customers whose occupation is NULL.
 
+Ans:
+
+SELECT * FROM Customers
+WHERE occupation IS NULL
+
+
+
+
+
+
 Q77. Find customers whose occupation is NOT NULL.
+
+Ans:
+
+SELECT * FROM Customers
+WHERE occupation IS NOT NULL
+
+
+
+
+
+
+
+
 
 Q78. Find customers whose annual_income is NULL.
 
-Q79. Find customers whose annual_income is NOT NULL.
+Ans:
 
-Q80. Find accounts whose balance is NULL.
-
-Q81. Find loans whose interest_rate is NULL.
-
-Q82. Find credit cards whose outstanding_amount is NULL.
+SELECT * FROM Customers 
+WHERE annual_income IS NULL
 
 
--------------------------
-MEDIUM
--------------------------
-
-Q83. Find customers where occupation is NULL
-     AND annual_income is NOT NULL.
-
-Q84. Find customers where occupation is NOT NULL
-     AND annual_income is NULL.
-
-Q85. Find customers where both occupation and annual_income
-     are NULL.
-
-Q86. Find customers where either occupation or annual_income
-     is NULL.
-
-Q87. Find loans where loan_amount is NOT NULL
-     AND interest_rate is NULL.
-
-Q88. Find credit cards where credit_limit is NOT NULL
-     AND outstanding_amount is NULL.
 
 
--------------------------
-ADVANCED
--------------------------
 
-Q89. Count customers having NULL occupation.
 
-Q90. Find the percentage of customers whose occupation is NULL.
 
-Q91. Find the percentage of customers whose annual_income is NULL.
 
-Q92. Find states having at least one customer
-     with NULL occupation.
 
-Q93. Find customers who have annual_income available
-     but no credit card.
-
-Q94. Find customers who have a credit card but
-     NULL outstanding_amount.
-
-Q95. Find loans where loan_amount is available
-     but interest_rate is NULL.
 
 
 
@@ -1748,350 +1963,67 @@ Q95. Find loans where loan_amount is available
 
 
 ============================================================
-6. LEFT ANTI JOIN
+6. NULL vs EMPTY STRING vs BLANK SPACES
 ============================================================
 
-IMPORTANT:
-SQL Server does NOT have a direct keyword called
-"LEFT ANTI JOIN".
-
-Usually LEFT ANTI JOIN is implemented using:
-
-     LEFT JOIN
-     +
-     WHERE right_table.key IS NULL
-
-Example concept:
-
-     Customers
-         LEFT JOIN
-     Credit_Cards
-         ON Customers.customer_id = Credit_Cards.customer_id
-     WHERE Credit_Cards.customer_id IS NULL
 
 
-Meaning:
 
-"Customers jinka matching record Credit_Cards table
-mein nahi hai."
+
+
+
+
+
 
 
 -------------------------
 BASIC
 -------------------------
 
-Q96. Find customers who do not have any credit card.
-
-Q97. Find customers who do not have any loan.
-
-Q98. Find customers who do not have any account.
-
-Q99. Find branches that do not have any customers.
-
-Q100. Find accounts that do not have any transactions.
-
-Q101. Find customers who have no transactions.
-
-Q102. Find customers who do not have a loan.
-
-
--------------------------
-MEDIUM
--------------------------
-
-Q103. Find customers who do not have a credit card
-      but have an account.
-
-Q104. Find customers who have a loan
-      but do not have a credit card.
-
-Q105. Find customers who have a credit card
-      but do not have a loan.
-
-Q106. Find customers who have neither a loan
-      nor a credit card.
-
-Q107. Find customers who have an account
-      but no transactions.
-
-Q108. Find accounts that have no successful transactions.
-
-Q109. Find branches that have customers
-      but no accounts.
-
-Q110. Find customers who have no successful transactions.
-
-
--------------------------
-ADVANCED
--------------------------
-
-Q111. Find customers who have:
-      - Active account
-      - No credit card
-
-Q112. Find customers who have:
-      - Active loan
-      - No credit card
-
-Q113. Find customers who have:
-      - Annual income > ₹10 lakh
-      - No credit card
-
-Q114. Find premium customers who do not have any loan.
-
-Q115. Find customers who have a Current Account
-      but no loan.
-
-Q116. Find customers who have a credit card
-      but no successful transactions.
-
-Q117. Find customers who have loans
-      but have never made a transaction.
-
-Q118. Find branches where customers exist
-      but no customer has a credit card.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-============================================================
-7. NULL vs EMPTY STRING vs BLANK SPACES
-============================================================
-
-IMPORTANT DIFFERENCE:
-
-NULL
-----
-Means value is missing/unknown.
-
-Example:
-occupation = NULL
-
-
-EMPTY STRING
-------------
-String exists but contains zero characters.
-
-Example:
-occupation = ''
-
-
-
-BLANK SPACES
-------------
-String contains spaces.
-
-Example:
-occupation = '   '
-
-
-In SQL Server these are NOT the same thing.
-
-
--------------------------
-BASIC
--------------------------
 
 Q119. Find customers where occupation IS NULL.
 
+Ans:
+
+
+
+SELECT * FROM Customers 
+WHERE annual_income IS NULL
+
+
+
+
+
+
+
+
+
+
 Q120. Find customers where occupation = ''.
+
+Ans:
+
+SELECT * FROM Customers
+WHERE occupation = ''
+
+
+
+
+
+
+
 
 Q121. Find customers where occupation contains only
       blank spaces.
 
-Q122. Find customers where occupation is either NULL
-      or an empty string.
-
-Q123. Find customers where occupation is either NULL,
-      empty string, or blank spaces.
-
-
--------------------------
-MEDIUM
--------------------------
-
-Q124. Find customers with missing occupation data,
-      considering:
-      - NULL
-      - ''
-      - '   '
-
-Q125. Count customers having NULL occupation.
-
-Q126. Count customers having empty-string occupation.
-
-Q127. Count customers having blank-space occupation.
-
-Q128. Count customers having any form of missing occupation.
-
-Q129. Display occupation after removing leading
-      and trailing spaces.
-
-Q130. Find customers where occupation becomes empty
-      after TRIM().
-
-
--------------------------
-ADVANCED
--------------------------
-
-Q131. Display customer_name and occupation,
-      replacing:
-      - NULL
-      - ''
-      - blank spaces
-
-      with 'Not Available'.
-
-Q132. Count valid occupation values after treating
-      NULL, empty strings, and blank spaces as missing.
-
-Q133. Find customers whose occupation contains
-      leading or trailing spaces.
-
-Q134. Clean occupation values by removing
-      leading/trailing spaces.
-
-Q135. Find customers where occupation is considered
-      missing after applying TRIM().
-
-Q136. Calculate the percentage of customers
-      having valid occupation data.
-
-Q137. Find the number of valid vs missing occupation records.
-
-Q138. Replace missing occupation values with
-      'Unknown' in the result.
-
-Q139. Identify records where occupation is:
-      - NULL
-      - Empty
-      - Blank spaces
-      - Valid
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-============================================================
-8. BFSI DATA ANALYST CASE STUDIES
-============================================================
-
-
-USE BFSI_NULL
-
-
-Q140. Find customers who have an account
-      but no credit card.
-
 Ans:
 
 
-SELECT 
-      c.customer_id ,
-      c.customer_name,
-      a.account_id ,
-      cc.card_id 
-FROM Customers As c 
-LEFT JOIN 
-Accounts As a 
-ON 
-c.customer_id = a.customer_id
-LEFT JOIN 
-Credit_Cards As cc 
-ON 
-a.customer_id = cc.customer_id
-WHERE cc.card_id IS NULL AND 
-a.account_id IS NOT NULL
-
-
-
-
-
-
-
-Q141. Find customers who have a loan
-      but no account.
-
-Ans:
-
-
-SELECT 
-      c.customer_id,
-      l.loan_id,
-      a.account_id
-FROM Customers As c
-LEFT JOIN 
-Loans As l 
-ON 
-c.customer_id = l.customer_id 
-LEFT JOIN 
-Accounts As a 
-ON 
-l.customer_id = a.customer_id
-
-
-
-
-
-USE
-BFSI_Analytics
-
-Q142. Find customers who have a credit card
-      but no loan.
-
-Ans:
-
-SELECT 
-      c.customer_id,
-      cc.card_id,
-      l.loan_id
-FROM Customers As c
-LEFT JOIN
-Credit_Cards As cc 
-ON 
-c.customer_id = cc.customer_id 
-LEFT JOIN
-Loans As l 
-ON 
-cc.customer_id = l.customer_id
-WHERE l.loan_id IS NOT NULL
+SELECT * FROM Customers
+WHERE occupation = ' '
 
 
 
@@ -2103,61 +2035,14 @@ WHERE l.loan_id IS NOT NULL
 
 
 
-Q143. Find customers who have neither a loan
-      nor a credit card.
 
-Q144. Find customers whose annual income is NULL
-      but who have an active loan.
 
-Q145. Find customers whose annual income is available
-      but occupation is missing.
 
-Q146. Find customers with missing occupation data
-      and annual income greater than ₹8 lakh.
 
-Q147. Calculate credit utilization percentage
-      while safely handling NULL and zero credit limits.
 
-Q148. Find customers with credit utilization above 70%,
-      excluding records where credit_limit is NULL or 0.
 
-Q149. Find customers whose loan-to-income ratio
-      is greater than 3.
 
-Q150. Find accounts that have no transactions.
 
-Q151. Find customers who have accounts but
-      no successful transactions.
-
-Q152. Find customers who have active loans
-      but no credit card.
-
-Q153. Find premium customers who have no credit card.
-
-Q154. Find premium customers who have no active loan.
-
-Q155. Find branches with customers but no credit card holders.
-
-Q156. Find customers having:
-      - Active Account
-      - Active Loan
-      - No Credit Card
-
-Q157. Find customers having:
-      - Annual Income > ₹10 lakh
-      - Active Loan
-      - No Credit Card
-
-Q158. Find customers having:
-      - Current Account
-      - No Credit Card
-      - No Loan
-
-Q159. Find customers who have no transactions
-      but have an active account.
-
-Q160. Find customers who have no transactions
-      but have an active loan.
 
 
 
