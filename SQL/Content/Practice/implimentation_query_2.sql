@@ -807,11 +807,110 @@ WHERE rn = 1
 
 
 
-
-
+USE
+SalesDB
 -- --------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
 
--- :: NTILE :-
+-- :: NTILE :
+
+
+SELECT 
+     OrderID,
+     Sales ,
+     NTILE(1) OVER(ORDER BY Sales DESC) As OneBucket,
+     NTILE(2) OVER(ORDER BY Sales DESC) As TWOBucket,
+     NTILE(3) OVER(ORDER BY Sales DESC) As ThreeBucket,
+     NTILE(4) OVER(ORDER BY Sales DESC) As FourBucket
+FROM Sales.Orders
+
+
+
+
+-- ::  Data segmentation using NTILE : 
+
+
+-- Ques: Segment all orders into 3 categories : high , medium and low sales. 
+
+Ans: 
+
+
+SELECT 
+* ,
+CASE
+   WHEN Bucket = 1 THEN 'High'
+   WHEN Bucket = 2 THEN 'Medium'
+   WHEN Bucket = 3 THEN 'Low'
+   END As SalesSegmentation
+FROM 
+(
+SELECT 
+     OrderID,
+     Sales,
+     NTILE(3) OVER(ORDER BY Sales DESC)  As Bucket
+FROM Sales.Orders
+)t
+
+
+
+
+
+
+-- :: Equilizing load balancing in ETL Process : 
+
+
+-- Ques : 
+
+
+SELECT 
+     NTILE(2) OVER ( ORDER BY  OrderID ) Buckets,
+     *
+FROM Sales.Orders
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+-- :: Percentage_based Ranking : 
+
+
+
+
+-- Find the products that fall within the highest 40% of the prices : 
+
+SELECT
+*,
+CONCAT(DistRank * 100 , '%') As DistRank_percentage
+FROM 
+(
+SELECT 
+     Product,
+     Price,
+     --CUME_DIST() OVER(ORDER BY Price DESC) DistRank,
+     PERCENT_RANK() OVER(ORDER BY Price DESC) DistRank
+FROM Sales.Products
+)t
+WHERE DistRank <= 0.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
