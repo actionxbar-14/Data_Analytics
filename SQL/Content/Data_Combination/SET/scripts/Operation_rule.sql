@@ -32,9 +32,6 @@
 
 
 
-
-
-
 /* ==============================================================================
 ::   RULES OF SET OPERATIONS   : -
 ===============================================================================*/
@@ -45,7 +42,7 @@
 
 /*  1ST RULE : ORDER BY can be used only once. 
  -->  the order by can not be used by each SELECT query , Instead it can only use once at the end of all SELECT statements. 
-*/  
+ 
 
         SELECT 
           FirstName  ,
@@ -69,7 +66,7 @@
  
 
 
-
+ */ 
 
 
 

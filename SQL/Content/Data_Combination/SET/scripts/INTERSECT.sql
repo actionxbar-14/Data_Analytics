@@ -32,7 +32,7 @@ FROM Sales.Customers;
 
 
 
-
+/*
 
 :: SET OPERATOR USECASE : 
 
@@ -45,7 +45,7 @@ FROM Sales.Customers;
 - DATA COMPLETENESS CHECK : EXCEPT operator can be used to compare tables to detect discrepancies between databases , And SET Operator like EXCEPT help verify data completeness by comparing tables across databases , ensuring no records are missing or mismatched. 
 
 
-
+*/
 
 
 
