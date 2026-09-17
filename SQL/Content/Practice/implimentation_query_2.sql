@@ -903,6 +903,123 @@ WHERE DistRank <= 0.4
 
 
 
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+-- :: Window ( Value Function ) : 
+
+
+-- Ques : Analyzee the month-over-month(MoM) performance by finding the percentage change in sales between the current and previous month. 
+
+-- Ans:
+
+
+SELECT
+* ,
+CurrentMonthSales - PreviousMonthSales As MoM_Change,
+ROUND(CAST((CurrentMonthSales - PreviousMonthSales) As FLOAT) / PreviousMonthSales * 100,1) As MoM_Percentage
+FROM 
+(
+
+SELECT 
+      MONTH(OrderDate) As OrderMonth,
+      SUM(Sales) As CurrentMonthSales ,
+      LAG(SUM(Sales)) OVER(ORDER BY MONTH(OrderDate)) As PreviousMonthSales
+FROM Sales.Orders
+GROUP BY MONTH(OrderDate)
+)t
+
+
+
+
+
+
+
+
+
+
+
+-- :: Ques : Analyze customer loyalty by ranking customers based on the average number of days between orders.
+
+
+-- Ans: 
+
+
+SELECT
+CustomerID,
+AVG(DaysUntillNextOrder) As AvgDays,
+RANK() OVER(ORDER BY COALESCE(AVG(DaysUntillNextOrder) , 9999999)) As RankAvg
+FROM 
+(
+SELECT
+     OrderID,
+     CustomerID,
+     OrderDate As CurrentOrder,
+     LEAD(OrderDate) OVER(PARTITION BY CustomerID ORDER BY OrderDate) As NextOrder,
+     DATEDIFF(day, OrderDate ,LEAD(OrderDate) OVER(PARTITION BY CustomerID ORDER BY OrderDate)) As DaysUntillNextOrder
+FROM Sales.Orders
+)t
+GROUP BY CustomerID
+
+
+
+
+
+
+
+
+
+
+
+
+-- Find the lowest and highest sales for each product : 
+
+
+SELECT 
+      OrderID,
+      ProductID,
+      Sales,
+      FIRST_VALUE(Sales) OVER(PARTITION BY ProductID ORDER BY Sales) As LowestSales,
+      LAST_VALUE(Sales) OVER(PARTITION BY ProductID ORDER BY Sales
+      ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) As HighestSales_M1,
+      FIRST_VALUE(Sales) OVER(PARTITION BY ProductID ORDER BY Sales DESC) As HighestSales_M2,
+      MIN(Sales) OVER(PARTITION BY ProductID) As MinSales_M1,
+      MAX(Sales) OVER(PARTITION BY ProductID) As MaxSales_M1
+FROM Sales.Orders
+
+
+
+
+
+
+
+
+
+-- Find the difference in sales between the current and the lowest sales :
+
+
+
+
+SELECT 
+      OrderID,
+      ProductID,
+      Sales,
+      FIRST_VALUE(Sales) OVER(PARTITION BY ProductID ORDER BY Sales) As LowestSales,
+      LAST_VALUE(Sales) OVER(PARTITION BY ProductID ORDER BY Sales
+      ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) As HighestSales_M1,
+      (Sales -  FIRST_VALUE(Sales) OVER(PARTITION BY ProductID ORDER BY Sales)) As SalesDifference  
+FROM Sales.Orders
+
+
+
+
+
+
+
+
+
+
 
 
 
