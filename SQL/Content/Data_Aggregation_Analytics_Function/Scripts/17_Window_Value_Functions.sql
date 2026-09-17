@@ -1,3 +1,8 @@
+
+
+
+
+
 /* ==============================================================================
    SQL Window Value Functions
 -------------------------------------------------------------------------------
@@ -13,9 +18,27 @@
 =================================================================================
 */
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ============================================================
    SQL WINDOW VALUE | LEAD, LAG
    ============================================================ */
+
+
+
+
 
 /* TASK 1:
    Analyze the Month-over-Month Performance by Finding the Percentage Change in Sales
@@ -37,6 +60,22 @@ FROM (
     FROM Sales.Orders
     GROUP BY MONTH(OrderDate)
 ) AS MonthlySales;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* TASK 2:
@@ -61,9 +100,36 @@ FROM (
 ) AS CustomerOrdersWithNext
 GROUP BY CustomerID;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ============================================================
    SQL WINDOW VALUE | FIRST & LAST VALUE
    ============================================================ */
+
+
+
+
+
+
+
+
+
+
+   
 
 /* TASK 3:
    Find the Lowest and Highest Sales for Each Product,

@@ -1,5 +1,12 @@
+
+
+
+
+
+
 /* ==============================================================================
-   SQL Window Ranking Functions
+   SQL Window Ranking Functions : 
+  
 -------------------------------------------------------------------------------
    These functions allow you to rank and order rows within a result set 
    without the need for complex joins or subqueries. They enable you to assign 
@@ -15,9 +22,22 @@
 =================================================================================
 */
 
+
+
+
+
+
+
+
+
+
+
 /* ============================================================
    SQL WINDOW RANKING | ROW_NUMBER, RANK, DENSE_RANK
    ============================================================ */
+
+
+
 
 /* TASK 1:
    Rank Orders Based on Sales from Highest to Lowest
@@ -30,6 +50,11 @@ SELECT
     RANK() OVER (ORDER BY Sales DESC) AS SalesRank_Rank,
     DENSE_RANK() OVER (ORDER BY Sales DESC) AS SalesRank_Dense
 FROM Sales.Orders;
+
+
+
+
+
 
 /* TASK 2:
    Use Case | Top-N Analysis: Find the Highest Sale for Each Product
@@ -45,6 +70,14 @@ FROM (
 ) AS TopProductSales
 WHERE RankByProduct = 1;
 
+
+
+
+
+
+
+
+
 /* TASK 3:
    Use Case | Bottom-N Analysis: Find the Lowest 2 Customers Based on Their Total Sales
 */
@@ -59,6 +92,14 @@ FROM (
 ) AS BottomCustomerSales
 WHERE RankCustomers <= 2;
 
+
+
+
+
+
+
+
+
 /* TASK 4:
    Use Case | Assign Unique IDs to the Rows of the 'Order Archive'
 */
@@ -66,6 +107,16 @@ SELECT
     ROW_NUMBER() OVER (ORDER BY OrderID, OrderDate) AS UniqueID,
     *
 FROM Sales.OrdersArchive;
+
+
+
+
+
+
+
+
+
+
 
 /* TASK 5:
    Use Case | Identify Duplicates:
@@ -80,9 +131,24 @@ FROM (
 ) AS UniqueOrdersArchive
 WHERE rn = 1;
 
+
+
+
+
+
+
+
+
+
+
 /* ============================================================
    SQL WINDOW RANKING | NTILE
    ============================================================ */
+
+
+
+
+
 
 /* TASK 6:
    Divide Orders into Groups Based on Sales
@@ -96,6 +162,15 @@ SELECT
     NTILE(4) OVER (ORDER BY Sales) AS FourBuckets,
     NTILE(2) OVER (PARTITION BY ProductID ORDER BY Sales) AS TwoBucketByProducts
 FROM Sales.Orders;
+
+
+
+
+
+
+
+
+
 
 /* TASK 7:
    Segment all Orders into 3 Categories: High, Medium, and Low Sales.
@@ -117,6 +192,15 @@ FROM (
     FROM Sales.Orders
 ) AS SalesBuckets;
 
+
+
+
+
+
+
+
+
+
 /* TASK 8:
    Divide Orders into Groups for Processing
 */
@@ -125,9 +209,25 @@ SELECT
     *
 FROM Sales.Orders;
 
+
+
+
+
+
+
+
+
+
 /* ============================================================
    SQL WINDOW RANKING | CUME_DIST
    ============================================================ */
+
+
+
+
+
+
+
 
 /* TASK 9:
    Find Products that Fall Within the Highest 40% of the Prices
@@ -142,6 +242,53 @@ FROM (
         Product,
         Price,
         CUME_DIST() OVER (ORDER BY Price DESC) AS DistRank
+    FROM Sales.Products
+) AS PriceDistribution
+WHERE DistRank <= 0.4;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ============================================================
+   SQL WINDOW RANKING | PERCENT_RANK
+   ============================================================ */
+
+
+
+
+
+
+
+
+/* TASK 10:
+   Find Products that Fall Within the Highest 40% of the Prices
+*/
+SELECT 
+    Product,
+    Price,
+    DistRank,
+    CONCAT(DistRank * 100, '%') AS DistRankPerc
+FROM (
+    SELECT
+        Product,
+        Price,
+        PERCENT_RANK() OVER (ORDER BY Price DESC) AS DistRank
     FROM Sales.Products
 ) AS PriceDistribution
 WHERE DistRank <= 0.4;
