@@ -1273,21 +1273,108 @@ OVER()
 BASIC
 -------------------------
 
+
+
+
+
 Q69. Display every account along with the total
      balance of all accounts.
+
+Ans:
+
+
+
+SELECT 
+      Account_id,
+      balance,
+      SUM(balance) OVER() As Total_balance
+FROM Accounts
+
+
+
+
+
+
+
 
 Q70. Display every loan along with the total
      loan amount across all customers.
 
+Ans:
+
+SELECT 
+      loan_id,
+      loan_amount,
+      SUM(loan_amount) OVER() As Total_loan
+FROM Loans
+
+
+
+
+
+
+
+
+
 Q71. Display every transaction along with the
      total transaction amount.
+
+Ans:
+
+SELECT 
+     transaction_id,
+     amount,
+     SUM(amount) OVER() As Total_amount
+FROM Transactions
+
+
+
+
+
+
 
 Q72. Display every customer along with the
      average annual income of all customers.
 
+Ans:
+
+
+SELECT 
+     customer_id,
+     customer_name,
+     annual_income,
+     ROUND(AVG(annual_income) OVER() ,0) As Total_Avg_annual_income
+FROM Customers
+
+
+
+
+
+
+
+
+
+
 Q73. Display every customer along with:
      - Maximum annual income
      - Minimum annual income
+
+Ans:
+
+
+SELECT 
+     customer_id,
+     customer_name,
+     annual_income,
+     MAX(annual_income) OVER() As Max_annual_income,
+     MIN(annual_income) OVER() As Min_annual_income
+FROM Customers
+
+
+
+
+
+
 
 Q74. Display every loan along with:
      - Total loan amount
@@ -1295,43 +1382,43 @@ Q74. Display every loan along with:
      - Maximum loan amount
      - Minimum loan amount
 
+Ans:
 
-================================================================
-SECTION D – WINDOW OVER CLAUSE
-================================================================
+SELECT 
+      loan_id,
+      loan_amount,
+      SUM(loan_amount) OVER() As Total_loan_amount,
+      AVG(loan_amount) OVER() As Avg_loan_amount,
+      MAX(loan_amount) OVER() As Max_loan_amount,
+      MIN(loan_amount) OVER() As Min_loan_amount
+FROM Loans
 
-Topics:
-OVER()
 
--------------------------
-BASIC
--------------------------
 
-Q75. Calculate total account balance using
-     SUM() OVER().
 
-Q76. Calculate total loan amount using
-     SUM() OVER().
 
-Q77. Calculate average loan amount using
-     AVG() OVER().
 
-Q78. Calculate total transaction amount using
-     SUM() OVER().
 
-Q79. Count total transactions using
-     COUNT() OVER().
 
-Q80. Find maximum transaction amount using
-     MAX() OVER().
 
-Q81. Find minimum transaction amount using
-     MIN() OVER().
+
+
+
+
+
+
+
+
+
+
+
 
 
 ================================================================
 SECTION E – WINDOW PARTITION
 ================================================================
+
+
 
 Topics:
 PARTITION BY
@@ -1341,49 +1428,313 @@ PARTITION BY
 BASIC
 -------------------------
 
+
+
+
+
+
+
 Q82. Display each customer along with the total
      annual income of their state.
+
+
+Ans:
+
+SELECT 
+      customer_id,
+      customer_name,
+      state,
+      SUM(annual_income) OVER(PARTITION BY state) As Total_annual_income
+FROM Customers
+
+
+
+
+
+
+
+
+
 
 Q83. Display each customer along with the average
      annual income of their state.
 
+Ans:
+
+SELECT 
+      customer_id,
+      customer_name,
+      state,
+      AVG(annual_income) OVER(PARTITION BY state) As Total_annual_income
+FROM Customers
+
+
+
+
+
+
+
 Q84. Display each customer along with the total
      balance of their account type.
+
+Ans:
+
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     a.account_type,
+     SUM(a.balance) OVER(PARTITION BY a.account_type) As Total_balance_byAccountType
+FROM Customers As c
+LEFT JOIN 
+Accounts As a 
+ON 
+c.customer_id = a.customer_id
+
+
+
+
+
+
+
 
 Q85. Display each loan along with the total loan
      amount for its loan_type.
 
+Ans:
+
+
+SELECT 
+     loan_id,
+     loan_type,
+     loan_amount,
+     SUM(loan_amount) OVER(PARTITION BY loan_type) As total_loan_amount_byloanType
+FROM Loans
+
+
+
+
+
+
+
 Q86. Display each loan along with the average loan
      amount for its loan_type.
+
+Ans:
+
+
+SELECT 
+     loan_id,
+     loan_type,
+     loan_amount,
+     AVG(loan_amount) OVER(PARTITION BY loan_type) As total_loan_amount_byloanType
+FROM Loans
+
+
+
+
+
+
 
 Q87. Display each transaction along with the total
      transaction amount for its transaction_type.
 
+Ans:
+
+
+
+SELECT 
+     transaction_id,
+     transaction_type,
+     amount,
+     SUM(amount) OVER(PARTITION BY transaction_type) As total_transaction_amount_bytransactionType
+FROM Transactions
+
+
+
+
+
+
+
 Q88. Display each credit card along with the total
      outstanding amount for its card_type.
+
+Ans:
+
+SELECT 
+      card_id,
+      card_type,
+      outstanding_amount,
+      SUM(outstanding_amount) OVER(PARTITION BY card_type) As Total_outstanding_amount_ByCardType
+FROM Credit_Cards
+
+
+
+
+
+
+
+
+
+
 
 
 -------------------------
 MEDIUM
 -------------------------
 
+
+
+
 Q89. Calculate total annual income by state
      while retaining every customer row.
+
+Ans:
+
+
+SELECT
+      customer_id,
+      customer_name,
+      state,
+      annual_income,
+      SUM(annual_income) OVER(PARTITION BY state) As Total_annual_income_ByState
+FROM Customers
+
+
+
+
 
 Q90. Calculate average annual income by
      customer_segment while retaining every customer.
 
+Ans:
+
+
+SELECT 
+     customer_id,
+     customer_name,
+     customer_segment,
+     annual_income,
+     AVG(annual_income) OVER(PARTITION BY customer_segment) As Total_annualAmount_ByCustomerSegment
+FROM Customers
+
+
+
+
+
+
+
+
 Q91. Calculate total account balance by branch
      while retaining every account.
 
-Q92. Calculate total loan amount by customer.
+Ans:
+
+SELECT 
+     a.account_id,
+     b.branch_id,
+     b.branch_name,
+     a.balance,
+     SUM(a.balance) OVER(PARTITION BY b.branch_name) As total_balance_BYbranch
+FROM Accounts As a
+LEFT JOIN
+Branches As b 
+ON 
+a.branch_id = b.branch_id
+
+
+
+
+
+
+
+Q92. Calculate total loan amount by customer_segment.
+
+Ans:
+
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     c.customer_segment,
+     l.loan_amount,
+     SUM(loan_amount) OVER(PARTITION BY c.customer_segment) As Total_loanAmount_ByCustomerSegment
+FROM Customers As c
+LEFT JOIN 
+Loans As l
+ON
+c.customer_id = l.customer_id
+
+
+
+
+
 
 Q93. Calculate total transaction amount by account.
+
+Ans:
+
+
+SELECT
+      *,
+      SUM(amount) OVER(PARTITION BY transaction_type) As Total_transaction_amount_ByAccountType
+FROM Transactions
+
+
+
+
+
+
+
+
 
 Q94. Calculate total transaction amount by channel
      while retaining every transaction row.
 
+Ans:
+
+
+SELECT 
+     * ,
+     SUM(amount) OVER(PARTITION BY channel) As Total_transaction_amount_ByChannel
+FROM Transactions
+
+
+
+
+
+
 Q95. Calculate total credit limit by card_type.
+
+Ans:
+
+SELECT 
+      card_type,
+      credit_limit,
+      SUM(credit_limit) OVER(PARTITION BY card_type) As Total_credit_limit
+FROM Credit_Cards
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ================================================================
