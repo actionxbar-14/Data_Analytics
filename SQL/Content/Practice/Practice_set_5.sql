@@ -1745,44 +1745,227 @@ Topics:
 ORDER BY inside OVER()
 
 
+
+
+
+
+
+
 -------------------------
 BASIC
 -------------------------
 
+USE
+BFSI_Window
+
+
+
+
+
+
 Q96. Assign a row number to customers based on
      annual_income descending.
+
+Ans:
+
+
+
+SELECT 
+      *,
+      ROW_NUMBER() OVER(ORDER BY annual_income DESC) As Income_Rank
+FROM Customers
+
+
+
+
+
+
+
+
 
 Q97. Assign a row number to loans based on
      loan_amount descending.
 
+Ans:
+
+SELECT 
+      *,
+      ROW_NUMBER() OVER(ORDER BY loan_amount DESC) As loan_rank
+FROM Loans
+
+
+
+
+
+
+
+
+
+
 Q98. Assign a row number to transactions based on
      transaction_date ascending.
+
+Ans:
+
+
+SELECT 
+     * ,
+     ROW_NUMBER() OVER(ORDER BY transaction_date) As date_Rank
+FROM Transactions
+
+
+
+
+
+
+
 
 Q99. Calculate a running total of transaction amount
      ordered by transaction_date.
 
+Ans:
+
+SELECT 
+     *,
+     SUM(amount) OVER(ORDER BY transaction_date) As Running_Total
+FROM Transactions
+
+
+
+
+
+
+
+
+
+
 Q100. Calculate a running total of loan amount
       ordered by loan_start_date.
 
+Ans:
+
+
+SELECT 
+     *,
+     SUM(loan_amount) OVER(ORDER BY loan_start_date) As Running_total
+FROM Loans
+
+
+
+
+
+
+
+
 Q101. Calculate a running total of account balance
       ordered by opening_date.
+
+Ans:
+
+
+
+SELECT
+     *,
+     SUM(balance) OVER(ORDER BY opening_date) As Running_Total
+FROM Accounts
+
+
+
+
+
+
+
+
+
 
 
 -------------------------
 MEDIUM
 -------------------------
 
+
+
+
 Q102. Calculate cumulative transaction amount
       for each account ordered by transaction_date.
+
+Ans:
+
+
+SELECT
+     *,
+     SUM(amount) OVER(ORDER BY transaction_date) As Cumulative_transaction_amount
+FROM Transactions
+
+
+
+
+
+
 
 Q103. Calculate cumulative loan amount by loan_type
       ordered by loan_start_date.
 
+Ans:
+
+SELECT 
+     *,
+     SUM(loan_amount) OVER(PARTITION BY loan_type ORDER BY loan_start_date) AS cumulative_loan_amount
+FROM Loans
+
+
+
+
+
+
 Q104. Calculate cumulative account balance by
       branch ordered by opening_date.
 
+Ans:
+
+SELECT 
+      *,
+      SUM(balance) OVER(PARTITION BY b.branch_name ORDER BY a.opening_date) As cumulative_account_balance
+FROM Accounts As a
+LEFT JOIN 
+Branches As b
+ON
+a.branch_id = b.branch_id
+
+
+
+
+
+
+
+
 Q105. Calculate running average transaction amount
       ordered by transaction_date.
+
+Ans:
+
+
+SELECT 
+     *,
+     AVG(amount) OVER(ORDER BY transaction_date) As running_avg
+FROM Transactions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ================================================================
@@ -1902,10 +2085,10 @@ Q126. First calculate total loan amount by loan_type
 Q127. Then calculate the percentage contribution
       of each loan_type to total loan amount.
 
-Q128. Find each state’s total customer income
+Q128. Find each states total customer income
       and compare it with the overall income.
 
-Q129. Find each branch's total account balance
+Q129. Find each branchs total account balance
       and calculate its percentage of total bank balance.
 
 Q130. Calculate total transaction amount by channel
@@ -2285,23 +2468,23 @@ Q230. Find customers whose income is in
 Q231. Find loans whose CUME_DIST is
       greater than 0.75.
 
-Q232. Find each customer's income rank
+Q232. Find each customers income rank
       within their state.
 
-Q233. Find each customer's income quartile
+Q233. Find each customers income quartile
       within their state.
 
-Q234. Find each account's cumulative transaction
+Q234. Find each accounts cumulative transaction
       amount over time.
 
 Q235. Find the average transaction amount
       over the previous 2 transactions.
 
 Q236. Find the difference between each transaction
-      and the account's first transaction.
+      and the accounts first transaction.
 
 Q237. Find the difference between each transaction
-      and the account's latest transaction.
+      and the accounts latest transaction.
 
 Q238. Find the customer with the highest income
       from every branch.
