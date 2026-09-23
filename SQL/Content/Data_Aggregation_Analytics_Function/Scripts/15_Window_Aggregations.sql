@@ -34,6 +34,8 @@
 
 
 
+
+
 /* ============================================================
    SQL WINDOW AGGREGATION | COUNT : 
    --> Returns the number of rows within a window.
@@ -255,7 +257,10 @@ NOTE : window function cant we used in the WHERE clause .
 
 
 /* ============================================================
-   SQL WINDOW AGGREGATION | MAX / MIN
+   SQL WINDOW AGGREGATION | MAX / MIN :-
+
+   --> MIN() : Returns the lowest value within a window.
+   --> MAX() : Returns the highest value within a window.
    ============================================================ */
 
 
