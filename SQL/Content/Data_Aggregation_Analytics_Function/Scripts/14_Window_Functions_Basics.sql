@@ -35,9 +35,6 @@
 
 
 
-
-
-
 /* ==============================================================================
    SQL WINDOW FUNCTIONS | BASICS
 ===============================================================================*/
@@ -219,6 +216,9 @@ SELECT
     ) AS Total_Sales
 FROM Sales.Orders;
 
+
+
+
 /* TASK 9: 
    Calculate Total Sales by Order Status from previous two orders only 
 */
@@ -235,6 +235,10 @@ SELECT
     ) AS Total_Sales
 FROM Sales.Orders;
 
+
+
+
+
 /* TASK 10: 
    Calculate cumulative Total Sales by Order Status up to the current order 
 */
@@ -250,6 +254,16 @@ SELECT
         ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
     ) AS Total_Sales
 FROM Sales.Orders;
+
+
+
+
+
+
+
+
+
+
 
 /* TASK 11: 
    Calculate cumulative Total Sales by Order Status from the start to the current row 
