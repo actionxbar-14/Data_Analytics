@@ -1981,112 +1981,301 @@ PRECEDING
 FOLLOWING
 
 
+
+
+
+
+
 -------------------------
 BASIC
 -------------------------
+
+
+
+
 
 Q106. Calculate a running transaction total using:
 
       ROWS BETWEEN UNBOUNDED PRECEDING
       AND CURRENT ROW
 
+Ans:
+
+
+SELECT 
+     *,
+     SUM(amount) OVER(ORDER BY transaction_date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) As Running_Total
+FROM Transactions
+
+
+
+
+
+
 
 Q107. Calculate a running average transaction amount.
+
+Ans:
+
+SELECT 
+     *,
+     AVG(amount) OVER(ORDER BY transaction_date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) As Running_Avg
+FROM Transactions
+
+
+
+
+
+
 
 Q108. Calculate a 2-row moving average of transaction amount.
 
 Q109. Calculate a 3-row moving average of transaction amount.
 
+Ans:
+
+SELECT
+     *,
+     AVG(amount) OVER(ORDER BY transaction_date ROWS 3 PRECEDING) AS moving_Avg
+FROM Transactions
+
+
+
+
+
+
+
 Q110. Calculate a rolling 3-transaction total.
+
+Ans:
+
+SELECT 
+     *,
+     SUM(amount) OVER(ORDER BY transaction_date ROWS 3 PRECEDING) As rolling_sum
+FROM Transactions
+
+
+
+
+
+
+
 
 Q111. Calculate the sum of the current transaction
       and previous transaction.
 
+Ans:
+
+SELECT 
+     *,
+     SUM(amount) OVER(ORDER BY transaction_date ROWS BETWEEN 1 PRECEDING AND CURRENT ROW) AS prev_Sum
+FROM Transactions
+
+
+
+
+
+
+
+
+
+
+
 Q112. Calculate the average of the current transaction
       and previous transaction.
+
+Ans:
+
+
+SELECT
+     *,
+     AVG(amount) OVER(ORDER BY transaction_date ROWS BETWEEN 1 PRECEDING AND CURRENT ROW) As Prev_avg
+FROM Transactions
+
+
+
+
+
+
+
+
 
 
 -------------------------
 ADVANCED
 -------------------------
 
+
+
+
+
 Q113. Calculate a 3-transaction moving average
       separately for each account.
+
+Ans:
+
+
+SELECT 
+     *,
+     AVG(amount) OVER(PARTITION BY account_id ORDER BY transaction_date) As moving_Avg
+FROM Transactions
+
+
+
+
+
+
+
 
 Q114. Calculate a 3-transaction rolling total
       separately for each account.
 
+Ans:
+
+
+
+SELECT 
+     *,
+     AVG(amount) OVER(PARTITION BY account_id ORDER BY transaction_date ROWS 2 PRECEDING) As moving_Avg
+FROM Transactions
+
+
+
+
+
+
+
+
+
 Q115. Calculate the sum of the current transaction,
       previous transaction and next transaction.
+
+Ans:
+
+
+SELECT
+     *,
+     SUM(amount) OVER(ORDER BY transaction_date ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING) AS prev_next_sum
+FROM Transactions
+
+
+
+
+
+
+
+
+
 
 Q116. Calculate a rolling average using:
 
       2 PRECEDING
       AND CURRENT ROW
 
-Q117. Compare:
-      - Running total
-      - Rolling 3-row total
 
-      for each transaction.
+Ans:
 
 
-================================================================
-SECTION H – WINDOW RULES
-================================================================
 
-Q118. Explain why an aggregate query with GROUP BY
-      reduces the number of rows.
-
-Q119. Explain why a window aggregate does NOT
-      reduce the number of rows.
-
-Q120. Explain the purpose of OVER().
-
-Q121. Explain the difference between:
-
-      SUM(amount)
-
-      and
-
-      SUM(amount) OVER()
+SELECT 
+     *,
+     AVG(amount) OVER(PARTITION BY account_id ORDER BY transaction_date ROWS 2 PRECEDING) As rolling_Avg
+FROM Transactions
 
 
-Q122. Explain the difference between:
-
-      GROUP BY
-
-      and
-
-      PARTITION BY
 
 
-Q123. Explain why ORDER BY inside OVER()
-      is different from the final ORDER BY.
 
-Q124. Explain the purpose of a window frame.
 
-Q125. What is the difference between:
 
-      ROWS
 
-      and
 
-      RANGE
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ================================================================
 SECTION I – WINDOW FUNCTIONS + GROUP BY
 ================================================================
 
+
+
+
 Q126. First calculate total loan amount by loan_type
       using GROUP BY.
+
+Ans:
+
+SELECT 
+     loan_type,
+     SUM(loan_amount) As Total_loan_amount
+FROM Loans
+GROUP BY loan_type
+
+
+
+
+
+
+
+
 
 Q127. Then calculate the percentage contribution
       of each loan_type to total loan amount.
 
+Ans:
+
+SELECT
+     loan_type,
+     Total_loan_amountBy_loanType,
+     SUM(Total_loan_amountBy_loanType) OVER() As Total_loan_amount,
+     Percentage_contribution * 100 As Actual_percentage
+FROM
+(
+SELECT 
+     loan_type,
+     Total_loan_amountBy_loanType,
+     SUM(Total_loan_amountBy_loanType) OVER() As Total_loan_amount,
+     Total_loan_amountBy_loanType / SUM(Total_loan_amountBy_loanType) OVER() As Percentage_contribution
+FROM
+(
+SELECT
+     loan_type,
+     SUM(loan_amount) as Total_loan_amountBy_loanType
+FROM Loans
+GROUP BY loan_type
+)t
+)t
+
+
+
+
+
+
+
+
 Q128. Find each states total customer income
       and compare it with the overall income.
+
+Ans:
+
+
+
+
+
+
+
+
 
 Q129. Find each branchs total account balance
       and calculate its percentage of total bank balance.
@@ -2099,6 +2288,11 @@ Q131. Calculate total loan amount by loan_type
 
 Q132. Calculate customer count by state
       and rank states by customer count.
+
+
+
+
+
 
 
 ================================================================
