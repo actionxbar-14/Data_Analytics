@@ -146,10 +146,6 @@ WHERE rn = 1;
    ============================================================ */
 
 
-
-
-
-
 /* TASK 6:
    Divide Orders into Groups Based on Sales
 */
@@ -162,14 +158,6 @@ SELECT
     NTILE(4) OVER (ORDER BY Sales) AS FourBuckets,
     NTILE(2) OVER (PARTITION BY ProductID ORDER BY Sales) AS TwoBucketByProducts
 FROM Sales.Orders;
-
-
-
-
-
-
-
-
 
 
 /* TASK 7:
