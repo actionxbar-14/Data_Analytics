@@ -2211,6 +2211,8 @@ SECTION I – WINDOW FUNCTIONS + GROUP BY
 
 
 
+
+
 Q126. First calculate total loan amount by loan_type
       using GROUP BY.
 
@@ -2221,6 +2223,13 @@ SELECT
      SUM(loan_amount) As Total_loan_amount
 FROM Loans
 GROUP BY loan_type
+
+
+
+
+
+
+
 
 
 
@@ -2264,10 +2273,40 @@ GROUP BY loan_type
 
 
 
+
+
+
+
+
+
+
+
 Q128. Find each states total customer income
       and compare it with the overall income.
 
 Ans:
+
+SELECT
+      *,
+    ROUND(( annual_income ) /  ( SUM(annual_income) OVER(ORDER BY state) ) * 100 , 2) As state_annual_salary_comparison
+FROM 
+(
+SELECT 
+     customer_id,
+     customer_name,
+     state,
+     annual_income,
+     SUM(annual_income) OVER(ORDER BY state) As Total_annual_income
+FROM Customers
+)t
+
+
+
+
+
+
+
+
 
 
 
@@ -2280,14 +2319,117 @@ Ans:
 Q129. Find each branchs total account balance
       and calculate its percentage of total bank balance.
 
+Ans:
+
+
+
+     
+
+SELECT 
+     *,
+     SUM(Total_balance) OVER() As Total_Account_balance,
+     (Total_balance /  SUM(Total_balance) OVER()) * 100 AS Percentage_calculation
+FROM 
+(
+SELECT 
+     b.branch_name,
+     SUM(a.balance) As Total_balance
+FROM Accounts As a
+LEFT JOIN 
+Branches As b
+ON
+a.branch_id = b.branch_id
+GROUP BY b.branch_name
+)t
+
+
+
+
+
+
+
+
+
+
+
+
 Q130. Calculate total transaction amount by channel
       and rank the channels based on total amount.
+
+Ans:
+
+SELECT
+     *,
+     ROW_NUMBER() OVER(ORDER BY channel DESC) As amount_rank
+FROM
+(
+SELECT 
+     channel,
+     SUM(amount) As Total_amount
+FROM Transactions
+GROUP BY channel
+)t
+
+
+
+
+
+
+
+
+
+
 
 Q131. Calculate total loan amount by loan_type
       and rank loan types by total loan amount.
 
+Ans:
+
+
+SELECT 
+     *,
+     ROW_NUMBER() OVER(ORDER BY Total_loan_amount DESC) As loan_amount_rank
+FROM
+(
+SELECT 
+     loan_type,
+     SUM(loan_amount) As Total_loan_amount
+FROM Loans
+GROUP BY loan_type
+)t
+
+
+
+
+
+
+
 Q132. Calculate customer count by state
       and rank states by customer count.
+
+Ans:
+
+SELECT 
+     *,
+     ROW_NUMBER() OVER(ORDER BY Total_customers DESC) As State_customer_rank
+FROM
+(
+SELECT 
+     COUNT(customer_id) As Total_customers,
+     state
+FROM Customers
+GROUP BY state
+)t
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2299,30 +2441,246 @@ Q132. Calculate customer count by state
 SECTION J – ROW_NUMBER
 ================================================================
 
+
+
 Q133. Assign ROW_NUMBER to all customers based
       on annual_income descending.
+
+Ans:
+
+SELECT 
+     *,
+     ROW_NUMBER() OVER(ORDER BY annual_income DESC) As Income_rank
+FROM Customers
+
+
+
+
+
+
+
 
 Q134. Assign ROW_NUMBER to all loans based
       on loan_amount descending.
 
+Ans:
+
+
+SELECT 
+     *,
+     ROW_NUMBER() OVER(ORDER BY annual_income DESC) As Income_rank
+FROM Customers
+
+
+
+
+
+
+
 Q135. Assign ROW_NUMBER to transactions based
       on transaction_date descending.
 
-Q136. Assign ROW_NUMBER separately within each state.
+Ans:
+
+SELECT
+     *,
+     ROW_NUMBER() OVER(ORDER BY transaction_date DESC) As date_transaction_rank
+FROM Transactions
+
+
+
+
+
+
+
+
+
+
+Q136. Assign ROW_NUMBER to the customers by annual_income separately within each state.
+
+Ans:
+
+SELECT 
+     *,
+     ROW_NUMBER() OVER(PARTITION BY state ORDER BY state) As Rank_by_state
+FROM Customers
+
+
+
+
+
+
+
+
+
 
 Q137. Assign ROW_NUMBER separately within each
       customer_segment.
 
+Ans:
+
+
+SELECT 
+     *,
+     ROW_NUMBER() OVER(PARTITION BY customer_segment ORDER BY state) As Rank_by_state
+FROM Customers
+
+
+
+
+
+
+
+
+
+
+
 Q138. Assign ROW_NUMBER separately within each
       loan_type.
 
+Ans:
+
+SELECT 
+     *,
+     ROW_NUMBER() OVER(PARTITION BY loan_type ORDER BY loan_type) As loan_type_rank
+FROM Loans
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Q139. Find the highest-income customer from each state.
+
+Ans:
+
+
+SELECT 
+     *
+FROM(
+SELECT
+     *,
+     MAX(annual_income) OVER(PARTITION BY state) As highest_income
+FROM
+(
+SELECT 
+     customer_id,
+     customer_name,
+     annual_income,
+     state ,
+     ROW_NUMBER() OVER(PARTITION BY state ORDER BY state, annual_income DESC) As state_rank
+FROM Customers
+)t
+
+)t
+WHERE annual_income = highest_income
+
+
+
+
+
+
+
+
+
+
+
 
 Q140. Find the largest loan from each loan_type.
 
+Ans:
+
+
+
+SELECT 
+     *
+FROM(
+SELECT
+     *,
+     MAX(loan_amount) OVER(PARTITION BY loan_type) As highest_loan
+FROM
+(
+SELECT 
+     loan_id,
+     loan_type,
+     loan_amount,
+     ROW_NUMBER() OVER(PARTITION BY loan_type ORDER BY loan_type) As loan_rank
+FROM loans
+)t
+
+)t
+WHERE loan_amount = highest_loan
+
+
+
+
+
+
+
+
+
+
+
+
 Q141. Find the latest transaction for each account.
 
+Ans:
+
+SELECT 
+     *
+FROM 
+(
+SELECT 
+     *,
+     ROW_NUMBER() OVER(PARTITION BY account_id ORDER BY transaction_date) As Transaction_rank
+FROM Transactions
+)t 
+WHERE Transaction_rank = 1
+
+
+
+
 Q142. Find the first transaction for each account.
+
+
+
+Ans:
+
+SELECT 
+     *
+FROM 
+(
+SELECT 
+     *,
+     ROW_NUMBER() OVER(PARTITION BY account_id ORDER BY transaction_date DESC) As First_Transaction_rank
+FROM Transactions
+)t 
+WHERE Transaction_rank = 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ================================================================
@@ -2629,10 +2987,10 @@ Q219. Rank branches based on total account balance.
 
 Q220. Rank states based on total customer income.
 
-Q221. Calculate each state's percentage contribution
+Q221. Calculate each states percentage contribution
       to total customer income.
 
-Q222. Calculate each loan type's percentage contribution
+Q222. Calculate each loan types percentage contribution
       to total loan amount.
 
 Q223. Find the customer with the highest income
