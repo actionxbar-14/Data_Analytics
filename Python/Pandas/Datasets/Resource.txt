@@ -2,3 +2,17 @@
 
 
 Pandas_Lecture 1 : https://colab.research.google.com/drive/1Te483lmZDDKzzU0YFnuHiSy87AHquJKF?usp=sharing
+
+
+Pandas_Lecture 2 : https://colab.research.google.com/drive/1k_CV931NE4_jMxmu3k2ASPMmIA4g5Wcn?usp=sharing
+
+
+Pandas_important_dataframe_method : https://colab.research.google.com/drive/1a5Yii5DmHtaNH2QyMInegixa26pLWHo7?usp=sharing
+
+
+Pandas_Lecture 3 : https://colab.research.google.com/drive/1JZwTCZp2kbiTACzcuXmWq_FL-GRNo9ym?usp=sharing
+
+
+Pandas_Lecture 4 : https://colab.research.google.com/drive/1Xs7On5fr6ZZnrwGxgMXWld2XUrniqXGj?usp=sharing
+
+
