@@ -2687,91 +2687,731 @@ WHERE Transaction_rank = 1
 SECTION K – RANK
 ================================================================
 
+
+
+
+
+
+
 Q143. Rank customers based on annual_income.
+
+Ans:
+
+SELECT
+     *,
+     RANK() OVER(ORDER BY annual_income DESC) AS Rank_annual_income
+FROM Customers
+
+
+
+
+
+
 
 Q144. Rank loans based on loan_amount.
 
+Ans:
+
+
+SELECT
+     *,
+     RANK() OVER(ORDER BY loan_amount DESC) AS Rank_loan_amount
+FROM Loans
+
+
+
+
+
+
+
+
 Q145. Rank accounts based on balance.
+
+Ans:
+
+SELECT
+     *,
+     RANK() OVER(ORDER BY balance DESC) AS Rank_account_balance
+FROM Accounts
+
+
+
+
+
+
+
+
+
 
 Q146. Rank transactions based on amount.
 
+Ans:
+
+
+SELECT 
+     *,
+     RANK() OVER(ORDER BY amount DESC) As transaction_rank
+FROM Transactions
+
+
+
+
+
+
 Q147. Rank customers separately within each state.
 
+Ans:
+
+
+
+SELECT 
+     *,
+     RANK() OVER(PARTITION BY state ORDER BY annual_income) AS state_rank
+FROM Customers
+
+
+
+
+
+
+
+
 Q148. Rank loans separately within each loan_type.
+
+Ans:
+
+SELECT 
+     *,
+     RANK() OVER(PARTITION BY loan_type ORDER BY loan_amount) AS loan_rankBy_sate
+FROM Loans
+
+
+
+
+
+
+
+
+
+
 
 Q149. Find the top 3 customers by annual income
       from each state.
 
+Ans:
+
+SELECT
+     *
+FROM 
+(
+SELECT 
+     * ,
+     RANK() OVER(PARTITION BY state ORDER BY annual_income DESC) As State_income_rank
+FROM Customers
+)t
+WHERE State_income_rank <= 3
+
+
+
+
+
+
 Q150. Find the top 3 loans within each loan_type.
+
+Ans:
+
+
+SELECT
+     *
+FROM 
+(
+SELECT 
+     * ,
+     RANK() OVER(PARTITION BY loan_type ORDER BY loan_amount DESC) As State_loan_rank
+FROM Loans
+)t
+WHERE State_loan_rank <= 3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ================================================================
 SECTION L – DENSE_RANK
 ================================================================
 
+
+
+
+
 Q151. Dense-rank customers based on annual_income.
+
+Ans:
+
+
+SELECT
+     *,
+     DENSE_RANK() OVER(ORDER BY annual_income DESC) AS Rank_annual_income
+FROM Customers
+
+
+
+
+
+
 
 Q152. Dense-rank loans based on loan_amount.
 
+Ans:
+
+
+SELECT
+     *,
+     DENSE_RANK() OVER(ORDER BY loan_amount DESC) AS Rank_loan_amount
+FROM Loans
+
+
+
+
+
+
+
+
+
 Q153. Dense-rank customers within each state.
 
+Ans:
+
+
+SELECT 
+     *,
+     DENSE_RANK() OVER(PARTITION BY state ORDER BY annual_income) AS state_rank
+FROM Customers
+
+
+
+
+
+
+
+
+
+
 Q154. Dense-rank loans within each loan_type.
+
+Ans:
+
+
+SELECT 
+     *,
+     DENSE_RANK() OVER(PARTITION BY loan_type ORDER BY loan_amount) AS loan_rankBy_sate
+FROM Loans
+
+
+
+
+
+
+
+
 
 Q155. Find the top 3 customers from each state
       using DENSE_RANK.
 
+Ans:
+
+SELECT
+     *
+FROM 
+(
+SELECT 
+     * ,
+     DENSE_RANK() OVER(PARTITION BY state ORDER BY annual_income DESC) As State_income_rank
+FROM Customers
+)t
+WHERE State_income_rank <= 3
+
+
+
+
+
+
+
+
+
 Q156. Find the top 2 loans from each loan_type
       using DENSE_RANK.
 
-Q157. Compare RANK and DENSE_RANK on loan amounts.
+
+Ans:
+
+
+SELECT
+     *
+FROM 
+(
+SELECT 
+     * ,
+     RANK() OVER(PARTITION BY loan_type ORDER BY loan_amount DESC) As State_loan_rank
+FROM Loans
+)t
+WHERE State_loan_rank <= 2
+
+
+
+
+
+
+
+
+
+
 
 
 ================================================================
 SECTION M – NTILE
 ================================================================
 
+
+
+
+
 Q158. Divide all customers into 4 income groups
       using NTILE(4).
+Ans:
+
+SELECT
+     *,
+     NTILE(4) OVER(ORDER BY annual_income DESC) As Ntile_rank
+FROM Customers
+
+
+
+
+
+
+
+
 
 Q159. Divide customers into 5 groups based
       on annual_income.
 
+Ans:
+
+
+
+SELECT
+     *,
+     NTILE(5) OVER(ORDER BY annual_income DESC) As Ntile_rank
+FROM Customers
+
+
+
+
+
+
+
+
+
 Q160. Divide loans into 4 groups based
       on loan_amount.
+
+Ans:
+
+SELECT
+     *,
+     NTILE(4) OVER(ORDER BY loan_amount DESC) As Ntile_rank
+FROM Loans
+
+
+
+
+
+
+
 
 Q161. Divide customers into 4 groups separately
       within each state.
 
+Ans:
+
+SELECT
+     *,
+     NTILE(4) OVER(ORDER BY state DESC) As Ntile_rank
+FROM Customers
+
+
+
+
+
+
+
+
+
+
 Q162. Identify customers belonging to the
       highest income quartile.
+
+Ans:
+
+
+SELECT 
+     *,
+     NTILE(2) OVER(ORDER BY annual_income DESC) As quartile_rank
+FROM Customers
+
+
+
+
+
 
 Q163. Identify loans belonging to the
       highest loan-value quartile.
 
+Ans:
+
+SELECT 
+     *,
+     NTILE(2) OVER(ORDER BY annual_income DESC) As quartile_rank
+FROM Customers
+
+
+
+
+
+
+
+
+
 Q164. Divide customers into 3 groups based
       on annual_income and customer_segment.
+
+
+
+Ans:
+
+
+SELECT 
+     *,
+     NTILE(2) OVER(ORDER BY annual_income DESC , customer_segment DESC) As quartile_rank
+FROM Customers
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ================================================================
 SECTION N – CUME_DIST
 ================================================================
 
+
+
+
 Q165. Calculate cumulative distribution of customers
       based on annual_income.
 
+Ans:
+
+
+SELECT
+     *,
+     CUME_DIST() OVER(ORDER BY annual_income DESC) As cummulative_dist
+FROM Customers
+
+
+
+
+
+
+
+
+
 Q166. Calculate CUME_DIST for loan_amount.
+
+Ans:
+
+
+SELECT
+     *,
+     CUME_DIST() OVER(ORDER BY loan_amount DESC) As cume_dist
+FROM Loans
+
+
+
+
+
+
+
+
 
 Q167. Calculate CUME_DIST separately within
       each customer_segment.
 
+Ans:
+
+SELECT
+     *,
+     CUME_DIST() OVER(ORDER BY customer_segment DESC) AS cume_dist
+FROM Customers
+
+
+
+
+
+
 Q168. Find customers whose cumulative income
       distribution is less than or equal to 25%.
+
+Ans:
+
+SELECT
+     *
+FROM 
+(
+SELECT
+     *,
+     ROUND(CUME_DIST() OVER(ORDER BY annual_income DESC) ,2) * 100 As cummulative_dist
+FROM Customers
+)t
+WHERE cummulative_dist <= 25
+
+
+
+
+
+
+
+
 
 Q169. Find customers in the top 25% income range
       using CUME_DIST.
 
+Ans:
+
+
+SELECT
+     *
+FROM 
+(
+SELECT
+     *,
+     ROUND(CUME_DIST() OVER(ORDER BY annual_income DESC) ,2) * 100 As cummulative_dist
+FROM Customers
+)t
+WHERE cummulative_dist <= 25
+
+
+
+
+
+
+
+
 Q170. Calculate CUME_DIST for loans within
       each loan_type.
+
+Ans:
+
+
+SELECT
+     *,
+     CUME_DIST() OVER(ORDER BY loan_type) As cume_dist
+FROM Loans
+
+
+
+
+
+
+
+================================================================
+SECTION O – PERCENT_RANK
+================================================================
+
+
+Q171. Calculate percentile rank of customers
+      based on annual_income.
+
+Ans:
+
+
+SELECT
+     *,
+     PERCENT_RANK() OVER(ORDER BY annual_income DESC) AS percent_rank
+FROM Customers
+
+
+
+
+
+
+
+
+
+Q172. Calculate PERCENT_RANK for loan_amount.
+
+Ans:
+
+
+SELECT
+     *,
+     PERCENT_RANK() OVER(ORDER BY loan_amount DESC) AS percent_rank
+FROM Loans
+
+
+
+
+
+
+
+
+
+Q173. Calculate PERCENT_RANK separately within
+      each customer_segment.
+
+Ans:
+
+SELECT
+     *,
+     PERCENT_RANK() OVER(
+          PARTITION BY customer_segment
+          ORDER BY annual_income DESC
+     ) AS percent_rank
+FROM Customers
+
+
+
+
+
+
+Q174. Find customers whose percentile rank
+      based on annual_income is less than or equal to 25%.
+
+Ans:
+
+
+SELECT
+     *
+FROM
+(
+     SELECT
+          *,
+          ROUND(
+               PERCENT_RANK() OVER(ORDER BY annual_income DESC),
+               2
+          ) * 100 AS percent_rank
+     FROM Customers
+)t
+WHERE percent_rank <= 25
+
+
+
+
+
+
+
+
+
+Q175. Find customers in the top 25% income range
+      using PERCENT_RANK.
+
+Ans:
+
+
+SELECT
+     *
+FROM
+(
+     SELECT
+          *,
+          ROUND(
+               PERCENT_RANK() OVER(ORDER BY annual_income DESC),
+               2
+          ) * 100 AS percent_rank
+     FROM Customers
+)t
+WHERE percent_rank <= 25
+
+
+
+
+
+
+
+
+Q176. Calculate PERCENT_RANK for loans within
+      each loan_type.
+
+Ans:
+
+
+SELECT
+     *,
+     PERCENT_RANK() OVER(
+          PARTITION BY loan_type
+          ORDER BY loan_amount DESC
+     ) AS percent_rank
+FROM Loans
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ================================================================
@@ -2875,6 +3515,25 @@ Q197. Display every loan along with
 
 Q198. Explain why LAST_VALUE() often requires
       an explicit window frame.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ================================================================
