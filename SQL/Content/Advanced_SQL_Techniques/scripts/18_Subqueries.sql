@@ -153,7 +153,6 @@ FROM Sales.Products;
 */
 -- Main Query
 SELECT
-    c.*,
     t.TotalSales
 FROM Sales.Customers AS c
 LEFT JOIN ( 
