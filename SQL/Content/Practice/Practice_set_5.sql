@@ -3418,104 +3418,622 @@ FROM Loans
 SECTION O – LEAD
 ================================================================
 
+
+
+
 Q171. Display each transaction along with
       the next transaction amount.
+
+Ans:
+
+
+SELECT 
+     *,
+     LEAD(amount) OVER(ORDER BY transaction_date) As LEAD_Value
+FROM Transactions
+
+
+
+
+
+
+
+
+
 
 Q172. Display each transaction along with
       the next transaction date.
 
+Ans:
+
+
+
+SELECT 
+     *,
+     LEAD(transaction_date) OVER(ORDER BY transaction_date) As LEAD_Value
+FROM Transactions
+
+
+
+
+
+
+
+
+
+
+
 Q173. Find the difference between current transaction
       amount and next transaction amount.
+
+Ans:
+
+
+
+
+SELECT
+     *,
+     ABS(amount - Lead_amount) As diff_amount
+FROM
+(
+SELECT
+     *,
+     LEAD(amount) OVER(ORDER BY transaction_date) As Lead_amount 
+FROM Transactions
+)t
+
+
+
+
+
+
+
+
+
+
 
 Q174. Find the number of days between current
       transaction and next transaction.
 
+Ans:
+
+
+SELECT
+     *,
+     DATEDIFF(DAY , transaction_date,Lead_transaction) As diff_date  
+FROM
+(
+SELECT
+     *,
+     LEAD(transaction_date) OVER(ORDER BY transaction_date) As Lead_transaction
+FROM Transactions
+)t
+
+
+
+
+
+
+
+
+
+
+
 Q175. Find the next transaction for each account.
+
+Ans:
+
+
+
+SELECT 
+     *,
+     LEAD(transaction_date) OVER(ORDER BY account_id) As Next_transaction
+FROM Transactions
+
+
+
+
+
+
+
+
+
+
 
 Q176. Find the next loan start date for each
       customer.
 
+Ans:
+
+SELECT  
+     *,
+     LEAD(loan_start_date) OVER(ORDER BY customer_id) As next_loan_start_date
+FROM Loans
+
+
+
+
+
+
+
+
+
+
 Q177. Compare current loan amount with the
       next loan amount.
 
+Ans:
+
+
+SELECT
+     *,
+     ABS(loan_amount - next_loan_amount) As loan_amount_diff
+FROM
+(
+SELECT  
+     *,
+     LEAD(loan_amount) OVER(ORDER BY loan_start_date) As next_loan_amount
+FROM Loans
+)t
+
+
+
+
+
+
+ 
+
 Q178. Identify transactions where the next transaction
       amount is higher than the current transaction.
+
+Ans:
+
+SELECT
+     *
+FROM 
+(
+SELECT
+     *,
+     LEAD(amount) OVER(ORDER BY account_id) AS next_transaction_amount
+FROM Transactions
+)t
+WHERE next_transaction_amount > amount
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ================================================================
 SECTION P – LAG
 ================================================================
 
+
+
+
+
 Q179. Display each transaction along with
       the previous transaction amount.
+
+Ans:
+
+
+
+SELECT 
+     *,
+     LAG(amount) OVER(ORDER BY transaction_date) As LAG_Value
+FROM Transactions
+
+
+
+
+
+
+
+
+
+
 
 Q180. Display each transaction along with
       the previous transaction date.
 
+
+Ans:
+
+
+SELECT 
+     *,
+     LAG(transaction_date) OVER(ORDER BY transaction_date) As LAG_transaction
+FROM Transactions
+
+
+
+
+
+
+
 Q181. Calculate the difference between current
       transaction amount and previous transaction amount.
+
+Ans:
+
+SELECT 
+     *,
+     ABS( amount - LAG_amount ) AS diff_amount
+FROM
+(
+SELECT 
+     *,
+     LAG(amount) OVER(ORDER BY transaction_date) As LAG_amount
+FROM Transactions
+)t
+
+
+
+
+
+
+
+
+
 
 Q182. Calculate the percentage change from
       previous transaction amount.
 
-Q183. Find the previous transaction for each account.
+Ans:
 
-Q184. Compare current loan amount with
-      previous loan amount.
+
+
+SELECT 
+    *,
+   ROUND(( diff_amount / amount ) , 2) * 100 As Percent_change 
+FROM
+(
+SELECT 
+     *,
+     ABS( amount - LAG_amount ) AS diff_amount
+FROM
+(
+SELECT 
+     *,
+     LAG(amount) OVER(ORDER BY transaction_date) As LAG_amount
+FROM Transactions
+)t
+)t
+
+
+
+
+
+
+
+
+
+
 
 Q185. Find the number of days between
       current and previous transaction.
 
+Ans:
+
+SELECT
+     *,
+    DATEDIFF(DAY ,LAG_transaction, transaction_date) As diff_date  
+FROM
+(
+SELECT
+     *,
+     LAG(transaction_date) OVER(ORDER BY transaction_date) As LAG_transaction
+FROM Transactions
+)t
+
+
+
+
+
+
+
+
+
+
+
+
 Q186. Identify transactions where the current
       amount is greater than the previous amount.
+
+Ans:
+
+
+
+SELECT
+     *
+FROM 
+(
+SELECT
+     *,
+     LAG(amount) OVER(ORDER BY account_id) AS next_transaction_amount
+FROM Transactions
+)t
+WHERE next_transaction_amount > amount
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ================================================================
 SECTION Q – FIRST_VALUE
 ================================================================
 
+
+
+
+
+
+
+
+
 Q187. Find the first transaction amount
       for each account.
+
+Ans:
+
+
+
+SELECT 
+     *,
+     FIRST_VALUE(amount) OVER(PARTITION BY account_id ORDER BY amount) As First_value
+FROM Transactions
+
+
+
+
+
+
+
+
 
 Q188. Find the first transaction date
       for each account.
 
+Ans:
+
+
+SELECT 
+     *,
+     FIRST_VALUE(transaction_date) OVER(PARTITION BY account_id ORDER BY transaction_date) As First_date
+FROM Transactions
+
+
+
+
+
+
+
+
+
+
+
 Q189. Display every transaction along with
       the first transaction amount of its account.
+
+Ans:
+
+
+
+SELECT 
+     *,
+     FIRST_VALUE(amount) OVER(PARTITION BY account_id ORDER BY amount) As First_value
+FROM Transactions
+
+
+
+
+
+
+
 
 Q190. Find the first loan amount within
       each loan_type.
 
+Ans:
+
+
+SELECT 
+     *,
+     FIRST_VALUE(loan_amount) OVER(PARTITION BY customer_id ORDER BY loan_amount) As First_loan_value
+FROM Loans
+
+
+
+
+
+
+
+
+
+
+
+
 Q191. Display every loan along with
       the first loan amount of its loan_type.
+
+Ans:
+
+
+
+SELECT 
+     *,
+     FIRST_VALUE(loan_amount) OVER(PARTITION BY loan_type ORDER BY loan_amount) As First_loan_value
+FROM Loans
+
+
+
+
+
+
+
 
 Q192. Find the first customer income
       within each state after ordering
       customers by annual_income.
+
+Ans:
+
+SELECT 
+     *,
+     FIRST_VALUE(annual_income) OVER(PARTITION BY state ORDER BY annual_income) As First_value
+FROM Customers
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ================================================================
 SECTION R – LAST_VALUE
 ================================================================
 
+
+
+
+
+
 Q193. Find the latest transaction amount
       for each account.
+
+Ans:
+
+
+
+SELECT 
+     *,
+     LAST_VALUE(amount) OVER(PARTITION BY account_id ORDER BY transaction_date DESC ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) As Last_value
+FROM Transactions
+
+
+
+
+
+
+
+
+
 
 Q194. Find the latest transaction date
       for each account.
 
+Ans:
+
+SELECT 
+     *,
+     LAST_VALUE(transaction_date) OVER(PARTITION BY account_id ORDER BY transaction_date DESC ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) As Last_value
+FROM Transactions
+
+
+
+
+
+
+
+
+
+
 Q195. Display every transaction along with
       the latest transaction amount of its account.
+
+Ans:
+
+SELECT 
+     *,
+     LAST_VALUE(transaction_date) OVER(PARTITION BY account_id ORDER BY transaction_date DESC ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) As Last_value
+FROM Transactions
+
+
+
+
+
+
 
 Q196. Find the last loan amount within
       each loan_type.
 
+Ans:
+
+SELECT 
+     *,
+     LAST_VALUE(loan_amount) OVER(PARTITION BY loan_type ORDER BY loan_start_date  ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) As Last_value
+FROM Loans
+
+
+
+
+
+
+
+
 Q197. Display every loan along with
       the last loan amount of its loan_type.
 
-Q198. Explain why LAST_VALUE() often requires
-      an explicit window frame.
+Ans:
 
+SELECT 
+     *,
+     LAST_VALUE(loan_amount) OVER(PARTITION BY loan_type ORDER BY loan_start_date  ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) As Last_value
+FROM Loans
 
 
 
@@ -3536,175 +4054,10 @@ Q198. Explain why LAST_VALUE() often requires
 
 
 
-================================================================
-SECTION S – COMBINED WINDOW FUNCTION QUESTIONS
-================================================================
 
-Q199. For every customer, display:
 
-      customer_name
-      annual_income
-      ROW_NUMBER
-      RANK
-      DENSE_RANK
 
 
-Q200. For every loan, display:
 
-      loan_amount
-      ROW_NUMBER
-      RANK
-      DENSE_RANK
 
-
-Q201. For every transaction, display:
-
-      transaction_date
-      amount
-      previous_amount
-      next_amount
-
-
-Q202. Calculate:
-
-      current transaction
-      previous transaction
-      next transaction
-      difference from previous
-      difference from next
-
-
-Q203. For every customer, calculate:
-
-      annual_income
-      state average income
-      difference from state average
-
-
-Q204. For every loan, calculate:
-
-      loan_amount
-      loan_type average
-      difference from loan_type average
-
-
-Q205. For every transaction, calculate:
-
-      amount
-      account total
-      account average
-      running total
-
-
-Q206. For every account, calculate:
-
-      transaction count
-      total transaction amount
-      average transaction amount
-      first transaction amount
-      latest transaction amount
-
-
-================================================================
-SECTION T – BFSI DATA ANALYST CASE STUDIES
-================================================================
-
-Q207. Find the top 3 highest-income customers
-      from every state.
-
-Q208. Find the top 2 highest-value loans
-      from every loan type.
-
-Q209. Find the latest transaction for every account.
-
-Q210. Find the first transaction for every account.
-
-Q211. Calculate month-over-month transaction
-      amount change using LAG.
-
-Q212. Find accounts where the latest transaction
-      amount is greater than the previous transaction.
-
-Q213. Calculate running transaction amount
-      for every account.
-
-Q214. Calculate a 3-transaction moving average
-      for every account.
-
-Q215. Find customers whose income is above
-      their state average income.
-
-Q216. Find loans whose amount is above the
-      average loan amount of their loan_type.
-
-Q217. Divide customers into income quartiles.
-
-Q218. Identify customers belonging to the
-      highest income quartile.
-
-Q219. Rank branches based on total account balance.
-
-Q220. Rank states based on total customer income.
-
-Q221. Calculate each states percentage contribution
-      to total customer income.
-
-Q222. Calculate each loan types percentage contribution
-      to total loan amount.
-
-Q223. Find the customer with the highest income
-      in each customer segment.
-
-Q224. Find the largest account balance
-      in each branch.
-
-Q225. Find the largest transaction
-      for each account.
-
-Q226. Find the first and latest transaction
-      for every account.
-
-Q227. Calculate transaction growth between
-      consecutive transactions.
-
-Q228. Identify accounts whose transaction amount
-      increased for two consecutive transactions.
-
-Q229. Find customers whose income rank is
-      within the top 10.
-
-Q230. Find customers whose income is in
-      the top 25% using NTILE.
-
-Q231. Find loans whose CUME_DIST is
-      greater than 0.75.
-
-Q232. Find each customers income rank
-      within their state.
-
-Q233. Find each customers income quartile
-      within their state.
-
-Q234. Find each accounts cumulative transaction
-      amount over time.
-
-Q235. Find the average transaction amount
-      over the previous 2 transactions.
-
-Q236. Find the difference between each transaction
-      and the accounts first transaction.
-
-Q237. Find the difference between each transaction
-      and the accounts latest transaction.
-
-Q238. Find the customer with the highest income
-      from every branch.
-
-Q239. Find the top 3 loans from every branch
-      after joining Customers and Loans.
-
-Q240. Find the top 3 customers in every state
-      based on annual_income and show their
-      rank, state average income and difference
-      from state average.
 
