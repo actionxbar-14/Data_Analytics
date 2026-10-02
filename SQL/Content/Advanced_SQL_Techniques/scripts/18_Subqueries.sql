@@ -189,13 +189,6 @@ LEFT JOIN (
 
 
 
-
-
-
-
-
-
-
 /* ==============================================================================
    SUBQUERY | COMPARISON OPERATORS
 ===============================================================================*/
@@ -210,22 +203,6 @@ SELECT
     (SELECT AVG(Price) FROM Sales.Products) AS AvgPrice -- Subquery
 FROM Sales.Products
 WHERE Price > (SELECT AVG(Price) FROM Sales.Products); -- Subquery
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -248,6 +225,10 @@ WHERE CustomerID IN (
     FROM Sales.Customers
     WHERE Country = 'Germany'
 );
+
+
+
+
 
 /* TASK 8:
    Show the details of orders made by customers not in Germany.
@@ -298,21 +279,7 @@ WHERE Gender = 'F'
       SELECT Salary
       FROM Sales.Employees
       WHERE Gender = 'M'
-  );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  
 
 
 
