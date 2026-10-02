@@ -220,3 +220,323 @@ SELECT
 FROM Sales.Customers c 
 WHERE Country = 'Germany' 
 AND o.CustomerID = c.CustomerID)
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+-- ::  CTE ( Common Table Expression ) :
+
+-- It is a Temporary , named result set ( virtual table ) , that can be used multiple times within your query to simplify and organize 
+-- complex query.
+
+
+
+
+
+-- Find the total sales per customer 
+
+-- Ans :
+
+
+WITH CTE_Total_Sales As
+(
+SELECT
+     CustomerID,
+     SUM(Sales) As TotalSales
+FROM Sales.Orders
+GROUP BY CustomerID
+-- ORDER BY CustomerID   #--> Order by is not allowed in CTE
+)
+
+
+SELECT 
+     c.CustomerID,
+     c.FirstName,
+     c.LastName,
+     cts.TotalSales
+FROM Sales.Customers As c
+LEFT JOIN 
+CTE_Total_Sales As cts
+ON
+cts.CustomerID = c.CustomerID
+ORDER BY c.CustomerID
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- Multiple CTE's : Find the last order date for each customer
+
+
+
+
+
+
+
+
+
+WITH CTE_Total_Sales As
+(
+SELECT
+     CustomerID,
+     SUM(Sales) As TotalSales
+FROM Sales.Orders
+GROUP BY CustomerID
+
+)
+
+, CTE_Last_Order As
+(
+SELECT
+     CustomerID,
+     MAX(OrderDate) As Last_Order
+FROM Sales.Orders
+GROUP BY CustomerID
+
+)
+
+
+
+SELECT 
+     c.CustomerID,
+     c.FirstName,
+     c.LastName,
+     cts.TotalSales,
+     ctsl.Last_Order
+FROM Sales.Customers As c
+LEFT JOIN 
+CTE_Total_Sales As cts
+ON
+cts.CustomerID = c.CustomerID
+LEFT JOIN
+CTE_Last_Order As ctsL
+ON
+ctsL.CustomerID = c.CustomerID
+ORDER BY c.CustomerID
+
+
+
+
+
+
+
+
+-- Nested CTE's :   [ CTE inside another CTE ]
+
+-- A nested CTE uses the result of another CTE, so it can't run independently.
+
+
+
+
+
+-- Rank Customers based on Total Sales Per Customer.
+
+
+
+
+
+
+
+
+
+
+
+
+WITH CTE_Total_Sales As
+(
+SELECT
+     CustomerID,
+     SUM(Sales) As TotalSales
+FROM Sales.Orders
+GROUP BY CustomerID
+
+)
+
+, CTE_Last_Order As
+(
+SELECT
+     CustomerID,
+     MAX(OrderDate) As Last_Order
+FROM Sales.Orders
+GROUP BY CustomerID
+
+)
+
+, CTE_Customer_Rank As 
+(
+SELECT 
+     CustomerID,
+     TotalSales,
+     RANK() OVER(ORDER BY TotalSales DESC) AS CustomerRank
+FROM CTE_Total_Sales
+
+)
+
+
+
+
+
+
+
+SELECT 
+     c.CustomerID,
+     c.FirstName,
+     c.LastName,
+     cts.TotalSales,
+     ctsl.Last_Order,
+     ccr.CustomerRank
+FROM Sales.Customers As c
+LEFT JOIN 
+CTE_Total_Sales As cts
+ON
+cts.CustomerID = c.CustomerID
+LEFT JOIN
+CTE_Last_Order As ctsL
+ON
+ctsL.CustomerID = c.CustomerID
+LEFT JOIN 
+CTE_Customer_Rank As ccr
+ON 
+ccr.CustomerID = c.CustomerID
+ORDER BY c.CustomerID
+
+
+
+
+
+
+
+
+-- Segment customers based on their total sales.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+WITH CTE_Total_Sales As
+(
+SELECT
+     CustomerID,
+     SUM(Sales) As TotalSales
+FROM Sales.Orders
+GROUP BY CustomerID
+
+)
+
+
+
+, CTE_Last_Order As
+(
+SELECT
+     CustomerID,
+     MAX(OrderDate) As Last_Order
+FROM Sales.Orders
+GROUP BY CustomerID
+
+)
+
+
+
+, CTE_Customer_Rank As 
+(
+SELECT 
+     CustomerID,
+     TotalSales,
+     RANK() OVER(ORDER BY TotalSales DESC) AS CustomerRank
+FROM CTE_Total_Sales
+
+)
+
+
+
+
+, CTE_Customer_Segments As
+(
+SELECT 
+     CustomerID,
+     TotalSales,
+     CASE 
+         WHEN TotalSales > 100 THEN 'High'
+         WHEN TotalSales > 80 THEN 'Medium'
+         ELSE 'Low'
+     END CustomerSegments
+FROM CTE_Total_Sales
+)
+
+
+
+
+
+
+SELECT 
+     c.CustomerID,
+     c.FirstName,
+     c.LastName,
+     cts.TotalSales,
+     ctsl.Last_Order,
+     ccr.CustomerRank
+FROM Sales.Customers As c
+LEFT JOIN 
+CTE_Total_Sales As cts
+ON
+cts.CustomerID = c.CustomerID
+LEFT JOIN
+CTE_Last_Order As ctsL
+ON
+ctsL.CustomerID = c.CustomerID
+LEFT JOIN 
+CTE_Customer_Rank As ccr
+ON 
+ccr.CustomerID = c.CustomerID
+LEFT JOIN
+CTE_Customer_Segments AS ccs
+ON 
+ccs.CustomerID = c.CustomerID
+ORDER BY c.CustomerID
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
