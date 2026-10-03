@@ -176,6 +176,20 @@ WHERE unit_price > AVG_unit_price;
 
 /* Q5. Find customers who have placed more than one order.  */
 
+Ans:
+
+
+SELECT
+     *
+FROM 
+(
+SELECT 
+     customer_id,
+     COUNT(order_id) As Order_Quantity
+FROM BankOrders
+GROUP BY customer_id
+)t
+WHERE Order_Quantity > 1;
 
 
 
@@ -190,15 +204,79 @@ WHERE unit_price > AVG_unit_price;
 
 
 
+/* Q6. Find orders whose sales_amount is greater than the average
+    order amount. */
+
+Ans:
+
+
+SELECT
+     * 
+FROM 
+(
+SELECT
+     *,
+     AVG(unit_price) OVER() As Avg_unit_price
+FROM BankOrders
+)t
+WHERE unit_price > Avg_unit_price;
 
 
 
-Q6. Find orders whose sales_amount is greater than the average
-    order amount.
 
-Q7. Find the department having the highest budget.
 
-Q8. Find employees who earn less than the average salary.
+
+
+
+
+
+
+
+/* Q7. Find the department having the highest budget. */
+
+Ans:
+
+
+
+SELECT 
+     * 
+FROM 
+(
+SELECT
+     *,
+     MAX(Total_Salary) OVER() As Highest_Budget
+FROM 
+(
+SELECT 
+     department,
+     SUM(salary) As Total_Salary
+FROM Employees
+GROUP BY department
+)t
+
+)t
+WHERE  Total_Salary = Highest_Budget;
+
+
+
+
+
+
+
+
+
+
+
+
+/* Q8. Find employees who earn less than the average salary.  */
+
+Ans:
+
+
+
+
+
+
 
 Q9. Find employees whose salary is greater than the salary of
     employee 'Amit Sharma'.
