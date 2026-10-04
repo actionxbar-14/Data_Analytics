@@ -445,19 +445,197 @@ WHERE Number_of_Customers = MaxNumber_of_customers;
    SECTION B — SUBQUERY IN FROM CLAUSE
 ============================================================================= */
 
-Q17. Create a derived table containing branch-wise average customer income.
 
-Q18. Find branches whose average customer income is greater than 1500000.
+USE 
+BFSI_Window
 
-Q19. Create a derived table containing customer-wise total account balance.
 
-Q20. Find customers whose total account balance is greater than 300000.
 
-Q21. Create a derived table containing customer-wise total loan amount.
+/* Q17. Create a derived table containing branch-wise average customer income.  */
+  
+Ans:
 
-Q22. Find customers whose total loan amount exceeds 3000000.
 
-Q23. Create a derived table containing branch-wise total loan amount.
+WITH CTE_derive As
+(
+SELECT
+     b.branch_name ,
+     AVG(c.annual_income) As Customer_income
+FROM Branches As b
+JOIN
+Customers As c 
+ON
+c.branch_id = b.branch_id
+GROUP BY b.branch_name
+)
+
+SELECT 
+     *
+FROM CTE_derive
+
+
+
+
+
+
+
+
+
+
+/*  Q18. Find branches whose average customer income is greater than 150000.  */
+
+
+Ans:
+
+
+
+
+WITH CTE_derive As
+(
+SELECT
+     b.branch_name ,
+     AVG(c.annual_income) As Customer_income
+FROM Branches As b
+JOIN
+Customers As c 
+ON
+c.branch_id = b.branch_id
+GROUP BY b.branch_name
+)
+
+SELECT 
+     *
+FROM CTE_derive
+WHERE Customer_income > 150000
+
+
+
+
+
+
+
+
+
+/*  Q19. Create a derived table containing customer-wise total account balance. */
+
+Ans:
+
+
+SELECT 
+     c.customer_id,
+     c.customer_name,
+    SUM(a.balance) OVER() As Total_balance
+FROM Customers As c 
+LEFT JOIN 
+Accounts As a
+ON
+c.customer_id = a.customer_id 
+
+
+
+
+
+
+
+
+
+
+/*  Q20. Find customers whose total account balance is greater than 300000.  */
+
+Ans: 
+
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     a.balance 
+FROM Customers As c 
+LEFT JOIN 
+Accounts As a
+ON
+c.customer_id = a.customer_id 
+WHERE a.balance > 300000;
+
+
+
+
+
+
+/*  Q21. Create a derived table containing customer-wise total loan amount. */
+
+Ans:
+
+
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     l.loan_type,
+     loan_amount,
+     SUM(l.loan_amount) OVER() As Total_loan_amount
+FROM Customers As c
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+
+
+
+
+
+
+
+
+/*  Q22. Find customers whose total loan amount exceeds 3000000. */
+
+Ans:
+
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     a.balance 
+FROM Customers As c 
+LEFT JOIN 
+Accounts As a
+ON
+c.customer_id = a.customer_id 
+WHERE a.balance > 300000;
+
+
+
+
+
+
+
+
+
+/*  Q23. Create a derived table containing branch-wise total loan amount.  */
+
+Ans:
+
+
+WITH CTE_derive_loan AS
+(
+SELECT 
+     b.branch_name,
+     SUM(l.loan_amount) As Total_loan_amount
+FROM Branches As b
+LEFT JOIN 
+Customers As c
+ON
+b.branch_id = c.branch_id
+LEFT JOIN 
+Loans As l
+ON
+c.customer_id = l.customer_id
+GROUP BY b.branch_name
+)
+
+SELECT * FROM CTE_derive_loan;
+
+
+
+
+
+
 
 Q24. Find branches whose total loan amount is greater than 10000000.
 
