@@ -1,96 +1,53 @@
-/* ==============================================================================
-
-   SQL ADVANCED PRACTICE QUESTION SET
-
-   Database: SQL_ADVANCED
-
-   Topics Covered:
-     1. SUBQUERY - RESULT TYPES
-     2. SUBQUERY - FROM CLAUSE
-     3. SUBQUERY - SELECT
-     4. SUBQUERY - JOIN CLAUSE
-     5. SUBQUERY - COMPARISON OPERATORS
-     6. SUBQUERY - IN OPERATOR
-     7. SUBQUERY - ANY OPERATOR
-     8. SUBQUERY - CORRELATED
-     9. SUBQUERY - EXISTS OPERATOR
-    10. NON-RECURSIVE CTE
-    11. RECURSIVE CTE - GENERATE SEQUENCE
-    12. RECURSIVE CTE - BUILD HIERARCHY
-    13. VIEWS
-    14. TEMPORARY TABLES
-    15. STORED PROCEDURES
-    16. TRIGGERS
-    17. COMBINED ADVANCED PRACTICE
-    18. INTERVIEW-LEVEL QUESTIONS
-
-   Total Questions: 250
-
-   NOTE:
-   - No BFSI-specific questions
-   - No UNION / UNION ALL / EXCEPT / INTERSECT questions
-   - No answers included
-
-===============================================================================*/
-
-
-
-
-
-SELECT * FROM Accounts
-
-SELECT * FROM BankOrders
-
-SELECT * FROM Branches
-
-SELECT * FROM CardTransactions
-
-SELECT * FROM CreditCards
-
-SELECT * FROM Customers
-
-SELECT * FROM EmployeeAudit
-
-SELECT * FROM Employees
-
-SELECT * FROM LoanPayments
-
-SELECT * FROM  Loans
-
-SELECT * FROM Products
-
-SELECT * FROM Transactions
+/* =============================================================================
+   ============================================================================
+                      BFSI_WINDOW
+                ADVANCED SQL PRACTICE QUESTIONS
+   ============================================================================
+============================================================================= */
 
 
 
 
 
 
-/* ==============================================================================
-   SECTION A
-   SUBQUERY - RESULT TYPES
-===============================================================================*/
 
 
 
 
 
 
- /* Q1. Find employees whose salary is greater than the average salary
-     of all employees. */
+
+
+
+
+/* =============================================================================
+                      SECTION A — SUBQUERY RESULT TYPES
+============================================================================= */
+
+USE
+BFSI_Window
+
+
+
+
+/* Q1. Find customers whose annual_income is greater than the average
+    annual_income of all customers.   */
 
 Ans:
 
-SELECT
+
+
+
+SELECT 
      *
-FROM
+FROM 
 (
-SELECT
+SELECT 
      *,
-     AVG(salary) OVER() As Avg_Salary
-FROM Employees
+     AVG(annual_income) OVER() As Avg_annual_income
+FROM Customers
 )t
-WHERE salary > Avg_Salary
+WHERE annual_income > Avg_annual_income;
 
 
 
@@ -98,128 +55,22 @@ WHERE salary > Avg_Salary
 
 
 
-
-    
-/* Q2. Find the employee with the highest salary using a subquery. */
+/*  Q2. Find customers whose annual_income is less than the average
+    annual_income.   */
 
 Ans:
 
-SELECT
-     *
-FROM
-(
+
 SELECT 
-     * ,
-     MAX(salary) OVER() AS Max_salary
-FROM Employees
-)t
-WHERE salary = Max_salary;
-
-
-
-
-
-
-
-
-
-/* Q3. Find employees whose salary is equal to the maximum salary. */
-
-Ans:
-
-
-
-
-SELECT
-     *
-FROM
-(
-SELECT 
-     * ,
-     MAX(salary) OVER() AS Max_salary
-FROM Employees
-)t
-WHERE salary = Max_salary;
-
-
-
-
-
-
-
-
-/* Q4. Find products whose unit_price is greater than the average
-    product price. */
-
-Ans:
-
-
-SELECT
      *
 FROM 
 (
 SELECT 
-     * ,
-     AVG(unit_price) OVER() As AVG_unit_price
-FROM BankOrders
-)t
-WHERE unit_price > AVG_unit_price;
-
-
-
-
-
-
-
-
-
-
-/* Q5. Find customers who have placed more than one order.  */
-
-Ans:
-
-
-SELECT
-     *
-FROM 
-(
-SELECT 
-     customer_id,
-     COUNT(order_id) As Order_Quantity
-FROM BankOrders
-GROUP BY customer_id
-)t
-WHERE Order_Quantity > 1;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Q6. Find orders whose sales_amount is greater than the average
-    order amount. */
-
-Ans:
-
-
-SELECT
-     * 
-FROM 
-(
-SELECT
      *,
-     AVG(unit_price) OVER() As Avg_unit_price
-FROM BankOrders
+     AVG(annual_income) OVER() As Avg_annual_income
+FROM Customers
 )t
-WHERE unit_price > Avg_unit_price;
+WHERE annual_income < Avg_annual_income;
 
 
 
@@ -231,31 +82,113 @@ WHERE unit_price > Avg_unit_price;
 
 
 
-
-/* Q7. Find the department having the highest budget. */
+/* Q3. Find the customer having the highest annual_income using a subquery.  */
 
 Ans:
+
+SELECT 
+     *
+FROM Customers
+WHERE annual_income = (
+SELECT 
+     MAX(annual_income) As Max_salary
+FROM Customers
+);
+
+
+
+
+
+
+
+
+
+
+
+/* Q4. Find the customer having the lowest annual_income using a subquery.   */
+
+Ans:
+
+SELECT 
+     *
+FROM Customers
+WHERE annual_income = (
+SELECT 
+     MIN(annual_income) As Min_salary
+FROM Customers
+);
+
+
+
+
+
+
+
+
+
+
+/* Q5. Find accounts whose balance is greater than the average account balance.  */
+
+Ans:
+
+
+SELECT
+     *
+FROM Accounts
+WHERE balance > (
+SELECT
+     AVG(balance) As AVG_balance
+FROM Accounts
+);
+
+
+
+
+
+
+
+
+
+
+/* Q6. Find accounts whose balance is equal to the maximum account balance.  */
+
+Ans:
+
+
+
+SELECT
+     *
+FROM Accounts
+WHERE balance = (
+SELECT
+     MAX(balance) As Max_balance
+FROM Accounts
+);
+
+
+
+
+
+
+
+
+
+
+
+/* Q7. Find loans whose loan_amount is greater than the average loan amount.  */
+
+Ans:
+
 
 
 
 SELECT 
      * 
-FROM 
-(
-SELECT
-     *,
-     MAX(Total_Salary) OVER() As Highest_Budget
-FROM 
-(
+FROM Loans
+WHERE loan_amount >  (
 SELECT 
-     department,
-     SUM(salary) As Total_Salary
-FROM Employees
-GROUP BY department
-)t
-
-)t
-WHERE  Total_Salary = Highest_Budget;
+     AVG(loan_amount) As avg_loan_amount
+FROM Loans);
 
 
 
@@ -266,37 +199,145 @@ WHERE  Total_Salary = Highest_Budget;
 
 
 
+/* Q8. Find the loan having the highest loan_amount using a subquery.  */
+
+Ans:
 
 
-/* Q8. Find employees who earn less than the average salary.  */
+SELECT 
+     * 
+FROM Loans
+WHERE loan_amount =  (
+SELECT 
+     MAX(loan_amount) As Max_loan_amount
+FROM Loans);
+
+
+
+
+
+
+
+
+
+
+
+/* Q9. Find transactions whose amount is greater than the average
+    transaction amount.   */
+
+Ans:
+
+
+SELECT 
+     *
+FROM Transactions
+WHERE amount > (
+SELECT
+     AVG(amount) As Avg_amount
+FROM Transactions
+);
+
+
+
+
+
+
+/* Q10. Find credit cards whose outstanding_amount is greater than the
+     average outstanding amount.  */
+
+Ans:
+
+
+SELECT
+     *
+FROM Credit_Cards
+WHERE outstanding_amount > (
+SELECT 
+     AVG(outstanding_amount) As Avg_outstanding_amount
+FROM Credit_Cards);
+
+
+
+
+
+
+
+
+/* Q11. Find customers whose age is greater than the average customer age.  */
+
+Ans:
+
+SELECT 
+     *
+FROM Customers
+WHERE age > (
+SELECT 
+     AVG(age) As Customer_avg_age
+FROM Customers);
+
+
+
+
+
+
+
+
+/* Q12. Find branches whose number of customers is greater than the
+     average number of customers per branch.  */
 
 Ans:
 
 
 
 
+SELECT
+     *
+FROM 
+(
+SELECT
+     BranchName,
+     Number_of_Customers,
+     AVG(Number_of_Customers) OVER() As AvgNumber_of_customers
+FROM
+(
+SELECT 
+     b.branch_name As BranchName,
+     COUNT(c.customer_id) as Number_of_Customers
+FROM Customers As c
+LEFT JOIN
+Branches as b
+ON 
+c.branch_id = b.branch_id
+GROUP BY b.branch_name
+)t
+)t
+WHERE Number_of_Customers > AvgNumber_of_customers;
 
 
 
-Q9. Find employees whose salary is greater than the salary of
-    employee 'Amit Sharma'.
 
-Q10. Find products whose price is greater than the price of
-     'Keyboard'.
 
-Q11. Find orders whose sales amount is greater than the average
-     completed order amount.
 
-Q12. Find customers whose total order amount is greater than the
-     average customer order amount.
 
-Q13. Find employees working in the department having the highest budget.
+/* Q13. Find the customer having the highest loan amount.  */
 
-Q14. Find the second-highest salary using a subquery.
+Ans:
 
-Q15. Find employees whose salary is greater than the second-highest salary.
 
-Q16. Find the department whose average employee salary is highest.
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     l.loan_type,
+     l.loan_amount
+FROM Customers As c
+LEFT JOIN
+Loans As l 
+ON
+c.customer_id = l.customer_id
+WHERE l.loan_amount = (
+SELECT 
+     MAX(loan_amount) As Max_loan_amount
+FROM Loans)
 
 
 
@@ -305,9 +346,25 @@ Q16. Find the department whose average employee salary is highest.
 
 
 
+/* Q14. Find the Customers having the highest balance.  */
 
+Ans:
 
 
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     a.account_type,
+     a.balance
+FROM Customers As c
+LEFT JOIN
+Accounts As a 
+ON
+c.customer_id = a.customer_id
+WHERE a.balance = (
+SELECT 
+     MAX(balance) As Max_balance
+FROM Accounts)
 
 
 
@@ -319,40 +376,53 @@ Q16. Find the department whose average employee salary is highest.
 
 
 
+/* Q15. Find the loan having the highest interest rate.  */
 
+Ans:
 
+SELECT * FROM Loans
+WHERE interest_rate = (
+SELECT 
+     MAX(interest_rate) As Max_interest_rate
+FROM Loans)
 
 
 
 
-/* ==============================================================================
-   SECTION B
-   SUBQUERY - FROM CLAUSE
-===============================================================================
 
-Q17. Create a derived table containing department-wise average salary.
 
-Q18. From the derived table, find departments whose average salary
-    is greater than 90000.
 
-Q19. Create a derived table containing customer-wise total sales.
 
-Q20. Find customers whose total sales exceed 50000 using a subquery
-    in the FROM clause.
 
-Q21. Create a derived table containing category-wise average product price.
+/* Q16. Find the branch having the highest number of customers.  */
 
-Q22. Find categories whose average product price is greater than
-    the overall product average.
+Ans:
 
-Q23. Create a derived table containing department-wise employee count.
 
-Q24. Find departments having more than 3 employees.
 
-Q25. Create a derived table containing customer-wise order count.
+SELECT
+     *
+FROM 
+(
+SELECT
+     BranchName,
+     Number_of_Customers,
+     MAX(Number_of_Customers) OVER() As MaxNumber_of_customers
+FROM
+(
+SELECT 
+     b.branch_name As BranchName,
+     COUNT(c.customer_id) as Number_of_Customers
+FROM Customers As c
+LEFT JOIN
+Branches as b
+ON 
+c.branch_id = b.branch_id
+GROUP BY b.branch_name
+)t
+)t
+WHERE Number_of_Customers = MaxNumber_of_customers;
 
-Q26. Find customers who have placed more orders than the average
-    customer order count.
 
 
 
@@ -371,38 +441,42 @@ Q26. Find customers who have placed more orders than the average
 
 
 
+/* =============================================================================
+   SECTION B — SUBQUERY IN FROM CLAUSE
+============================================================================= */
 
+Q17. Create a derived table containing branch-wise average customer income.
 
+Q18. Find branches whose average customer income is greater than 1500000.
 
+Q19. Create a derived table containing customer-wise total account balance.
 
+Q20. Find customers whose total account balance is greater than 300000.
 
+Q21. Create a derived table containing customer-wise total loan amount.
 
+Q22. Find customers whose total loan amount exceeds 3000000.
 
+Q23. Create a derived table containing branch-wise total loan amount.
 
-/* ==============================================================================
-   SECTION C
-   SUBQUERY - SELECT
-===============================================================================
+Q24. Find branches whose total loan amount is greater than 10000000.
 
-Q27. Display every employee along with the overall average salary.
+Q25. Create a derived table containing customer-wise transaction count.
 
-Q28. Display every employee with the difference between their salary
-    and the average salary.
+Q26. Find customers having more transactions than the average customer
+     transaction count.
 
-Q29. Display every product along with the overall average product price.
+Q27. Create a derived table containing loan_type-wise average loan amount.
 
-Q30. Display every customer along with their total number of orders.
+Q28. Find loan types whose average loan amount exceeds 2000000.
 
-Q31. Display every customer with their total sales amount.
+Q29. Create a derived table containing branch-wise customer count.
 
-Q32. Display every department along with the total number of employees.
+Q30. Find branches having more customers than the average branch
+     customer count.
 
-Q33. Display every product along with the total quantity sold.
 
-Q34. Display every employee along with the maximum salary in the company.
 
-Q35. Display every employee with the percentage of company salary
-    represented by their salary.
 
 
 
@@ -421,35 +495,46 @@ Q35. Display every employee with the percentage of company salary
 
 
 
+/* =============================================================================
+   SECTION C — SUBQUERY IN SELECT
+============================================================================= */
 
+Q31. Display every customer along with the average customer income.
 
+Q32. Display every customer along with the difference between their income
+     and the average customer income.
 
+Q33. Display every account along with the average account balance.
 
+Q34. Display every loan along with the average loan amount.
 
+Q35. Display every customer along with the average customer age.
 
+Q36. Display every branch along with the average customer income.
 
+Q37. Display every customer along with their total loan amount.
 
-/* ==============================================================================
-   SECTION D
-   SUBQUERY - JOIN CLAUSE
-===============================================================================
+Q38. Display every customer along with their total account balance.
 
-Q36. Join Employees with a subquery containing department-wise average salary.
+Q39. Display every customer along with their total number of transactions.
 
-Q37. Display employees whose salary is greater than their department's
-    average salary.
+Q40. Display every customer along with their total credit card outstanding.
 
-Q38. Join Customers with a subquery containing customer-wise total sales.
+Q41. Display every loan along with the total number of payments.
+     Use available transaction/account data where applicable.
 
-Q39. Display customers whose total sales exceed 50000.
+Q42. Display every credit card along with its percentage of total
+     outstanding amount.
 
-Q40. Join Products with a subquery containing category-wise average price.
+Q43. Display every customer along with the maximum annual income
+     in the customer table.
 
-Q41. Display products whose price is greater than their category average price.
+Q44. Display every branch along with the total loan amount originated
+     from that branch.
 
-Q42. Join Departments with a subquery containing employee counts.
+Q45. Display every customer along with their percentage contribution
+     to total loan amount.
 
-Q43. Display departments having more than 3 employees.
 
 
 
@@ -478,45 +563,43 @@ Q43. Display departments having more than 3 employees.
 
 
 
+/* =============================================================================
+   SECTION D — SUBQUERY IN JOIN CLAUSE
+============================================================================= */
 
+Q46. Join Customers with a subquery containing customer-wise total
+     loan amount.
 
+Q47. Display customers whose total loan amount is greater than 3000000.
 
-/* ==============================================================================
-   SECTION E
-   SUBQUERY - COMPARISON OPERATORS
-===============================================================================
+Q48. Join Branches with a subquery containing branch-wise average
+     customer income.
 
-   Practice Operators:
+Q49. Display branches whose average customer income is greater than
+     1500000.
 
-   >
-   <
-   =
-   >=
-   <=
-   <>
+Q50. Join Customers with a subquery containing customer-wise average age.
 
--------------------------------------------------------------------------------
+Q51. Display customers whose age is greater than their state-wise
+     average customer age.
 
-Q44. Find employees whose salary is greater than the average salary.
+Q52. Join Customers with a subquery containing total credit card
+     outstanding.
 
-Q45. Find employees whose salary is less than the average salary.
+Q53. Display customers whose credit card outstanding exceeds 200000.
 
-Q46. Find the employee whose salary equals the maximum salary.
+Q54. Join Loans with a subquery containing customer-wise total loan amount.
 
-Q47. Find products whose price is greater than the average price.
+Q55. Display loans belonging to customers whose total loan exposure
+     exceeds 3000000.
 
-Q48. Find orders whose sales amount is less than the average
-    completed order.
+Q56. Join Accounts with a subquery containing account-wise
+     transaction count.
 
-Q49. Find employees whose salary is greater than the salary of
-    'Rahul Mehta'.
+Q57. Display accounts having more than 2 transactions.
 
-Q50. Find products whose price is less than the price of 'Laptop'.
 
-Q51. Find employees whose salary is not equal to the minimum salary.
 
-Q52. Find departments whose budget is greater than the average
-    department budget.
 
 
 
@@ -536,47 +619,53 @@ Q52. Find departments whose budget is greater than the average
 
 
 
+/* =============================================================================
+   SECTION E — SUBQUERY WITH COMPARISON OPERATORS
+============================================================================= */
 
+Q58. Find customers whose income is greater than the average income.
 
+Q59. Find customers whose income is less than the average income.
 
+Q60. Find accounts whose balance is greater than the average balance.
 
+Q61. Find accounts whose balance is less than the average balance.
 
+Q62. Find loans whose amount is greater than the average Home Loan amount.
 
+Q63. Find loans whose amount is less than the average Personal Loan amount.
 
+Q64. Find customers whose annual_income is greater than the annual_income
+     of a specific customer.
 
+Q65. Find customers whose annual_income is less than the annual_income
+     of a specific customer.
 
+Q66. Find branches whose customer count is greater than the customer
+     count of a specific branch.
 
+Q67. Find credit cards whose outstanding amount is greater than the
+     average outstanding amount of Platinum cards.
 
+Q68. Find transactions whose amount is greater than the average
+     UPI transaction amount.
 
+Q69. Find loans whose interest rate is greater than the average
+     loan interest rate.
 
-/* ==============================================================================
-   SECTION F
-   SUBQUERY - IN OPERATOR
-===============================================================================
+Q70. Find customers whose income is not equal to the highest income.
 
-Q53. Find employees working in departments whose budget is greater
-    than 10000000.
+Q71. Find accounts whose balance is greater than or equal to the
+     average account balance.
 
-Q54. Find employees working in the IT or Finance departments using
-    a subquery with IN.
 
-Q55. Find customers who have placed completed orders.
 
-Q56. Find customers who have never placed a completed order.
 
-Q57. Find products belonging to categories having more than 2 products.
 
-Q58. Find employees belonging to departments located in Delhi.
 
-Q59. Find customers who have placed orders greater than 50000.
 
-Q60. Find products belonging to categories whose average product price
-    is greater than 10000.
 
-Q61. Find employees working under managers whose department budget
-    is greater than 12000000.
 
-Q62. Find customers who have at least one order with status 'Completed'.
 
 
 
@@ -588,68 +677,88 @@ Q62. Find customers who have at least one order with status 'Completed'.
 
 
 
+/* =============================================================================
+   SECTION F — SUBQUERY WITH IN OPERATOR
+============================================================================= */
 
+Q72. Find customers who have at least one Home Loan.
 
+Q73. Find customers who have at least one Business Loan.
 
+Q74. Find customers who have at least one active loan.
 
+Q75. Find customers who have at least one credit card.
 
+Q76. Find customers who have at least one Platinum credit card.
 
+Q77. Find customers whose branch is located in Delhi or Maharashtra.
 
+Q78. Find customers belonging to branches having more than 2 customers.
 
+Q79. Find customers belonging to branches having more than 5 accounts.
 
+Q80. Find loans belonging to customers whose annual income exceeds 2000000.
 
+Q81. Find accounts belonging to customers having at least one loan.
 
+Q82. Find customers who have both an account and a loan using
+     subquery-based IN logic.
 
+Q83. Find customers belonging to branches that have at least one
+     active loan.
 
+Q84. Find credit cards belonging to customers having total loan amount
+     greater than 3000000.
 
+Q85. Find transactions belonging to accounts owned by Premium customers.
 
 
 
 
 
-/* ==============================================================================
-   SECTION G
-   SUBQUERY - ANY OPERATOR
-===============================================================================
 
-Q63. Find employees whose salary is greater than ANY salary in the
-    HR department.
 
-Q64. Find employees whose salary is less than ANY salary in the
-    IT department.
 
-Q65. Find employees whose salary is greater than ANY employee salary
-    in Finance.
 
-Q66. Find products whose price is greater than ANY product price
-    in the Accessories category.
 
-Q67. Find products whose price is less than ANY product price
-    in Electronics.
 
-Q68. Find orders whose sales amount is greater than ANY order placed
-    by Customer A.
 
-Q69. Find employees whose salary is greater than ANY employee reporting
-    to 'Amit Sharma'.
 
-Q70. Find employees whose salary is less than ANY employee in the
-    Sales department.
 
 
 
 
 
+/* =============================================================================
+   SECTION G — SUBQUERY WITH ANY OPERATOR
+============================================================================= */
 
+Q86. Find customers whose annual income is greater than ANY income
+    of Regular customers.
 
+Q87. Find customers whose annual income is less than ANY income
+    of Premium customers.
 
+Q88. Find accounts whose balance is greater than ANY balance of
+    Savings accounts.
 
+Q89. Find loans whose loan amount is greater than ANY Personal Loan amount.
 
+Q90. Find loans whose loan amount is less than ANY Home Loan amount.
 
+Q91. Find customers whose annual income is greater than ANY income
+    of customers from a specific state.
 
+Q92. Find customers whose annual income is less than ANY income
+    of customers from a specific state.
 
+Q93. Find credit cards whose credit limit is greater than ANY
+    Gold credit card limit.
 
+Q94. Find transactions whose amount is greater than ANY ATM transaction.
 
+Q95. Find customers whose total loan amount is greater than ANY
+    loan amount belonging to customers from the Regular segment.
 
 
 
@@ -661,62 +770,62 @@ Q70. Find employees whose salary is less than ANY employee in the
 
 
 
-/* ==============================================================================
-   SECTION H
-   SUBQUERY - CORRELATED SUBQUERIES
-===============================================================================
 
-Q71. Find employees whose salary is greater than the average salary
-    of their own department.
 
-Q72. Find employees whose salary is below their department's average salary.
 
-Q73. Find the highest-paid employee in each department using a
-    correlated subquery.
 
-Q74. Find the lowest-paid employee in each department.
 
-Q75. Find products whose price is greater than the average price
-    of their own category.
 
-Q76. Find products whose price is below their category average.
 
-Q77. Find customers whose total order amount is greater than the
-    average order amount of all customers.
 
-Q78. Find orders whose sales amount is greater than the average
-    order amount of the same customer.
 
-Q79. Find employees who earn more than every employee hired before
-    them in the same department.
 
-Q80. Find customers who have placed more orders than the average
-    number of orders for customers in their segment.
 
-Q81. Find the most expensive product in each category.
 
-Q82. Find employees who have the highest salary among employees
-    with the same job title.
 
-Q83. Find orders that have a sales amount greater than the average
-    order amount placed in the same month.
+/* =============================================================================
+   SECTION H — CORRELATED SUBQUERIES
+============================================================================= */
 
-Q84. Find customers whose latest order amount is greater than
-    their own average order amount.
+Q96. Find customers whose income is greater than the average income
+    of customers from their own state.
 
+Q97. Find customers whose income is below their states average income.
 
+Q98. Find accounts whose balance is greater than the average balance
+    of accounts belonging to the same account_type.
 
+Q99. Find customers whose annual income is greater than the average
+    income of customers from their own city.
 
+Q100. Find customers whose annual income is below their city average.
 
+Q101. Find the highest-income customer in each branch using a
+     correlated subquery.
 
+Q102. Find the lowest-income customer in each branch.
 
+Q103. Find the highest-value loan for each customer.
 
+Q104. Find the largest transaction for each account.
 
+Q105. Find the credit card with the highest outstanding amount
+     for each customer.
 
+Q106. Find customers whose total loan amount is greater than the
+     average total loan amount of customers.
 
+Q107. Find loans whose amount is greater than the average loan amount
+     for their loan_type.
 
+Q108. Find transactions whose amount is greater than the average
+     transaction amount of their account.
 
+Q109. Find credit cards whose outstanding amount is greater than the
+     average outstanding amount for their card_type.
 
+Q110. Find customers whose total credit card outstanding is greater than
+     the average outstanding of customers in their state.
 
 
 
@@ -728,54 +837,61 @@ Q84. Find customers whose latest order amount is greater than
 
 
 
-/* ==============================================================================
-   SECTION I
-   SUBQUERY - EXISTS OPERATOR
-===============================================================================
 
-Q85. Find customers for whom at least one order exists.
 
-Q86. Find customers for whom no order exists.
 
-Q87. Find products that have been ordered at least once.
 
-Q88. Find products that have never been ordered.
 
-Q89. Find employees who have at least one employee reporting to them.
 
-Q90. Find employees who have no direct reports.
 
-Q91. Find departments having at least one employee.
+/* =============================================================================
+   SECTION I — EXISTS OPERATOR
+============================================================================= */
 
-Q92. Find departments having no employees.
+Q111. Find customers for whom at least one account exists.
 
-Q93. Find customers who have at least one completed order.
+Q112. Find customers for whom no account exists.
 
-Q94. Find customers who have no completed orders.
+Q113. Find customers for whom at least one loan exists.
 
-Q95. Find categories having at least one product priced above 10000.
+Q114. Find customers for whom no loan exists.
 
-Q96. Find employees whose department has at least one employee earning
-    more than 100000.
+Q115. Find customers for whom at least one credit card exists.
 
+Q116. Find customers for whom no credit card exists.
 
+Q117. Find accounts for which at least one transaction exists.
 
+Q118. Find accounts for which no transaction exists.
 
+Q119. Find customers having at least one transaction greater than 50000.
 
+Q120. Find customers having no transaction greater than 50000.
 
+Q121. Find customers having at least one successful transaction.
 
+Q122. Find customers having no successful transaction.
 
+Q123. Find branches having at least one active loan.
 
+Q124. Find branches having no active loan.
 
+Q125. Find branches having at least one customer with annual income
+     greater than 2000000.
 
+Q126. Find customers having at least one transaction greater than 50000.
 
+Q127. Find customers having at least one account with balance greater
+     than 100000.
 
+Q128. Find customers having no account with balance greater than 100000.
 
+Q129. Find customers who have both an active loan and active account.
 
+Q130. Find customers who have an active loan and an active credit card.
 
 
 
----------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -796,152 +912,184 @@ Q96. Find employees whose department has at least one employee earning
 
 
 
-/* ==============================================================================
-   SECTION J
-   NON-RECURSIVE CTE
-===============================================================================
 
-Q97. Create a CTE containing employees with salary greater than 80000.
 
-Q98. Use a CTE to calculate department-wise average salary.
 
-Q99. Use a CTE to find departments whose average salary exceeds 90000.
 
-Q100. Use a CTE to calculate customer-wise total sales.
 
-Q101. Use a CTE to find customers whose total sales exceed 50000.
 
-Q102. Use a CTE to calculate category-wise average product price.
 
-Q103. Use a CTE to find categories having more than 2 products.
 
-Q104. Use a CTE to calculate monthly sales.
+/* =============================================================================
+   SECTION J — NON-RECURSIVE CTE
+============================================================================= */
 
-Q105. Use a CTE to find the month with the highest sales.
+Q131. Create a CTE containing Premium customers.
 
-Q106. Use a CTE to calculate employee count per department.
+Q132. Use a CTE to calculate branch-wise customer count.
 
-Q107. Use a CTE to identify departments having employee count greater
-     than the company average department size.
+Q133. Use a CTE to calculate branch-wise average customer income.
 
-Q108. Use multiple CTEs to calculate customer order count and
-     customer total sales.
+Q134. Use a CTE to find branches having average customer income
+     above 1500000.
 
-Q109. Use multiple CTEs to identify high-value customers.
+Q135. Use a CTE to calculate customer-wise total loan amount.
 
-Q110. Use a CTE to calculate product revenue using quantity × unit_price.
+Q136. Use a CTE to find customers whose total loan amount exceeds 3000000.
 
-Q111. Find the top 5 products by revenue using a CTE.
+Q137. Use a CTE to calculate customer-wise total account balance.
 
+Q138. Use a CTE to find high-balance customers.
 
+Q139. Use a CTE to calculate account-wise transaction count.
 
+Q140. Use a CTE to identify highly active accounts.
 
+Q141. Use a CTE to calculate customer-wise total transaction amount.
 
+Q142. Use a CTE to identify customers having total transactions
+     above 500000.
 
+Q143. Use a CTE to calculate customer-wise credit card outstanding.
 
+Q144. Use a CTE to identify customers with outstanding above 200000.
 
+Q145. Use a CTE to calculate branch-wise total loan amount.
 
+Q146. Find the branch with the highest total loan amount.
 
+Q147. Use a CTE to calculate loan_type-wise average loan amount.
 
+Q148. Find the loan type having the highest average loan amount.
 
+Q149. Use a CTE to calculate state-wise total loan amount.
 
+Q150. Find states whose total loan amount exceeds 10000000.
 
 
+/* =============================================================================
+   SECTION K — MULTIPLE CTEs
+============================================================================= */
 
+Q151. Use two CTEs to calculate:
 
+     Customer Total Loan
+     Customer Total Account Balance
 
+Q152. Use multiple CTEs to identify customers having both:
+     high loan exposure and high account balance.
 
+Q153. Use multiple CTEs to calculate:
 
+     Total Loans
+     Total Transaction Amount
+     Total Account Balance
 
+Q154. Use multiple CTEs to calculate customer-level financial exposure.
 
+Q155. Use multiple CTEs to calculate branch-level:
 
+     Customer Count
+     Total Deposits
+     Total Loans
 
+Q156. Find branches where total loan amount is greater than
+     total account balance.
 
+Q157. Use multiple CTEs to calculate customer-level:
 
+     Income
+     Loan Amount
+     Account Balance
 
+Q158. Identify customers whose loan exposure is greater than
+     their annual income.
 
+Q159. Use multiple CTEs to calculate customer-wise:
 
+     Loan Count
+     Credit Card Count
+     Account Count
 
+Q160. Identify customers having all three product relationships.
 
-/* ==============================================================================
-   SECTION K
-   RECURSIVE CTE - GENERATE SEQUENCE
-===============================================================================
 
-Q112. Generate numbers from 1 to 10 using a recursive CTE.
+/* =============================================================================
+   SECTION L — RECURSIVE CTE : GENERATE SEQUENCE
+============================================================================= */
 
-Q113. Generate numbers from 1 to 100.
+Q161. Generate numbers from 1 to 10 using a recursive CTE.
 
-Q114. Generate even numbers from 2 to 20.
+Q162. Generate numbers from 1 to 100.
 
-Q115. Generate odd numbers from 1 to 19.
+Q163. Generate even numbers from 2 to 20.
 
-Q116. Generate dates from '2024-01-01' to '2024-01-31'.
+Q164. Generate odd numbers from 1 to 25.
 
-Q117. Generate all months of 2024.
+Q165. Generate dates from '2024-01-01' to '2024-01-31'.
 
-Q118. Generate numbers from 100 to 200 with an increment of 10.
+Q166. Generate all months of 2024.
 
-Q119. Generate the first 12 months using a recursive CTE.
+Q167. Generate quarterly periods for 2024.
 
-Q120. Generate a sequence representing employee hierarchy levels.
+Q168. Generate numbers from 100 to 500 with an increment of 50.
 
+Q169. Generate a sequence representing loan tenure months
+     from 1 to 12.
 
+Q170. Generate the first 12 monthly periods for loan repayment analysis.
 
 
+/* =============================================================================
+   SECTION M — RECURSIVE CTE : BUILD CUSTOMER / BRANCH HIERARCHY
+============================================================================= */
 
+Q171. Display the complete branch-to-customer relationship hierarchy.
 
+Q172. Display branch name along with customer name.
 
+Q173. Generate a hierarchy level for every branch-customer relationship.
 
+Q174. Find all customers belonging directly to a specific branch.
 
+Q175. Find all customers belonging to branches located in a specific state.
 
+Q176. Find all customers under a specific branch.
 
+Q177. Find all customers under each branch.
 
+Q178. Find the branch having the maximum number of customers.
 
+Q179. Display state → branch → customer relationship.
 
+Q180. Generate a complete location path for every customer.
 
+Q181. Count customers under each branch.
 
+Q182. Find customers belonging to branches having more than 2 customers.
 
+Q183. Find branches having customers from multiple cities.
 
+Q184. Display the branch hierarchy for customers belonging to the Risk
+     or high-value customer segment.
 
+Q185. Find the number of customers under each branch.
 
 
 
-/* ==============================================================================
-   SECTION L
-   RECURSIVE CTE - BUILD HIERARCHY
-===============================================================================
 
-Q121. Display the complete employee hierarchy starting from
-     top-level employees.
 
-Q122. Display employee name along with manager name.
 
-Q123. Generate hierarchy level for every employee.
 
-Q124. Display all employees reporting directly to Amit Sharma.
 
-Q125. Display all employees indirectly reporting to Amit Sharma.
 
-Q126. Display the complete hierarchy under each department head.
 
-Q127. Find the maximum hierarchy depth.
 
-Q128. Display employee → manager → manager's manager.
 
-Q129. Find all employees under the IT Director.
 
-Q130. Generate a hierarchy path such as:
 
-     Amit Sharma
-          >
-     Neha Verma
-          >
-     Karan Gupta
 
-Q131. Count the number of employees under each top-level manager.
 
-Q132. Find employees who are at hierarchy level 2 or deeper.
 
 
 
@@ -965,67 +1113,75 @@ Q132. Find employees who are at hierarchy level 2 or deeper.
 
 
 
+/* =============================================================================
+   SECTION N — VIEWS
+============================================================================= */
 
+Q186. Create a view containing:
 
-_____________________________________________________________________________________________________________________________________________________
+     Customer Name
+     State
+     Annual Income
+     Customer Segment
 
+Q187. Create a view containing customer and account information.
 
+Q188. Create a view containing customer and loan information.
 
+Q189. Create a view containing customer and credit card information.
 
+Q190. Create a view containing branch-wise customer count.
 
+Q191. Create a view containing branch-wise total loan amount.
 
+Q192. Create a view containing customer-wise total loan exposure.
 
+Q193. Create a view containing customer-wise total account balance.
 
+Q194. Create a view containing customer-wise credit card outstanding.
 
+Q195. Create a view containing account-wise transaction summary.
 
+Q196. Create a view containing customer-wise transaction summary.
 
+Q197. Create a view containing customer name, branch name, city
+     and state.
 
+Q198. Create a view that hides the complexity of a multi-table
+     customer financial profile.
 
+Q199. Modify an existing view using ALTER VIEW.
 
+Q200. Drop an existing view.
 
+Q201. Create a view that exposes only non-sensitive customer information.
 
+Q202. Create a view that hides annual_income from the Customers table.
 
+Q203. Create a view showing only active loans.
 
+Q204. Create a view showing only active credit cards.
 
+Q205. Create a view showing only successful transactions.
 
 
 
 
 
-/* ==============================================================================
-   SECTION M
-   SQL VIEWS
-===============================================================================
 
-Q133. Create a view containing employee name, department name,
-     job title and salary.
 
-Q134. Create a view containing active employees only.
 
-Q135. Create a view containing employees earning more than 80000.
 
-Q136. Create a view containing department-wise employee count.
 
-Q137. Create a view containing department-wise average salary.
 
-Q138. Create a view containing customer-wise total sales.
 
-Q139. Create a view containing customer name, order date and sales amount.
 
-Q140. Create a view containing product name, category name and unit price.
 
-Q141. Modify an existing view using ALTER VIEW.
 
-Q142. Drop a view.
 
-Q143. Create a view that hides the complexity of a 4-table join.
 
-Q144. Create a view that exposes only selected employee columns
-     for data security.
 
-Q145. Create a view that hides employee salary information.
 
-Q146. Create a view showing only active employees from the IT department.
 
 
 
@@ -1038,27 +1194,51 @@ Q146. Create a view showing only active employees from the IT department.
 
 
 
+/* =============================================================================
+   SECTION O — TEMPORARY TABLES
+============================================================================= */
 
+Q206. Create a temporary table containing Premium customers.
 
+Q207. Create a temporary table containing customer-wise total loan amount.
 
+Q208. Find the top 10 customers from the temporary table.
 
-_____________________________________________________________________________________________________________________________________________________
+Q209. Create a temporary table containing branch-wise loan exposure.
 
+Q210. Find branches whose loan exposure exceeds 10000000.
 
+Q211. Create a temporary table containing account-wise transaction count.
 
+Q212. Find accounts having more than 2 transactions.
 
+Q213. Create a temporary table containing customer-wise total
+     transaction amount.
 
+Q214. Find customers whose transaction amount exceeds 500000.
 
+Q215. Create a temporary table containing customer-wise total
+     credit card outstanding.
 
+Q216. Identify high outstanding customers using the temporary table.
 
+Q217. Create a temporary table for monthly transaction analysis.
 
+Q218. Create a temporary table for customer-level financial exposure.
 
+Q219. Update values inside a temporary table.
 
+Q220. Delete records from a temporary table using a condition.
 
+Q221. Use a temporary table in a JOIN.
 
+Q222. Use a temporary table for a multi-step financial analysis.
 
+Q223. Use a temporary table to perform a customer segmentation exercise.
 
+Q224. Use a temporary table for a loan portfolio analysis.
 
+Q225. Drop the temporary table explicitly after completing the analysis.
 
 
 
@@ -1069,45 +1249,38 @@ ________________________________________________________________________________
 
 
 
-/* ==============================================================================
-   SECTION N
-   SQL TEMPORARY TABLES
-===============================================================================
 
-Q147. Create a temporary table containing all active employees.
 
-Q148. Insert department-wise employee counts into a temporary table.
 
-Q149. Create a temporary table containing customer-wise total sales.
 
-Q150. Find the top 5 customers from the temporary table.
 
-Q151. Create a temporary table containing products and their total
-     sold quantity.
 
-Q152. Update values in a temporary table.
 
-Q153. Delete records from a temporary table based on a condition.
 
-Q154. Create a temporary table and use it in a JOIN.
 
-Q155. Create a temporary table for a multi-step sales analysis.
 
-Q156. Use a temporary table to identify high-value customers.
 
-Q157. Use a temporary table to perform a data migration from one
-     structure to another.
 
-Q158. Drop the temporary table explicitly after completing the analysis.
 
+/* =============================================================================
+   SECTION P — STORED PROCEDURES : BASICS
+============================================================================= */
 
+Q226. Create a stored procedure that returns all customers.
 
+Q227. Create a stored procedure that returns all active accounts.
 
+Q228. Create a stored procedure that returns all active loans.
 
+Q229. Create a stored procedure that returns all active credit cards.
 
---------------------------------------------------------------------------------------------------------------------------------------------------
+Q230. Execute the customer procedure.
 
+Q231. Create a stored procedure that returns customers from a
+     specified state.
 
+Q232. Create a stored procedure that returns customers belonging
+     to a specified customer segment.
 
 
 
@@ -1116,120 +1289,137 @@ Q158. Drop the temporary table explicitly after completing the analysis.
 
 
 
-/* ==============================================================================
-   SECTION O
-   STORED PROCEDURES - BASICS
-===============================================================================
 
-Q159. Create a stored procedure that returns all employees.
 
-Q160. Create a stored procedure that returns all active employees.
 
-Q161. Create a stored procedure that returns all products.
+/* =============================================================================
+   SECTION Q — STORED PROCEDURES : PARAMETERS
+============================================================================= */
 
-Q162. Execute the stored procedure created in Q159.
+Q233. Create a procedure accepting customer_id and returning
+     all accounts of that customer.
 
-Q163. Create a stored procedure that returns all customers from
-     a specified city.
+Q234. Create a procedure accepting customer_id and returning
+     all loans of that customer.
 
-Q164. Create a stored procedure that returns employees from a
-     specified department.
+Q235. Create a procedure accepting customer_id and returning
+     all credit cards.
 
+Q236. Create a procedure accepting branch_id and returning
+     all customers of that branch.
 
+Q237. Create a procedure accepting minimum loan amount.
 
+Q238. Create a procedure accepting loan_type.
 
+Q239. Create a procedure accepting minimum customer income.
 
+Q240. Create a procedure accepting transaction start_date
+     and end_date.
 
+Q241. Create a procedure accepting branch_id and minimum loan amount.
 
+Q242. Create a procedure accepting customer_id and date range
+     for transactions.
 
-/* ==============================================================================
-   SECTION P
-   STORED PROCEDURES - PARAMETERS
-===============================================================================
 
-Q165. Create a procedure accepting department_id as a parameter.
+/* =============================================================================
+   SECTION R — STORED PROCEDURES : MULTIPLE QUERIES
+============================================================================= */
 
-Q166. Create a procedure accepting minimum salary as a parameter.
+Q243. Create a procedure that accepts customer_id and returns:
 
-Q167. Create a procedure accepting city as a parameter.
+     1. Customer Details
+     2. Account Details
+     3. Loan Details
+     4. Credit Card Details
 
-Q168. Create a procedure accepting start_date and end_date.
+Q244. Create a procedure that accepts branch_id and returns:
 
-Q169. Create a procedure accepting customer_id and returning
-     their orders.
+     1. Customer Count
+     2. Total Account Balance
+     3. Total Loan Amount
+     4. Total Credit Card Outstanding
 
-Q170. Create a procedure accepting category_id and returning products.
+Q245. Create a procedure that accepts loan_id and returns:
 
-Q171. Create a procedure accepting minimum order amount.
+     1. Loan Details
+     2. Customer Details
+     3. Customer Total Loan Amount
+     4. Customer Account Balance
 
-Q172. Create a procedure with multiple parameters:
+Q246. Create a procedure that accepts customer_id and returns:
 
-     department_id
-     minimum_salary
+     Total Accounts
+     Total Loans
+     Total Cards
+     Total Loan Amount
+     Total Account Balance
+     Total Card Outstanding
 
-Q173. Create a procedure that returns employees between two
-     salary values.
 
+/* =============================================================================
+   SECTION S — STORED PROCEDURES : VARIABLES
+============================================================================= */
 
+Q247. Create a procedure using variables to calculate the average
+     customer income.
 
+Q248. Create a procedure using variables to calculate total loan exposure.
 
+Q249. Create a procedure using variables to calculate:
 
+     Total Loan Amount
+     Total Account Balance
+     Total Transaction Amount
 
+Q250. Create a procedure using variables to calculate customer-level
+     financial exposure.
 
-/* ==============================================================================
-   SECTION Q
-   STORED PROCEDURES - MULTIPLE QUERIES
-===============================================================================
 
-Q174. Create a procedure that returns:
+/* =============================================================================
+   SECTION T — STORED PROCEDURES : IF / ELSE + TRY / CATCH
+============================================================================= */
 
-     1. Employee details
-     2. Department details
-     3. Department employee count
+Q251. Create a procedure that accepts customer income and returns:
 
-Q175. Create a procedure that returns customer information
-     and their orders.
+     'High Income'
+     'Medium Income'
+     'Low Income'
 
-Q176. Create a procedure that returns product information
-     and category information.
+Q252. Create a procedure that checks whether a customer exists.
 
-Q177. Create a procedure that returns:
+Q253. Create a procedure that checks whether a customer has an active loan.
 
-     Total orders
-     Total sales
-     Average order value
+Q254. Create a procedure that checks whether a customer has an active
+     credit card.
 
-Q178. Create a procedure that returns employee count and
-     average salary for a department.
+Q255. Create a procedure that checks whether a loan exists.
 
+Q256. Create a procedure that checks whether sufficient account balance
+     exists for a withdrawal.
 
+Q257. Create a procedure that inserts a new customer using TRY/CATCH.
 
+Q258. Handle duplicate customer_id using TRY/CATCH.
 
+Q259. Handle invalid branch_id using TRY/CATCH.
 
+Q260. Create a procedure that updates customer income with error handling.
 
+Q261. Create a procedure that inserts a new loan using TRY/CATCH.
 
+Q262. Return ERROR_NUMBER(), ERROR_MESSAGE() and ERROR_LINE()
+     from the CATCH block.
 
 
 
-/* ==============================================================================
-   SECTION R
-   STORED PROCEDURES - VARIABLES
-===============================================================================
 
-Q179. Create a procedure using a variable to store average salary.
 
-Q180. Create a procedure using a variable to store total sales.
 
-Q181. Create a procedure that stores the maximum salary in a variable.
 
-Q182. Use a variable to calculate the difference between an employee's
-     salary and company average salary.
 
-Q183. Create a procedure using multiple variables for:
 
-     Total Sales
-     Average Sales
-     Maximum Sales
 
 
 
@@ -1239,329 +1429,48 @@ Q183. Create a procedure using multiple variables for:
 
 
 
-/* ==============================================================================
-   SECTION S
-   STORED PROCEDURES - IF / ELSE
-===============================================================================
 
-Q184. Create a procedure that accepts employee salary and returns:
 
-     'High Salary' if salary > 100000
-     'Medium Salary' if salary between 70000 and 100000
-     'Low Salary' otherwise.
 
-Q185. Create a procedure that checks whether a customer exists.
 
-Q186. Create a procedure that checks whether an order exists.
 
-Q187. Create a procedure that checks whether a department has employees.
 
-Q188. Create a procedure that checks whether stock quantity is sufficient
-     for a product.
 
-Q189. Create a procedure that checks whether a customer is a
-     high-value customer.
 
-Q190. Create a procedure that checks whether an employee is a manager.
+/* =============================================================================
+   SECTION U — TRIGGERS
+============================================================================= */
 
+Q263. Create an AFTER INSERT trigger on Customers.
 
+Q264. Create an audit table and log newly inserted customers.
 
+Q265. Insert a new customer and verify that the trigger executes.
 
+Q266. Create an AFTER UPDATE trigger on Customers.
 
+Q267. Log customer annual_income changes.
 
+Q268. Log customer customer_segment changes.
 
+Q269. Create an AFTER DELETE trigger on Customers.
 
+Q270. Log deleted customers into an audit table.
 
+Q271. Create a trigger that logs changes to customer information.
 
+Q272. Create a trigger that logs both INSERT and UPDATE operations
+     on Customers.
 
+Q273. Create a trigger that records GETDATE() as action_date.
 
+Q274. Create a trigger that prevents deleting a customer who has
+     active loans.
 
+Q275. Create a trigger that logs changes made to customer annual_income.
 
 
 
-/* ==============================================================================
-   SECTION T
-   STORED PROCEDURES - TRY / CATCH
-===============================================================================
 
-Q191. Create a procedure that inserts a new employee using TRY/CATCH.
-
-Q192. Handle duplicate employee_id using TRY/CATCH.
-
-Q193. Handle invalid department_id using TRY/CATCH.
-
-Q194. Create a procedure that updates employee salary with error handling.
-
-Q195. Create a procedure that inserts a new order with TRY/CATCH.
-
-Q196. Create a procedure that performs multiple operations
-     and handles errors.
-
-Q197. Return an appropriate error message using ERROR_MESSAGE().
-
-Q198. Capture ERROR_NUMBER(), ERROR_MESSAGE(), and ERROR_LINE()
-     inside a TRY/CATCH block.
-
-
-
-
-
-
-
-
-
-
-
-
---------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* ==============================================================================
-   SECTION U
-   SQL TRIGGERS
-===============================================================================
-
-Q199. Create an EmployeeLogs table for employee audit tracking.
-
-Q200. Create an AFTER INSERT trigger on Employees.
-
-Q201. Log newly inserted employees into EmployeeLogs.
-
-Q202. Insert a new employee and verify the trigger execution.
-
-Q203. Create an AFTER UPDATE trigger for Employees.
-
-Q204. Log employee salary updates.
-
-Q205. Create a trigger that records changes to employee department.
-
-Q206. Create an AFTER DELETE trigger for Employees.
-
-Q207. Log deleted employee information.
-
-Q208. Create a trigger that prevents deleting employees from a
-     specific department.
-
-Q209. Create a trigger that automatically logs changes to
-     employee status.
-
-Q210. Create a trigger that logs both INSERT and UPDATE operations.
-
-Q211. Create a trigger that records the action date using GETDATE().
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* ==============================================================================
-   SECTION V
-   ADVANCED COMBINED PRACTICE
-===============================================================================
-
-Q212. Use a CTE + window function to identify the highest-paid
-     employee in every department.
-
-Q213. Use a CTE + subquery to find employees earning above
-     their department average.
-
-Q214. Use a CTE + EXISTS to find customers having completed orders.
-
-Q215. Use a CTE + correlated subquery to find the highest-value
-     customer in each state.
-
-Q216. Use a CTE + JOIN to calculate department-wise salary statistics.
-
-Q217. Use a temporary table + CTE to perform multi-step sales analysis.
-
-Q218. Use a temporary table to calculate customer lifetime sales.
-
-Q219. Create a view hiding a complex multi-table query.
-
-Q220. Create a stored procedure that uses a CTE internally.
-
-Q221. Create a stored procedure that uses a temporary table internally.
-
-Q222. Create a stored procedure that checks a condition using EXISTS.
-
-Q223. Create a stored procedure that uses IF/ELSE and TRY/CATCH.
-
-Q224. Create an INSERT trigger that writes an audit record.
-
-Q225. Create an UPDATE trigger that logs changed employee information.
-
-Q226. Build an employee hierarchy using a recursive CTE and expose it
-     through a view.
-
-Q227. Create a stored procedure that returns the hierarchy under
-     a specified manager.
-
-Q228. Create a stored procedure that accepts a department_id
-     and returns:
-
-     Employee Count
-     Average Salary
-     Maximum Salary
-     Minimum Salary
-     Total Salary
-
-Q229. Create a view containing customer total sales and order count,
-     then use a subquery to find above-average customers.
-
-Q230. Use CTE + correlated subquery to identify products whose price
-     is above their category average.
-
-Q231. Use EXISTS + correlated subquery to find customers who have
-     at least one order above their own average order amount.
-
-Q232. Create a temporary table containing monthly sales and identify
-     the highest-sales month.
-
-Q233. Create a stored procedure that accepts a customer_id and returns:
-
-     Customer Details
-     Order Count
-     Total Sales
-     Average Order Value
-     Highest Order Value
-
-Q234. Create an audit trigger that records INSERT, UPDATE and DELETE
-     operations on Employees.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* ==============================================================================
-   SECTION W
-   INTERVIEW-LEVEL QUESTIONS
-===============================================================================
-
-Q235. What is the difference between a subquery and a CTE?
-     Demonstrate using Employees.
-
-Q236. When would you prefer a CTE over a derived table?
-
-Q237. When would you prefer EXISTS over IN?
-
-Q238. Demonstrate a case where a correlated subquery is required.
-
-Q239. Rewrite a correlated subquery using a JOIN.
-
-Q240. Rewrite a subquery using a CTE.
-
-Q241. Rewrite a derived table query using a CTE.
-
-Q242. Explain the difference between:
-
-     Subquery in SELECT
-     Subquery in FROM
-     Subquery in WHERE
-     Subquery in JOIN
-
-Q243. Compare EXISTS vs IN using the Customers and Orders tables.
-
-Q244. Explain recursive CTE execution using the Employees hierarchy.
-
-Q245. What is the difference between a view and a temporary table?
-
-Q246. What is the difference between a view and a stored procedure?
-
-Q247. What is the difference between a stored procedure and a function?
-
-Q248. What are practical use cases of triggers?
-
-Q249. What are potential disadvantages of triggers?
-
-Q250. Why should triggers be designed carefully in production systems?
 
 
