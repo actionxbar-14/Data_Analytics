@@ -645,7 +645,193 @@ FROM CTE_Emp_Hierarchy
 
 -- :: Views :
 
+-- Views are the virtual table based on the result set of a query , without storing the data in database.
+
+-- Views are the stored/Persisted SQL queries in the database.
 
 
 
 
+
+-- Ques : find the running total of sales for each month 
+
+-- Ans:
+
+
+-- Method : 1   [ Views ]
+
+CREATE VIEW Sales.V_Monthly_Summary
+AS
+(
+ SELECT
+       DATETRUNC(month , OrderDate) As OrderMonth,
+       SUM(Sales) As TotalSales,
+       COUNT(OrderID) As TotalOrders,
+       SUM(Quantity) As TotalQuantities
+ FROM Sales.Orders
+ GROUP BY DATETRUNC(month , OrderDate)
+ );
+
+
+
+
+
+
+
+
+
+SELECT
+     OrderMonth,
+     TotalSales,
+     SUM(TotalSales) OVER(ORDER BY OrderMonth) As RunningTotal
+FROM V_Monthly_Summary;
+
+
+
+
+
+
+
+
+-- :: Method : 2 [ CTEs ]
+
+
+
+
+WITH CTE_Monthly_Summary As (
+     SELECT
+           DATETRUNC(month , OrderDate) As OrderMonth,
+           SUM(Sales) As TotalSales,
+           COUNT(OrderID) As TotalOrders,
+           SUM(Quantity) As TotalQuantities
+     FROM Sales.Orders
+     GROUP BY DATETRUNC(month , OrderDate)
+
+
+SELECT
+     OrderMonth,
+     TotalSales,
+     SUM(TotalSales) OVER(ORDER BY OrderMonth) As RunningTotal
+FROM CTE_Monthly_Summary;
+
+
+
+
+
+
+
+-- :: Drop Databasee ;
+
+
+DROP VIEW V_Monthly_Summary;
+
+
+
+-- DROP AND RE-Create Using T-SQL :
+
+IF OBJECT_ID ('Sales.V_Monthly_Summary' , 'V') IS NOT NULL
+   DROP VIEW Sales.V_Monthly_Summary;
+GO
+
+CREATE VIEW Sales.V_Monthly_Summary AS
+(
+     SELECT
+           DATETRUNC(month , OrderDate) As OrderMonth,
+           SUM(Sales) As TotalSales,
+           COUNT(OrderID) As TotalOrders
+    FROM Sales.Orders 
+    GROUP BY DATETRUNC(month , OrderDate)
+)
+
+
+
+
+
+-- TASK : Provide view that combines details from orders , products , customers , and employees.
+
+-- Ans :
+
+
+
+CREATE VIEW Sales.V_Order_Details As (
+
+SELECT
+     o.OrderID,
+     o.OrderDate,
+     p.Product,
+     p.Category,
+     COALESCE(c.FirstName , ' ') + ' ' + COALESCE(c.LastName , ' ') As CustomerName,
+     c.Country As CustomerCountry,
+     COALESCE(e.FirstName , ' ') + ' ' + COALESCE(e.LastName , ' ') As SalesName,
+     e.Department,
+     o.Sales,
+     o.Quantity
+FROM Sales.Orders As o
+LEFT JOIN 
+Sales.Products As p 
+ON 
+p.ProductID = o.ProductID
+LEFT JOIN 
+Sales.Customers As c
+ON
+c.CustomerID = o.CustomerID
+LEFT JOIN 
+Sales.Employees As e
+ON 
+e.EmployeeID = o.SalesPersonID
+)
+
+
+
+
+
+
+
+
+SELECT * FROM Sales.V_Order_Details
+
+
+
+
+
+
+-- Task  : 
+
+-- Provide a view for EU Sales Team that combine details from all tables and excludes Data related to the USA
+
+
+
+
+
+
+CREATE VIEW Sales.V_Order_Details_EU As (
+
+SELECT
+     o.OrderID,
+     o.OrderDate,
+     p.Product,
+     p.Category,
+     COALESCE(c.FirstName , ' ') + ' ' + COALESCE(c.LastName , ' ') As CustomerName,
+     c.Country As CustomerCountry,
+     COALESCE(e.FirstName , ' ') + ' ' + COALESCE(e.LastName , ' ') As SalesName,
+     e.Department,
+     o.Sales,
+     o.Quantity
+FROM Sales.Orders As o
+LEFT JOIN 
+Sales.Products As p 
+ON 
+p.ProductID = o.ProductID
+LEFT JOIN 
+Sales.Customers As c
+ON
+c.CustomerID = o.CustomerID
+LEFT JOIN 
+Sales.Employees As e
+ON 
+e.EmployeeID = o.SalesPersonID
+WHERE c.Country != 'USA'
+)
+
+
+SELECT * FROM Sales.V_Order_Details_EU
