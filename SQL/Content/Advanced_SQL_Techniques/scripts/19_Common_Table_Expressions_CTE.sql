@@ -143,10 +143,6 @@ LEFT JOIN CTE_Customer_Segments AS ccs
    RECURSIVE CTE | GENERATE SEQUENCE
 ===============================================================================*/
 
-
-
-
-
 /* TASK 2:
    Generate a sequence of numbers from 1 to 20.
 */
@@ -164,10 +160,6 @@ WITH Series AS (
 -- Main Query
 SELECT *
 FROM Series
-
-
-
-
 
 
 
