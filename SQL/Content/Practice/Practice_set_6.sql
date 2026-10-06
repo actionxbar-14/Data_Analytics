@@ -637,21 +637,224 @@ SELECT * FROM CTE_derive_loan;
 
 
 
-Q24. Find branches whose total loan amount is greater than 10000000.
+/* Q24. Find branches whose total loan amount is greater than 10000000.  */
 
-Q25. Create a derived table containing customer-wise transaction count.
+Ans:
 
-Q26. Find customers having more transactions than the average customer
-     transaction count.
 
-Q27. Create a derived table containing loan_type-wise average loan amount.
+WITH CTE_Loan_Branches As
+(
+SELECT 
+     b.branch_name,
+     SUM(l.loan_amount) As Total_loan_amount
+FROM Customers As c 
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+LEFT JOIN 
+Branches As b 
+ON 
+c.branch_id = b.branch_id
+GROUP BY b.branch_name
+)
 
-Q28. Find loan types whose average loan amount exceeds 2000000.
 
-Q29. Create a derived table containing branch-wise customer count.
 
-Q30. Find branches having more customers than the average branch
-     customer count.
+SELECT * FROM CTE_Loan_Branches
+WHERE Total_loan_amount > 10000000;
+
+
+
+
+
+
+
+
+
+
+
+/* Q25. Create a derived table containing customer-wise transaction count.  */
+
+Ans:
+
+
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     t.transaction_type,
+     COUNT(t.transaction_id) OVER(PARTITION BY c.customer_id) As Customer_Count
+FROM Customers As c
+LEFT JOIN 
+Accounts As a
+ON
+c.customer_id = a.customer_id
+LEFT JOIN 
+Transactions As t
+ON
+t.account_id = a.account_id
+
+
+
+
+
+
+
+
+
+/* Q26. Find customers having more transactions than the average customer
+     transaction count.  */
+
+Ans:
+
+
+
+
+SELECT
+     customer_id,
+     customer_name,
+     COUNT(AVG_Customer_TransactionCount) As AVG_transaction_count
+FROM 
+(
+SELECT
+     customer_id,
+     customer_name,
+     transaction_type,
+     Customer_TransactionCount,
+     AVG(Customer_TransactionCount) OVER() As AVG_Customer_TransactionCount
+FROM(
+SELECT 
+     c.customer_id As customer_id,
+     c.customer_name As customer_name,
+     t.transaction_type As transaction_type,
+     COUNT(t.transaction_id) OVER(PARTITION BY c.customer_id) As Customer_TransactionCount
+     
+FROM Customers As c
+LEFT JOIN 
+Accounts As a
+ON
+c.customer_id = a.customer_id
+LEFT JOIN 
+Transactions As t
+ON
+t.account_id = a.account_id
+)t
+)t
+WHERE Customer_TransactionCount >= AVG_Customer_TransactionCount
+GROUP BY customer_id , customer_name;
+
+
+
+
+
+
+
+
+
+
+
+/* Q27. Create a derived table containing loan_type-wise average loan amount.  */
+
+Ans:
+
+
+
+SELECT     
+     loan_type,
+     AVG(loan_amount) As Avg_loan_amount
+FROM Loans
+GROUP BY loan_type
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q28. Find loan types whose average loan amount exceeds 2000000.  */
+
+Ans:
+
+
+SELECT     
+     loan_type,
+     AVG(loan_amount) As Avg_loan_amount
+FROM Loans
+GROUP BY loan_type
+HAVING AVG(loan_amount) > 2000000;
+
+
+
+
+
+
+
+/* Q29. Create a derived table containing branch-wise customer count.  */
+
+Ans:
+
+SELECT 
+     branch_name,
+     Customer_Count,
+     AVG(Customer_Count) OVER() As Avg_customer_count
+FROM
+(
+SELECT 
+     b.branch_name,
+     COUNT(c.customer_id) as Customer_Count
+FROM Branches As b
+LEFT JOIN
+Customers As c 
+ON 
+c.branch_id = b.branch_id
+GROUP BY b.branch_name
+)t
+
+
+
+
+
+
+
+
+/* Q30. Find branches having more customers than the average branch
+     customer count.  */
+
+Ans:
+
+
+
+SELECT 
+     *
+FROM
+(
+SELECT 
+     branch_name,
+     Customer_Count,
+     AVG(Customer_Count) OVER() As Avg_customer_count
+FROM
+(
+SELECT 
+     b.branch_name,
+     COUNT(c.customer_id) as Customer_Count
+FROM Branches As b
+LEFT JOIN
+Customers As c 
+ON 
+c.branch_id = b.branch_id
+GROUP BY b.branch_name
+)t
+)t
+WHERE Customer_Count > Avg_customer_count
+
+
+
+
 
 
 
@@ -677,14 +880,82 @@ Q30. Find branches having more customers than the average branch
    SECTION C — SUBQUERY IN SELECT
 ============================================================================= */
 
-Q31. Display every customer along with the average customer income.
 
-Q32. Display every customer along with the difference between their income
-     and the average customer income.
 
-Q33. Display every account along with the average account balance.
 
-Q34. Display every loan along with the average loan amount.
+
+
+
+/* Q31. Display every customer along with the average customer income.  */
+
+Ans:
+
+
+SELECT 
+     customer_id,
+     customer_name,
+     AVG(annual_income) As avg_customer_income
+FROM Customers
+GROUP BY customer_id , customer_name
+
+
+
+
+
+
+/* Q32. Display every customer along with the difference between their income
+     and the average customer income.  */
+
+Ans:
+
+
+SELECT
+     customer_id,
+     customer_name,
+     annual_income,
+    ABS( annual_income - avg_customer_income ) As Diff_customer_income
+FROM 
+(
+SELECT 
+     customer_id,
+     customer_name,
+     annual_income,
+     AVG(annual_income) OVER() As avg_customer_income
+FROM Customers
+)t
+
+
+
+
+
+
+
+
+
+/* Q33. Display every account along with the average account balance.  */
+
+Ans:
+
+
+SELECT 
+     account_id,
+     AVG(balance) as AVG_account_balance
+FROM Accounts
+GROUP BY account_id
+
+
+
+
+
+
+/* Q 34. Display every loan along with the average loan amount.  */
+
+
+
+
+
+
+
 
 Q35. Display every customer along with the average customer age.
 
@@ -712,6 +983,14 @@ Q44. Display every branch along with the total loan amount originated
 
 Q45. Display every customer along with their percentage contribution
      to total loan amount.
+
+
+
+
+
+
+
+
 
 
 
@@ -1075,6 +1354,15 @@ Q130. Find customers who have an active loan and an active credit card.
 
 
 
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
