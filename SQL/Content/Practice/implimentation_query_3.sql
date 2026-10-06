@@ -788,7 +788,7 @@ e.EmployeeID = o.SalesPersonID
 
 
 
-SELECT * FROM Sales.V_Order_Details
+SELECT * FROM Sales.V_Order_Details;
 
 
 
@@ -834,4 +834,72 @@ WHERE c.Country != 'USA'
 )
 
 
-SELECT * FROM Sales.V_Order_Details_EU
+SELECT * FROM Sales.V_Order_Details_EU;
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+-- CTAS : 
+
+
+
+IF OBJECT_ID('Sales.MonthlyOrders' , 'U') IS NOT NULL
+   DROP TABLE Sales.MonthlyOrders;
+GO
+SELECT 
+     DATENAME(month, OrderDate) As OrderMonth,
+     COUNT(OrderID) As TotalOrders
+INTO Sales.MonthlyOrders
+FROM Sales.Orders
+GROUP BY  DATENAME(month, OrderDate);
+
+
+
+
+DROP TABLE Sales.MonthlyOrders
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+-- TEMP Tables : 
+
+
+
+
+SELECT
+     *
+INTO #Orders
+FROM Sales.Orders
+
+
+
+
+
+
+SELECT 
+     * 
+FROM #Orders
+
+
+
+DELETE FROM #Orders
+WHERE OrderStatus = 'Delivered';
+
+
+SELECT 
+     * 
+INTO Sales.OrdersTest
+FROM #Orders
