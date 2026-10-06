@@ -29,23 +29,15 @@
 
 
 
-
-
 /* ==============================================================================
    CREATE, DROP, MODIFY VIEW
 ===============================================================================*/
-
-
-
 
 /* TASK:
    Create a view that summarizes monthly sales by aggregating:
      - OrderMonth (truncated to month)
      - TotalSales, TotalOrders, and TotalQuantities.
 */
-
-
-
 
 -- Create View
 CREATE VIEW Sales.V_Monthly_Summary AS
