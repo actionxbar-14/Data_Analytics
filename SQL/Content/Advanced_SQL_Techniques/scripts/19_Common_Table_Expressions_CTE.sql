@@ -10,7 +10,7 @@
 
 /* ==============================================================================
    SQL Common Table Expressions (CTEs)
-===============================================================================*/
+===============================================================================
    This script demonstrates the use of Common Table Expressions (CTEs) in SQL Server.
    It includes examples of non-recursive CTEs for data aggregation and segmentation,
    as well as recursive CTEs for generating sequences and building hierarchical data.
@@ -20,11 +20,7 @@
      2. RECURSIVE CTE | GENERATE SEQUENCE
      3. RECURSIVE CTE | BUILD HIERARCHY
 
-
-
-
-
-
+===============================================================================*/
 
 
 
@@ -143,6 +139,10 @@ LEFT JOIN CTE_Customer_Segments AS ccs
    RECURSIVE CTE | GENERATE SEQUENCE
 ===============================================================================*/
 
+
+
+
+
 /* TASK 2:
    Generate a sequence of numbers from 1 to 20.
 */
@@ -160,6 +160,10 @@ WITH Series AS (
 -- Main Query
 SELECT *
 FROM Series
+
+
+
+
 
 
 
