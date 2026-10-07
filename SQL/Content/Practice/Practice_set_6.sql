@@ -947,9 +947,15 @@ GROUP BY account_id
 
 
 
-
 /* Q 34. Display every loan along with the average loan amount.  */
 
+Ans:
+
+
+SELECT 
+     * ,
+     AVG(loan_amount) OVER() As Avg_loan_amount
+FROM Loans
 
 
 
@@ -957,50 +963,40 @@ GROUP BY account_id
 
 
 
-Q35. Display every customer along with the average customer age.
+/* Q35. Display every customer along with the average customer age.  */
 
-Q36. Display every branch along with the average customer income.
+Ans:
 
-Q37. Display every customer along with their total loan amount.
-
-Q38. Display every customer along with their total account balance.
-
-Q39. Display every customer along with their total number of transactions.
-
-Q40. Display every customer along with their total credit card outstanding.
-
-Q41. Display every loan along with the total number of payments.
-     Use available transaction/account data where applicable.
-
-Q42. Display every credit card along with its percentage of total
-     outstanding amount.
-
-Q43. Display every customer along with the maximum annual income
-     in the customer table.
-
-Q44. Display every branch along with the total loan amount originated
-     from that branch.
-
-Q45. Display every customer along with their percentage contribution
-     to total loan amount.
+SELECT 
+     *,
+     AVG(age) OVER() As Avg_age
+FROM Customers
 
 
 
 
 
+/* Q36. Display every branch along with the average customer income. */
+
+Ans:
 
 
 
-
-
-
-
-
-
-
-
-
-
+SELECT 
+     branch_name ,
+     AVG(annual_income) As Avg_annual_income
+FROM
+(
+SELECT
+     b.branch_name as branch_name,
+     c.annual_income As annual_income
+FROM Customers As c
+LEFT JOIN 
+Branches As b
+ON 
+c.branch_id = b.branch_id
+)t 
+GROUP BY branch_name
 
 
 
@@ -1010,7 +1006,242 @@ Q45. Display every customer along with their percentage contribution
 
 
 
+/* Q37. Display every customer along with their total loan amount.  */
 
+Ans:
+
+
+
+
+SELECT
+     Customer_id,
+     Customer_Name,
+     loan_type,
+     SUM(loan_amount) As Total_loan
+FROM
+(
+SELECT 
+     c.customer_id As Customer_id,
+     c.customer_name  As Customer_Name,
+     l.loan_type As loan_type,
+     l.loan_amount As loan_amount
+FROM Customers As c
+LEFT JOIN 
+Loans As l
+ON 
+c.customer_id = l.customer_id
+)t
+GROUP BY Customer_id , Customer_Name , loan_type;
+
+
+
+
+
+
+
+
+
+
+/* Q38. Display every customer along with their total account balance. */
+
+Ans:
+
+
+SELECT 
+     customer_id,
+     customer_name,
+     SUM(balance) As Total_Balance
+FROM
+(
+SELECT
+     c.customer_id As customer_id,
+     c.customer_name As customer_name,
+     a.balance As balance
+FROM Customers As c
+LEFT JOIN 
+Accounts As a
+ON 
+c.customer_id = a.customer_id
+)t
+GROUP BY customer_id , customer_name;
+
+
+
+
+
+/* Q39. Display every customer along with their total number of transactions.  */
+
+Ans:
+
+
+
+
+SELECT
+     Customer_id,
+     Customer_Name,
+     Transaction_type,
+     COUNT(transaction_id) As Total_Transactions
+FROM
+(
+SELECT 
+     c.customer_id As Customer_id,
+     c.customer_name As Customer_Name,
+     t.transaction_type As Transaction_type,
+     t.transaction_id As transaction_id
+FROM Customers As c
+LEFT JOIN 
+Accounts As a
+ON 
+c.customer_id = a.customer_id
+LEFT JOIN 
+Transactions As t
+ON 
+a.account_id = t.account_id
+)t
+GROUP BY Customer_id , Customer_Name , Transaction_type;
+
+
+
+
+
+
+
+
+/* Q40. Display every customer along with their total credit card outstanding.  */
+
+Ans:
+
+
+
+
+SELECT
+     Customer_id,
+     Customer_Name,
+     SUM(Outstanding_amount) OVER() As Total_Outstanding_amount
+FROM(
+SELECT 
+     c.customer_id As Customer_id,
+     c.customer_name As Customer_Name,
+     cc.outstanding_amount As Outstanding_amount
+FROM Customers As c
+LEFT JOIN
+Credit_Cards As cc 
+ON 
+c.customer_id = cc.customer_id
+)t
+
+
+
+
+
+/* Q41. Display every loan along with the total number of Transactions.  */
+    
+
+Ans:
+
+
+
+
+SELECT 
+     loan_type,
+     COUNT(Transaction_id) As Total_no_of_transactions
+FROM
+(
+SELECT
+     l.loan_type As loan_type,
+     t.transaction_id As Transaction_id
+FROM Loans As l
+LEFT JOIN
+Accounts As a
+ON 
+l.customer_id = a.customer_id 
+LEFT JOIN
+Transactions As t
+ON
+a.account_id = t.account_id
+)t
+GROUP BY loan_type
+
+
+
+
+
+
+
+
+
+
+
+       
+/*  8Q42. Display every credit card along with its percentage of total
+     outstanding amount. */
+
+Ans:
+
+
+SELECT
+     card_id,
+     card_type,
+    ROUND(( outstanding_amount / Total_outstanding_Amount ) * 100 , 2)  As outstanding_amount_percentage
+FROM
+(
+SELECT 
+     card_id,
+     card_type,
+     outstanding_amount,
+     SUM(outstanding_amount) OVER() As Total_outstanding_Amount
+FROM Credit_Cards
+)t
+
+
+
+
+
+
+      
+/* Q43. Display every customer along with the maximum annual income
+     in the customer table.  */
+
+Ans:
+
+
+SELECT 
+     * ,
+     MAX(annual_income) OVER() As Max_annual_income
+FROM Customers
+
+
+
+
+
+
+
+
+
+
+
+
+/* Q44. Display every branch along with the total loan amount originated
+     from that branch.   */
+
+Ans:
+
+
+SELECT 
+     b.branch_id,
+     b.branch_name,
+     l.loan_type,
+     l.loan_amount,
+     SUM(l.loan_amount) OVER(PARTITION BY b.branch_name ) As Total_loan_amount
+FROM Branches As b
+LEFT JOIN
+Customers As c
+ON 
+b.branch_id = c.branch_id
+LEFT JOIN 
+Loans As l
+ON 
+c.customer_id =l.customer_id
 
 
 
@@ -1346,6 +1577,9 @@ Q128. Find customers having no account with balance greater than 100000.
 Q129. Find customers who have both an active loan and active account.
 
 Q130. Find customers who have an active loan and an active credit card.
+
+
+
 
 
 
