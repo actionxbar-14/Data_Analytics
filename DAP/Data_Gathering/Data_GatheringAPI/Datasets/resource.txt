@@ -1,4 +1,14 @@
 
 
 
-Github_repo  :  https://github.com/AammarTufail/python-ka-chilla-2024/tree/main/13_data_gathering
+:: Github_repo  :  https://github.com/AammarTufail/python-ka-chilla-2024/tree/main/13_data_gathering
+
+
+
+1. World_bank Python library  :  https://pypi.org/project/world-bank-data/
+
+2. Faostat Python library     :  https://pypi.org/project/faostat/
+
+3. Eurostat Python library    :  https://pypi.org/project/eurostat/
+
+4. yfinance Python library    :  https://pypi.org/project/yfinance/
