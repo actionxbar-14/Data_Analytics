@@ -1251,41 +1251,339 @@ c.customer_id =l.customer_id
 
 
 
+
+
+
+
+
+
+
+
 /* =============================================================================
    SECTION D — SUBQUERY IN JOIN CLAUSE
 ============================================================================= */
 
-Q46. Join Customers with a subquery containing customer-wise total
-     loan amount.
 
-Q47. Display customers whose total loan amount is greater than 3000000.
 
-Q48. Join Branches with a subquery containing branch-wise average
-     customer income.
 
-Q49. Display branches whose average customer income is greater than
-     1500000.
 
-Q50. Join Customers with a subquery containing customer-wise average age.
 
-Q51. Display customers whose age is greater than their state-wise
-     average customer age.
 
-Q52. Join Customers with a subquery containing total credit card
-     outstanding.
+/* Q46. Join Customers with a subquery containing customer-wise total
+     loan amount.  */
 
-Q53. Display customers whose credit card outstanding exceeds 200000.
 
-Q54. Join Loans with a subquery containing customer-wise total loan amount.
+Ans:
 
-Q55. Display loans belonging to customers whose total loan exposure
-     exceeds 3000000.
+SELECT 
+     *,
+     SUM(loan_amount) OVER() AS Total_loan_amount
+FROM
+(
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     l.loan_type,
+     l.loan_amount
+FROM Customers As c
+LEFT JOIN
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+)t
 
-Q56. Join Accounts with a subquery containing account-wise
-     transaction count.
 
-Q57. Display accounts having more than 2 transactions.
 
+
+
+
+
+
+
+
+
+
+
+/* Q47. Display customers whose total loan amount is greater than 3000000.  */
+
+Ans:
+
+
+SELECT
+     *
+FROM 
+(
+SELECT 
+     *,
+     SUM(loan_amount) OVER() AS Total_loan_amount
+FROM
+(
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     l.loan_type,
+     l.loan_amount
+FROM Customers As c
+LEFT JOIN
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+)t
+)t
+WHERE Total_loan_amount > 30000000;
+
+
+
+
+
+
+
+
+
+/* Q48. Join Branches with a subquery containing branch-wise average
+     customer income.  */
+
+Ans:
+
+
+
+
+
+SELECT 
+     CustomerId,
+     Branch_Name,
+     Annual_income,
+     AVG(Annual_income) OVER() As Avg_annual_income
+FROM
+(
+SELECT 
+     c.customer_id As CustomerId,
+     b.branch_name As Branch_Name,
+     c.annual_income As Annual_income
+FROM Customers As c
+LEFT JOIN
+Branches As b 
+ON
+c.branch_id = b.branch_id
+)t
+
+
+
+
+
+
+
+       
+/* Q49. Display branches whose average customer income is greater than
+     1500000.  */
+
+Ans:
+
+SELECT
+     CustomerId,
+     Branch_Name,
+     Annual_income,
+     Avg_annual_income
+FROM
+(
+SELECT 
+     CustomerId,
+     Branch_Name,
+     Annual_income,
+     AVG(Annual_income) OVER() As Avg_annual_income
+FROM
+(
+SELECT 
+     c.customer_id As CustomerId,
+     b.branch_name As Branch_Name,
+     c.annual_income As Annual_income
+FROM Customers As c
+LEFT JOIN
+Branches As b 
+ON
+c.branch_id = b.branch_id
+)t
+)t
+WHERE Avg_annual_income > 1500000;
+
+
+
+
+
+
+
+
+
+/*  Q50. Join Customers with a subquery containing customer-wise average age.  */
+
+Ans:
+
+
+SELECT 
+     customer_id As CustomerId,
+     age,
+     AVG(age) OVER() As avg_age   
+FROM Customers 
+
+
+
+
+
+
+
+
+
+/* Q51. Display customers whose age is greater than their state-wise
+     average customer age.  */
+
+Ans:
+
+SELECT
+     CustomerId,
+     state,
+     age,
+     avg_age
+FROM
+(
+SELECT 
+     customer_id As CustomerId,
+     state as state,
+     age as age,
+     AVG(age) OVER(PARTITION BY state) As avg_age   
+FROM Customers 
+)t
+WHERE age > avg_age;
+
+
+
+
+
+
+
+
+
+
+
+/*  Q52. Join Customers with a subquery containing total credit card
+     outstanding. */
+
+Ans:
+
+SELECT
+     CustomerID,
+     Customer_income
+     CardType,
+     SUM(outstanding_amount) OVER() As Total_outstanding_amount
+FROM
+(
+SELECT
+    c.customer_id As CustomerID,
+    c.customer_name AS Customer_income,
+    cc.card_type as CardType,
+    COALESCE(cc.outstanding_amount , 0) As outstanding_amount
+FROM 
+Customers As c
+LEFT JOIN 
+Credit_Cards As cc
+On
+c.customer_id = cc.customer_id
+)t
+
+
+
+
+
+/* Q53. Display customers whose credit card outstanding exceeds 200000.  */
+
+Ans:
+
+SELECT 
+     CustomerID,
+     Customer_name,
+     CardType,
+     Total_outstanding_amount
+FROM
+(
+SELECT
+     CustomerID,
+     Customer_name,
+     CardType,
+     SUM(outstanding_amount) OVER() As Total_outstanding_amount
+FROM
+(
+SELECT
+    c.customer_id As CustomerID,
+    c.customer_name AS Customer_name,
+    cc.card_type as CardType,
+    COALESCE(cc.outstanding_amount , 0) As outstanding_amount
+FROM 
+Customers As c
+LEFT JOIN 
+Credit_Cards As cc
+On
+c.customer_id = cc.customer_id
+)t
+)t
+WHERE Total_outstanding_amount > 200000;
+
+
+
+
+
+/* Q56. Join Accounts with a subquery containing account-wise
+     transaction count.   */
+
+Ans:
+
+
+SELECT
+     DISTINCT accountId,
+     account_type,
+     SUM(transaction_count) OVER(PARTITION BY accountId) As Total_transactions
+FROM
+(
+SELECT 
+     a.account_id As accountId,
+     a.account_type As account_type,
+     COUNT(t.transaction_id) OVER(PARTITION BY a.account_id) AS transaction_count
+FROM Accounts As a
+LEFT JOIN
+Transactions As t
+ON 
+a.account_id = t.account_id
+)t
+
+
+
+
+/* 57. Display accounts having more than 2 transactions.  */
+
+Ans:
+
+SELECT
+     accountId,
+     account_type,
+     Total_transactions
+FROM
+(
+SELECT
+     DISTINCT accountId,
+     account_type,
+     SUM(transaction_count) OVER(PARTITION BY accountId) As Total_transactions
+FROM
+(
+SELECT 
+     a.account_id As accountId,
+     a.account_type As account_type,
+     COUNT(t.transaction_id) OVER(PARTITION BY a.account_id) AS transaction_count
+FROM Accounts As a
+LEFT JOIN
+Transactions As t
+ON 
+a.account_id = t.account_id
+)t
+)t
+WHERE Total_transactions > 2;
 
 
 
@@ -1311,7 +1609,12 @@ Q57. Display accounts having more than 2 transactions.
    SECTION E — SUBQUERY WITH COMPARISON OPERATORS
 ============================================================================= */
 
-Q58. Find customers whose income is greater than the average income.
+
+
+
+
+
+/*  Q58. Find customers whose income is greater than the average income.  */
 
 Q59. Find customers whose income is less than the average income.
 
@@ -1667,6 +1970,15 @@ Q149. Use a CTE to calculate state-wise total loan amount.
 Q150. Find states whose total loan amount exceeds 10000000.
 
 
+
+
+
+
+
+
+
+
+
 /* =============================================================================
    SECTION K — MULTIPLE CTEs
 ============================================================================= */
@@ -1714,6 +2026,18 @@ Q159. Use multiple CTEs to calculate customer-wise:
 Q160. Identify customers having all three product relationships.
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 /* =============================================================================
    SECTION L — RECURSIVE CTE : GENERATE SEQUENCE
 ============================================================================= */
@@ -1738,6 +2062,16 @@ Q169. Generate a sequence representing loan tenure months
      from 1 to 12.
 
 Q170. Generate the first 12 monthly periods for loan repayment analysis.
+
+
+
+
+
+
+
+
+
+
 
 
 /* =============================================================================
@@ -1790,6 +2124,13 @@ Q185. Find the number of customers under each branch.
 
 
 
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -1879,6 +2220,10 @@ Q205. Create a view showing only successful transactions.
 
 
 
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 
 
@@ -1946,6 +2291,12 @@ Q225. Drop the temporary table explicitly after completing the analysis.
 
 
 
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -2116,6 +2467,10 @@ Q262. Return ERROR_NUMBER(), ERROR_MESSAGE() and ERROR_LINE()
 
 
 
+
+
+
+     ------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
