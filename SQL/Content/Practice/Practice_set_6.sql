@@ -1614,41 +1614,441 @@ WHERE Total_transactions > 2;
 
 
 
+
+
+
+
 /*  Q58. Find customers whose income is greater than the average income.  */
 
-Q59. Find customers whose income is less than the average income.
+Ans:
 
-Q60. Find accounts whose balance is greater than the average balance.
 
-Q61. Find accounts whose balance is less than the average balance.
 
-Q62. Find loans whose amount is greater than the average Home Loan amount.
 
-Q63. Find loans whose amount is less than the average Personal Loan amount.
+SELECT
+     *
+FROM 
+(
+SELECT 
+     customer_id,
+     customer_name,
+     annual_income,
+     AVG(annual_income) OVER() As Avg_annual_income
+FROM Customers
+)t
+WHERE annual_income > Avg_annual_income;
 
-Q64. Find customers whose annual_income is greater than the annual_income
-     of a specific customer.
 
-Q65. Find customers whose annual_income is less than the annual_income
-     of a specific customer.
 
-Q66. Find branches whose customer count is greater than the customer
-     count of a specific branch.
 
-Q67. Find credit cards whose outstanding amount is greater than the
-     average outstanding amount of Platinum cards.
 
-Q68. Find transactions whose amount is greater than the average
-     UPI transaction amount.
 
-Q69. Find loans whose interest rate is greater than the average
-     loan interest rate.
 
-Q70. Find customers whose income is not equal to the highest income.
 
-Q71. Find accounts whose balance is greater than or equal to the
-     average account balance.
 
+
+
+
+
+
+
+/* Q59. Find customers whose income is less than the average income.  */
+
+Ans:
+
+
+
+SELECT 
+     customer_id,
+     customer_name,
+     annual_income,
+     AVG(annual_income) OVER() As Avg_annual_income
+FROM Customers
+WHERE annual_income > (
+SELECT 
+     AVG(annual_income) As Avg_annual_income
+FROM Customers
+)
+
+
+
+
+
+
+
+
+
+
+
+
+/* Q60. Find accounts whose balance is greater than the average balance. */
+
+Ans:
+
+
+
+
+
+SELECT 
+     account_id,
+     account_type,
+     balance,
+     AVG(balance) OVER() As Avg_balance
+FROM Accounts
+WHERE balance > (
+SELECT
+     AVG(balance) As Avg_balance
+FROM Accounts
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Q61. Find accounts whose balance is less than the average balance.  */
+
+Ans:
+
+
+
+
+
+SELECT 
+     account_id,
+     account_type,
+     balance,
+     AVG(balance) OVER() As Avg_balance
+FROM Accounts
+WHERE balance < (
+SELECT
+     AVG(balance) As Avg_balance
+FROM Accounts
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Q62. Find loans whose amount is greater than the average Home Loan amount.  */
+
+Ans:
+
+
+SELECT 
+     loan_id,
+     loan_type,
+     loan_amount,
+     AVG(loan_amount) OVER() As Avg_loan_amount
+FROM Loans
+WHERE loan_amount > (
+SELECT
+     AVG(loan_amount) As AVG_loan_amount
+FROM Loans
+)
+
+
+
+
+
+
+
+
+  
+/* Q63. Find loans whose amount is less than the average Personal Loan amount.   */
+
+Ans:
+
+
+SELECT 
+     loan_id,
+     loan_type,
+     loan_amount,
+     AVG(loan_amount) OVER() As Avg_loan_amount
+FROM Loans
+WHERE loan_amount < (
+SELECT
+     AVG(loan_amount) As AVG_loan_amount
+FROM Loans
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Q64. Find customers whose annual_income is greater than the annual_income
+     of a specific customer.   */
+
+Ans:
+
+
+
+
+SELECT 
+     customer_id,
+     customer_name,
+     annual_income,
+     AVG(annual_income) OVER() As Avg_annual_income
+FROM Customers
+WHERE annual_income > (
+SELECT 
+     annual_income As specific_annual_income
+FROM Customers
+WHERE customer_name = 'Priya Verma'
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Q65. Find customers whose annual_income is less than the annual_income
+     of a specific customer.  */
+
+Ans:
+
+
+
+SELECT 
+     customer_id,
+     customer_name,
+     annual_income,
+     AVG(annual_income) OVER() As Avg_annual_income
+FROM Customers
+WHERE annual_income < (
+SELECT 
+     annual_income As specific_annual_income
+FROM Customers
+WHERE customer_name = 'Priya Verma'
+)
+
+
+
+
+
+
+
+
+
+
+
+       
+/*  Q66. Find branches whose customer count is less than the customer
+     count of a specific branch.  */
+
+Ans:
+
+SELECT 
+     branchID,
+     Branch_name,
+     Customer_count
+FROM
+(
+SELECT 
+    DISTINCT b.branch_id As branchID,
+    b.branch_name As Branch_name,
+    COUNT(c.customer_id) OVER(PARTITION BY b.branch_name) As Customer_count
+FROM 
+Branches As b
+LEFT JOIN
+Customers As c
+ON
+c.branch_id = b.branch_id
+)t
+WHERE Customer_count < (
+
+SELECT 
+    DISTINCT COUNT(c.customer_id) OVER(PARTITION BY b.branch_name)  As Customer_count
+FROM 
+Branches As b
+LEFT JOIN
+Customers As c
+ON
+c.branch_id = b.branch_id
+WHERE branch_name = 'Main Branch'
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q67. Find credit cards whose outstanding amount is greater than the
+     average outstanding amount of Platinum cards.  */
+
+Ans:
+
+
+SELECT 
+     *
+FROM
+(
+SELECT 
+     card_id,
+     card_type,
+     outstanding_amount,
+     AVG(outstanding_amount) OVER() As Avg_outstanding_amount
+FROM Credit_Cards
+WHERE card_type = 'Platinum'
+)t
+WHERE outstanding_amount > Avg_outstanding_amount
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q68. Find transactions whose amount is greater than the average
+     UPI transaction amount.  */
+
+Ans:
+
+
+
+SELECT 
+     *
+FROM
+(
+SELECT 
+     transaction_id,
+     transaction_type,
+     channel,
+     amount,
+     AVG(amount) OVER() As Avg_transaction_amount
+FROM Transactions
+WHERE channel = 'UPI'
+)t
+WHERE amount > Avg_transaction_amount;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q69. Find loans whose interest rate is greater than the average
+     loan interest rate.  */
+
+
+Ans:
+
+
+SELECT 
+     loan_id,
+     loan_type,
+     interest_rate
+FROM Loans
+WHERE interest_rate > (
+
+SELECT 
+     AVG(interest_rate) As Avg_interest_rate
+FROM Loans
+)
+
+
+
+
+
+
+/*  Q70. Find customers whose income is not equal to the highest income. */
+
+Ans:
+
+SELECT 
+     customer_id,
+     customer_segment,
+     annual_income
+FROM Customers
+WHERE annual_income <> (
+
+SELECT 
+     MAX(annual_income) As Max_annual_income
+FROM Customers
+)
+
+
+
+
+
+
+
+
+/*  Q71. Find accounts whose balance is greater than or equal to the
+     average account balance.  */
+
+Ans:
+
+
+SELECT
+     account_id,
+     account_type,
+     balance,
+     AVG(balance) OVER() As Avg_balance
+FROM Accounts
+WHERE balance > (
+
+SELECT 
+     AVG(balance)  As Avg_balance
+FROM Accounts
+
+)
 
 
 
@@ -1671,6 +2071,12 @@ Q71. Find accounts whose balance is greater than or equal to the
 /* =============================================================================
    SECTION F — SUBQUERY WITH IN OPERATOR
 ============================================================================= */
+
+
+
+
+
+
 
 Q72. Find customers who have at least one Home Loan.
 
