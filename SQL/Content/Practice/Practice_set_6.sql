@@ -2207,14 +2207,47 @@ WHERE Credit_Count >= 1;
 
 Ans:
 
-SELECT 
+SELECT
      *
+FROM
+(
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     c.customer_segment,
+     COUNT(cc.card_id) OVER(PARTITION BY c.customer_id) As Card_Count
 FROM Customers As c
 LEFT JOIN
 Credit_Cards As cc
 ON 
 c.customer_id = cc.customer_id
 WHERE card_type = 'Platinum'
+)t
+WHERE Card_Count >= 1
+
+
+
+
+
+
+
+/*  Q77. Find customers whose branch is located in Delhi or Maharashtra.  */
+
+Ans:
+
+
+
+SELECT
+     c.customer_id ,
+     c.customer_name,
+     c.state,
+     b.branch_name
+FROM Customers As c
+LEFT JOIN 
+Branches As b
+ON
+c.branch_id = b.branch_id
+WHERE b.state IN('Delhi' , 'Maharashtra')
 
 
 
@@ -2224,9 +2257,36 @@ WHERE card_type = 'Platinum'
 
 
 
-Q77. Find customers whose branch is located in Delhi or Maharashtra.
 
-Q78. Find customers belonging to branches having more than 2 customers.
+/*  Q78. Find customers belonging to branches having more than 2 customers.  */
+
+Ans:
+
+SELECT
+     *
+FROM Customers
+WHERE customer_id IN (
+SELECT
+     CustomerID
+FROM
+(
+SELECT 
+     DISTINCT c.customer_id As CustomerID,
+     b.branch_name,
+     COUNT(c.customer_id) OVER(PARTITION BY b.branch_name) As Customer_Count
+FROM Customers As c
+LEFT JOIN
+Branches As b
+ON 
+c.branch_id = b.branch_id
+)t
+WHERE Customer_Count > 2)
+
+
+
+
+
+
 
 Q79. Find customers belonging to branches having more than 5 accounts.
 
