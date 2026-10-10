@@ -2077,16 +2077,152 @@ FROM Accounts
 
 
 
+/* Q72. Find customers who have at least one Home Loan.  */
 
-Q72. Find customers who have at least one Home Loan.
 
-Q73. Find customers who have at least one Business Loan.
+Ans:
 
-Q74. Find customers who have at least one active loan.
+SELECT 
+     *
+FROM 
+(
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     COUNT(l.customer_id) As Total_loan_count
+FROM Customers As c
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+GROUP BY c.customer_id , c.customer_name
+)t
+WHERE Total_loan_count >= 1
 
-Q75. Find customers who have at least one credit card.
 
-Q76. Find customers who have at least one Platinum credit card.
+
+
+
+
+ 
+/* Q73. Find customers who have at least one Business Loan. */
+
+Ans:
+
+
+SELECT
+     *
+FROM
+(
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     l.loan_type,
+     COUNT(l.customer_id) OVER(PARTITION BY c.customer_id) As Total_loan_count
+FROM Customers As c
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+WHERE l.loan_type IN('Business Loan')
+)t
+WHERE Total_loan_count >= 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q74. Find customers who have at least one active loan. */
+
+Ans:
+
+
+SELECT
+     *
+FROM
+(
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     l.loan_status As loan_status,
+     COUNT(l.customer_id) OVER(PARTITION BY c.customer_id) As Total_loan_count
+FROM Customers As c
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+WHERE l.loan_status IN('Active')
+)t
+WHERE Total_loan_count >= 1
+
+
+
+
+
+
+
+
+
+
+
+/*  Q75. Find customers who have at least one credit card.  */
+
+Ans:
+
+
+SELECT  
+     *
+FROM
+(
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     COUNT(cc.card_id) OVER(PARTITION BY c.customer_id) As Credit_Count
+FROM Customers As c
+LEFT JOIN 
+Credit_Cards As cc 
+ON 
+c.customer_id = cc.customer_id
+)t
+WHERE Credit_Count >= 1; 
+
+
+
+
+
+
+
+/*  Q76. Find customers who have at least one Platinum credit card.  */
+
+Ans:
+
+SELECT 
+     *
+FROM Customers As c
+LEFT JOIN
+Credit_Cards As cc
+ON 
+c.customer_id = cc.customer_id
+WHERE card_type = 'Platinum'
+
+
+
+
+
+
+
+
 
 Q77. Find customers whose branch is located in Delhi or Maharashtra.
 
