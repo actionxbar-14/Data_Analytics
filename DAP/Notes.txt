@@ -1,0 +1,29 @@
+
+
+
+
+
+
+
+:: Data Analysis Process ( DAP ) : 
+
+
+
+1. Asking Questions.
+
+2. Data Wrangling.
+
+    a. Gathering Data 
+        - i. CSV files 
+        - ii. APIs 
+        - iii. Web Scraping 
+        - iv. Databases 
+    b. Assessing Data<br>
+    c. Cleaning Data
+
+
+3. Exploratory Data Analysis9 ( EDA ).
+
+4. Drawing Conclusion.
+
+5. Comunicating Results.
