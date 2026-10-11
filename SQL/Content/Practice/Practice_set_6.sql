@@ -24,10 +24,6 @@
                       SECTION A — SUBQUERY RESULT TYPES
 ============================================================================= */
 
-USE
-BFSI_Window
-
-
 
 
 /* Q1. Find customers whose annual_income is greater than the average
@@ -2288,22 +2284,114 @@ WHERE Customer_Count > 2)
 
 
 
-Q79. Find customers belonging to branches having more than 5 accounts.
+/*  Q79. Find customers belonging to branches having more than 2 accounts.  */
 
-Q80. Find loans belonging to customers whose annual income exceeds 2000000.
 
-Q81. Find accounts belonging to customers having at least one loan.
+Ans:
 
-Q82. Find customers who have both an account and a loan using
-     subquery-based IN logic.
 
-Q83. Find customers belonging to branches that have at least one
-     active loan.
 
-Q84. Find credit cards belonging to customers having total loan amount
-     greater than 3000000.
+SELECT 
+     branchID,
+     branch_Name,
+     Account_count
+FROM
+(
+SELECT 
+     DISTINCT b.branch_id As branchID ,
+     b.branch_name As branch_Name,
+     COUNT(a.account_id) OVER(PARTITION BY b.branch_name) As Account_count
+FROM Branches As b
+LEFT JOIN
+Accounts As a
+ON
+b.branch_id = a.branch_id
+)t
+WHERE Account_count > 2;
 
-Q85. Find transactions belonging to accounts owned by Premium customers.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q80. Find loans belonging to customers whose annual income exceeds 2000000.   */
+
+Ans:
+
+SELECT  
+     l.loan_id,
+     l.loan_type,
+     l.loan_type,
+     c.customer_id,
+     c.customer_name,
+     c.annual_income
+FROM Loans As l
+LEFT JOIN
+Customers As c
+ON
+l.customer_id = c.customer_id
+WHERE c.annual_income > 200000;
+
+
+
+
+
+
+
+
+
+
+/*  Q81. Find accounts belonging to customers having at least one loan. */
+
+
+Ans:
+
+
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     a.account_id,
+     a.account_type,
+     l.loan_type,
+     COUNT(l.loan_id) OVER(PARTITION BY c.customer_id)
+FROM Customers As c
+LEFT JOIN
+Accounts As a
+ON 
+c.customer_id = a.customer_id
+LEFT JOIN
+Loans As l
+ON 
+c.customer_id = l.customer_id;
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2326,32 +2414,301 @@ Q85. Find transactions belonging to accounts owned by Premium customers.
    SECTION G — SUBQUERY WITH ANY OPERATOR
 ============================================================================= */
 
-Q86. Find customers whose annual income is greater than ANY income
-    of Regular customers.
 
-Q87. Find customers whose annual income is less than ANY income
-    of Premium customers.
 
-Q88. Find accounts whose balance is greater than ANY balance of
-    Savings accounts.
 
-Q89. Find loans whose loan amount is greater than ANY Personal Loan amount.
 
-Q90. Find loans whose loan amount is less than ANY Home Loan amount.
+/*  Q86. Find customers whose annual income is greater than ANY income
+     of Regular customers.  */
 
-Q91. Find customers whose annual income is greater than ANY income
-    of customers from a specific state.
 
-Q92. Find customers whose annual income is less than ANY income
-    of customers from a specific state.
+Ans:
 
-Q93. Find credit cards whose credit limit is greater than ANY
-    Gold credit card limit.
 
-Q94. Find transactions whose amount is greater than ANY ATM transaction.
+SELECT 
+     *
+FROM Customers
+WHERE annual_income > ANY (
 
-Q95. Find customers whose total loan amount is greater than ANY
-    loan amount belonging to customers from the Regular segment.
+SELECT  
+     annual_income
+FROM Customers 
+WHERE customer_segment = 'Regular'
+)
+
+
+
+
+
+
+
+
+/*  Q87. Find customers whose annual income is less than ANY income
+    of Premium customers.  */
+
+
+Ans:
+
+
+
+SELECT 
+     *
+FROM Customers
+WHERE annual_income > ANY (
+
+SELECT  
+     annual_income
+FROM Customers 
+WHERE customer_segment = 'Premium'
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q88. Find accounts whose balance is greater than ANY balance of
+    Savings accounts.  */
+
+Ans:
+
+
+
+
+SELECT 
+     *
+FROM Accounts
+WHERE balance > ANY (
+
+SELECT  
+     balance
+FROM Accounts 
+WHERE account_type = 'Savings'
+)
+
+
+
+
+
+
+
+
+/*  Q89. Find loans whose loan amount is greater than ANY Personal Loan amount.  */
+
+
+Ans:
+
+
+SELECT 
+     *
+FROM Loans
+WHERE loan_amount > ANY (
+
+SELECT  
+     loan_amount
+FROM Loans
+WHERE loan_type = 'Personal Loan'
+)
+
+
+
+
+
+
+
+
+
+
+
+/*  Q90. Find loans whose loan amount is less than ANY Home Loan amount.  */
+
+Ans:
+
+
+
+SELECT 
+     *
+FROM Loans
+WHERE loan_amount < ANY (
+
+SELECT  
+     loan_amount
+FROM Loans
+WHERE loan_type = 'Home Loan'
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q91. Find customers whose annual income is greater than ANY income
+    of customers from a specific state.  */
+
+Ans:
+
+
+
+
+SELECT 
+     *
+FROM Customers As c
+LEFT JOIN 
+Loans As l
+ON
+c.customer_id = l.customer_id
+WHERE l.loan_amount > ANY (
+
+SELECT  
+     loan_amount
+FROM Loans
+WHERE c.state = 'Delhi'
+)
+
+
+
+
+
+
+
+
+
+/* Q92. Find customers whose annual income is less than ANY income
+    of customers from a specific state. */
+
+Ans:
+
+
+
+
+SELECT 
+     *
+FROM Customers As c
+LEFT JOIN 
+Loans As l
+ON
+c.customer_id = l.customer_id
+WHERE l.loan_amount < ANY (
+
+SELECT  
+     loan_amount
+FROM Loans
+WHERE c.state = 'Delhi'
+)
+
+
+
+
+
+
+
+
+
+
+     
+/*  Q93. Find credit cards whose credit limit is greater than ANY
+    Gold credit card limit.  */
+
+
+Ans:
+
+
+SELECT
+     *
+FROM Credit_Cards
+WHERE credit_limit > ANY(
+SELECT 
+     credit_limit
+FROM Credit_Cards
+WHERE card_type = 'Gold')
+
+
+
+
+
+
+
+
+
+
+/*  Q94. Find transactions whose amount is greater than ANY ATM transaction.  */
+
+
+Ans:
+
+
+SELECT
+     *
+FROM Transactions
+WHERE amount > ANY (
+
+SELECT 
+     amount
+FROM Transactions
+WHERE channel = 'ATM')
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q95. Find customers whose total loan amount is greater than ANY
+    loan amount belonging to customers from the Regular segment.  */
+
+Ans:
+
+
+SELECT
+     c.customer_id,
+     c.customer_name,
+     l.loan_type,
+     l.loan_amount
+FROM Customers As c
+LEFT JOIN
+Loans As l
+ON 
+c.customer_id = l.customer_id 
+WHERE l.loan_amount > ANY (
+
+
+SELECT 
+     l.loan_amount
+FROM Customers As c
+LEFT JOIN 
+Loans As l
+ON
+c.customer_id = l.customer_id
+WHERE customer_segment = 'Regular')
+
+
+
+
 
 
 
@@ -2380,8 +2737,25 @@ Q95. Find customers whose total loan amount is greater than ANY
    SECTION H — CORRELATED SUBQUERIES
 ============================================================================= */
 
-Q96. Find customers whose income is greater than the average income
-    of customers from their own state.
+
+
+
+
+/*  Q96. Find customers whose income is greater than the average income
+    of customers from their own state.  */
+
+Ans:
+
+
+
+
+
+
+
+
+
+
+
 
 Q97. Find customers whose income is below their states average income.
 
