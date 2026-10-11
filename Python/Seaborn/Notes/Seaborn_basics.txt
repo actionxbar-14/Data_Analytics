@@ -1,0 +1,9 @@
+
+
+
+
+:: Resource_Notebook :
+
+:--> Lecture_1 :  https://colab.research.google.com/drive/1_Mk2NWYBzNxICokEtJFxsf6haq_1YIDA?usp=sharing#scrollTo=rD7hPbv353uf
+
+:--> Lecture_2 : https://colab.research.google.com/drive/18GuhOaBBhaBJ9RtVNHRJQzNxNPPSKBrD?usp=sharing#scrollTo=XYEb8rrXqeWy
