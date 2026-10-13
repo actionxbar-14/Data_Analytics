@@ -11,7 +11,8 @@
 
 
 
-
+USE
+BFSI_Window
 
 
 
@@ -2749,6 +2750,44 @@ Ans:
 
 
 
+SELECT
+     *
+FROM
+(
+SELECT 
+     customer_id,
+     state,
+     customer_name,
+     annual_income,
+     AVG(annual_income) OVER(PARTITION BY state) As avg_income
+FROM Customers
+)t
+WHERE annual_income > avg_income;
+
+
+
+
+
+
+
+/*  Q97. Find customers whose income is below their states average income.  */
+
+Ans:
+
+
+SELECT
+     *
+FROM
+(
+SELECT 
+     customer_id,
+     state,
+     customer_name,
+     annual_income,
+     AVG(annual_income) OVER(PARTITION BY state) As avg_income
+FROM Customers
+)t
+WHERE annual_income < avg_income;
 
 
 
@@ -2757,45 +2796,286 @@ Ans:
 
 
 
-Q97. Find customers whose income is below their states average income.
 
-Q98. Find accounts whose balance is greater than the average balance
-    of accounts belonging to the same account_type.
+ 
+/*  Q98. Find accounts whose balance is greater than the average balance
+    of accounts belonging to the same account_type.  */
 
-Q99. Find customers whose annual income is greater than the average
-    income of customers from their own city.
 
-Q100. Find customers whose annual income is below their city average.
-
-Q101. Find the highest-income customer in each branch using a
-     correlated subquery.
-
-Q102. Find the lowest-income customer in each branch.
-
-Q103. Find the highest-value loan for each customer.
-
-Q104. Find the largest transaction for each account.
-
-Q105. Find the credit card with the highest outstanding amount
-     for each customer.
-
-Q106. Find customers whose total loan amount is greater than the
-     average total loan amount of customers.
-
-Q107. Find loans whose amount is greater than the average loan amount
-     for their loan_type.
-
-Q108. Find transactions whose amount is greater than the average
-     transaction amount of their account.
-
-Q109. Find credit cards whose outstanding amount is greater than the
-     average outstanding amount for their card_type.
-
-Q110. Find customers whose total credit card outstanding is greater than
-     the average outstanding of customers in their state.
+Ans:
 
 
 
+SELECT
+     *
+FROM
+(
+SELECT 
+     account_id,
+     account_type,
+     balance,
+     AVG(balance) OVER(PARTITION BY account_type) As avg_balance
+FROM Accounts
+)t
+WHERE balance < avg_balance;
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q99. Find customers whose annual income is greater than the average
+    income of customers from their own city.   */
+
+Ans:
+
+
+SELECT
+     *
+FROM
+(
+SELECT 
+     customer_id,
+     city,
+     customer_name,
+     annual_income,
+     AVG(annual_income) OVER(PARTITION BY city) As avg_income
+FROM Customers
+)t
+WHERE annual_income > avg_income;
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q100. Find customers whose annual income is below their city average.  */
+
+
+Ans:
+
+SELECT
+     *
+FROM
+(
+SELECT 
+     customer_id,
+     city,
+     customer_name,
+     annual_income,
+     AVG(annual_income) OVER(PARTITION BY city) As avg_income
+FROM Customers
+)t
+WHERE annual_income < avg_income;
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q101. Find the highest-income customer in each branch using a
+     correlated subquery.  */
+
+Ans:
+
+
+SELECT 
+     *
+FROM
+(
+SELECT
+     c.customer_id,
+     c.customer_name,
+     annual_income,
+     MAX(c.annual_income) OVER(PARTITION BY b.branch_name) As Max_income,
+     b.branch_name
+FROM Customers As c
+LEFT JOIN
+Branches As b
+ON
+c.branch_id = b.branch_id
+)t
+WHERE annual_income = Max_income;
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q102. Find the lowest-income customer in each branch.   */
+
+Ans:
+
+SELECT 
+     *
+FROM
+(
+SELECT
+     c.customer_id,
+     c.customer_name,
+     annual_income,
+     MIN(c.annual_income) OVER(PARTITION BY b.branch_name) As Min_income,
+     b.branch_name
+FROM Customers As c
+LEFT JOIN
+Branches As b
+ON
+c.branch_id = b.branch_id
+)t
+WHERE annual_income = Min_income;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q104. Find the largest transaction for each account.  */
+
+
+Ans:
+
+
+
+SELECT
+     *
+FROM
+(
+SELECT
+     DISTINCT a.account_id,
+     t.transaction_id,
+     t.amount As amount,
+     MAX(t.amount) OVER(PARTITION BY a.account_id) as Max_Transaction
+FROM Transactions As t
+LEFT JOIN
+Accounts As a
+ON
+t.account_id = a.account_id
+)t
+WHERE amount = Max_Transaction
+
+
+
+
+
+
+
+
+
+
+/*  Q105. Find the credit card with the highest outstanding amount
+     for each customer. */
+
+Ans:
+
+
+SELECT 
+     cc.card_id,
+     cc.card_type,
+     c.customer_name,
+     cc.outstanding_amount
+FROM Customers As c
+LEFT JOIN
+Credit_Cards As cc
+ON 
+c.customer_id = cc.customer_id
+WHERE cc.card_id IS NOT NULL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q106. Find customers whose total loan amount is greater than the
+     average total loan amount of customers. */
+
+
+Ans:
+
+
+
+
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     l.loan_type,
+     SUM(l.loan_amount) OVER(PARTITION BY c.customer_id)
+FROM Loans As l
+LEFT JOIN
+Customers As c
+ON 
+c.customer_id = l.customer_id
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q107. Find loans whose amount is greater than the average loan amount
+     for their loan_type.  */
+
+Ans:
+
+
+SELECT
+     * 
+FROM 
+(
+SELECT 
+     loan_type,
+     loan_amount,
+     AVG(loan_amount) OVER(PARTITION BY loan_type) As AVG_loan_amount
+FROM Loans
+)t
+WHERE loan_amount > AVG_loan_amount;
 
 
 
