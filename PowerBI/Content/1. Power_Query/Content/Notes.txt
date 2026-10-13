@@ -1,0 +1,85 @@
+
+
+
+:: Power Query : 
+
+- ETL tool.
+- Power Query is the data preparation and ETL engine in PowerBI used to connect , clean and transform data before analysis.
+
+
+
+:--> Power Query Pipeline : 
+
+
+1. Connect    ---->    2. Remove Bad Data    ---->  3. Split   ---->  4. Merge   ---->  5. Remoe spaces.
+[ NOTE :  order is important ]
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+:: Execution  :
+
+--> Go to Home tab and then transform section and click transform data and then perform these in the loop :
+
+-  [ Check -----> Inspect -------> Fix ]
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+:: Process Steps : 
+
+
+
+
+## STEP_1 : [ Connect Data ]
+
+-- Connect Sources.
+-- Check Promoted headers. !
+-- Change Types.
+
+:-> It is Automatically done by the PowerBI.
+
+
+
+
+
+
+
+
+
+
+## STEP_2 : [ Filter Data ]
+
+-- Remove Unnecessary Columns.
+-- Remove Blank Rows.
+-- Filter Rows. 
+
+
+
+
+
+
+
+
+
+
+## STEP_3 : [ Clean Data ]
+
+
+--> Remove Duplicates : 
+- A record that appears more than once with identical values.
+- Primary key should unique.
+   -> Text    :  Trim , Case , Replace.
+   -> Numbers :  Format , Round , Type.
+   -> Dates   :  Format  , Type.
+   -> Handle Missing Values 
+
