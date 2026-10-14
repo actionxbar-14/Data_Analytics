@@ -75,11 +75,55 @@
 ## STEP_3 : [ Clean Data ]
 
 
---> Remove Duplicates : 
+1.)  Remove Duplicates : 
 - A record that appears more than once with identical values.
 - Primary key should unique.
    -> Text    :  Trim , Case , Replace.
    -> Numbers :  Format , Round , Type.
    -> Dates   :  Format  , Type.
-   -> Handle Missing Values 
 
+
+
+
+2.)  Handle Missing Values / Data:
+- [ null  --> unknown  , missing , Nothing ] = > Use Replace ( n/a ).
+- [ Empty String --> ]Text Type  , But no value ] [ Length = 0]   => Use Trim.
+- [ White spaces --> Text Type with Space value] [ Length = 1 ,2,.....]  => Use Replace ( null , n/a ).
+- [ Numbers -->   null / 0 / avg].
+- [ Dates -->  null / default value (31-12-9999) ].
+
+
+
+
+
+
+
+## STEP_4 : [ Transform Data ]
+
+
+- Split Columns.
+- Merge Columns.
+- Extract Parts.
+
+
+
+
+
+
+
+## STEP_5 : [ Combine Data ]
+
+
+
+
+i) Connect Using Relations :
+
+- By Creating Data Model.
+
+
+
+
+ii) Combine :
+
+- Append Table. [ Union ]. ( Combining Rows ) 
+- Merge Table [ Join ].  ( Combining Columns )
