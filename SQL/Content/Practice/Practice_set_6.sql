@@ -3095,50 +3095,434 @@ WHERE loan_amount > AVG_loan_amount;
    SECTION I — EXISTS OPERATOR
 ============================================================================= */
 
-Q111. Find customers for whom at least one account exists.
-
-Q112. Find customers for whom no account exists.
-
-Q113. Find customers for whom at least one loan exists.
-
-Q114. Find customers for whom no loan exists.
-
-Q115. Find customers for whom at least one credit card exists.
-
-Q116. Find customers for whom no credit card exists.
-
-Q117. Find accounts for which at least one transaction exists.
-
-Q118. Find accounts for which no transaction exists.
-
-Q119. Find customers having at least one transaction greater than 50000.
-
-Q120. Find customers having no transaction greater than 50000.
-
-Q121. Find customers having at least one successful transaction.
-
-Q122. Find customers having no successful transaction.
-
-Q123. Find branches having at least one active loan.
-
-Q124. Find branches having no active loan.
-
-Q125. Find branches having at least one customer with annual income
-     greater than 2000000.
-
-Q126. Find customers having at least one transaction greater than 50000.
-
-Q127. Find customers having at least one account with balance greater
-     than 100000.
-
-Q128. Find customers having no account with balance greater than 100000.
-
-Q129. Find customers who have both an active loan and active account.
-
-Q130. Find customers who have an active loan and an active credit card.
 
 
 
+/*  Q111. Find customers for whom at least one account exists.  */
+
+Ans:
+
+
+
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     a.account_id,
+     a.balance
+FROM Customers As c
+LEFT JOIN
+Accounts As a
+ON 
+c.customer_id = a.customer_id;
+
+
+
+
+
+
+
+
+
+/*  Q112. Find customers for whom no account exists.  */
+
+Ans:
+
+
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     a.account_id,
+     a.balance
+FROM Customers As c
+LEFT JOIN
+Accounts As a
+ON 
+c.customer_id = a.customer_id;
+
+
+
+
+
+
+
+
+/*  Q113. Find customers for whom at least one loan exists.  */
+
+Ans:
+
+
+
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     l.loan_type,
+     l.loan_amount
+FROM Customers As c
+LEFT JOIN
+Loans As l
+ON 
+c.customer_id = l.customer_id;
+
+
+
+
+
+
+/*   Q114. Find customers for whom no loan exists.  */
+
+Ans:
+
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     l.loan_type,
+     l.loan_amount
+FROM Customers As c
+LEFT JOIN
+Loans As l
+ON 
+c.customer_id = l.customer_id;
+
+
+
+
+
+
+ 
+/*   Q115. Find customers for whom at least one credit card exists.  */
+
+Ans:
+
+
+
+SELECT 
+     *
+FROM Customers As c
+LEFT JOIN
+Credit_Cards As cc
+ON 
+c.customer_id = cc.customer_id
+WHERE cc.customer_id IS NOT NULL;
+
+
+
+
+
+
+
+
+/*  Q116. Find customers for whom no credit card exists.  */
+
+Ans:
+
+
+SELECT
+    *
+FROM Customers As c
+WHERE EXISTS (
+    SELECT *
+    FROM Credit_Cards As cc
+    WHERE cc.card_id IS NULL
+      AND c.customer_id = cc.customer_id
+);
+
+
+
+
+
+/*  Q117. Find accounts for which at least one transaction exists.  */
+
+
+Ans:
+
+
+SELECT 
+     a.account_id,
+     a.account_type
+FROM Accounts As a
+WHERE EXISTS (
+SELECT
+     t.transaction_id,
+     t.transaction_type
+FROM Transactions As t
+WHERE a.account_id IS NOT NULL
+AND a.account_id = t.account_id
+
+)
+
+
+
+
+
+
+
+
+
+
+
+/*  Q118. Find accounts for which no transaction exists.  */
+
+Ans:
+
+SELECT 
+     a.account_id,
+     a.account_type
+FROM Accounts As a
+WHERE EXISTS (
+SELECT
+     t.transaction_id,
+     t.transaction_type
+FROM Transactions As t
+WHERE a.account_id IS NOT NULL
+AND a.account_id = t.account_id
+
+)
+
+
+
+
+
+
+
+ 
+/*   Q119. Find customers having at least one transaction greater than 50000.   */
+
+Ans:
+
+
+SELECT 
+     *
+FROM Customers As c
+LEFT JOIN 
+Accounts As a
+ON 
+c.customer_id = a.customer_id
+WHERE a.account_id IN (
+
+SELECT
+     a.account_id
+FROM Transactions
+WHERE amount > 5000)
+
+
+
+
+
+
+
+/*  Q120. Find customers having no transaction greater than 50000.   */
+
+Ans:
+
+
+
+SELECT 
+     *
+FROM Customers As c
+LEFT JOIN 
+Accounts As a
+ON 
+c.customer_id = a.customer_id
+WHERE a.account_id IN (
+
+SELECT
+     a.account_id
+FROM Transactions
+WHERE amount <= 5000)
+
+
+
+
+
+
+/*  Q122. Find customers having no successful transaction.  */
+
+Ans:
+
+
+
+SELECT * FROM Customers As c
+LEFT JOIN 
+Accounts As a
+ON
+c.customer_id = a.customer_id
+WHERE a.account_id IN (
+SELECT account_id FROM Transactions
+WHERE transaction_status = 'failed')
+
+
+
+
+/*  Q124. Find branches having no active loan.  */
+
+Ans:
+
+SELECT * FROM Branches As b
+LEFT JOIN 
+Customers As c
+ON 
+c.branch_id = c.branch_id
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+WHERE l.loan_id IN (
+
+SELECT 
+     loan_id
+FROM Loans
+WHERE loan_status = 'Closed')
+
+
+
+
+
+
+
+
+
+
+/*  Q125. Find branches having at least one customer with annual income
+     greater than 2000000.   */
+
+
+Ans:
+
+
+SELECT 
+     * 
+FROM Branches As b
+WHERE EXISTS (
+SELECT b.branch_id FROM Customers AS c
+WHERE annual_income > 2000000
+AND b.branch_id = c.branch_id)
+
+
+
+
+
+/*   Q126. Find customers having at least one transaction greater than 50000.  */
+
+
+Ans:
+
+
+SELECT 
+     * 
+FROM Customers As c
+LEFT JOIN 
+Accounts As a
+ON 
+c.customer_id = a.customer_id
+WHERE EXISTS (
+SELECT t.transaction_id FROM Transactions As t
+WHERE amount > 50000
+AND a.account_id = t.account_id)
+
+
+
+
+
+
+/*  Q127. Find customers having at least one account with balance greater
+     than 100000.  */
+
+
+Ans:
+
+
+
+
+SELECT 
+     * 
+FROM Customers As c
+LEFT JOIN 
+Accounts As a
+ON 
+c.customer_id = a.customer_id
+WHERE EXISTS (
+SELECT a.account_id FROM Accounts As a
+WHERE balance > 100000
+AND c.customer_id = a.customer_id)
+
+
+
+
+
+
+/*  Q128. Find customers having no account with balance greater than 100000.  */
+
+Ans:
+
+
+SELECT 
+     * 
+FROM Customers As c
+LEFT JOIN 
+Accounts As a
+ON 
+c.customer_id = a.customer_id
+WHERE EXISTS (
+SELECT a.account_id FROM Accounts As a
+WHERE balance <> 100000
+AND c.customer_id = a.customer_id)
+
+
+
+
+
+
+
+
+/*   Q129. Find customers who have both an active loan and active account.   */
+
+Ans:
+
+
+
+SELECT 
+     * 
+FROM Customers As c
+LEFT JOIN 
+Loans As l
+ON 
+c.customer_id = l.customer_id
+LEFT JOIN 
+Accounts As a
+ON
+l.customer_id = a.customer_id
+WHERE l.loan_status = 'Active'
+
+
+
+
+
+
+
+  
+
+/*   Q130. Find customers who have an active loan and an active credit card.  */
+
+ 
+ Ans:
+
+
+
+
+SELECT 
+     * 
+FROM Customers As c
+LEFT JOIN 
+Loans As l
+ON 
+c.customer_id = l.customer_id
+LEFT JOIN 
+Credit_Cards As cc
+ON
+l.customer_id = cc.customer_id
+WHERE l.loan_status = 'Active'
+AND
+cc.card_id IS NOT NULL
 
 
 
