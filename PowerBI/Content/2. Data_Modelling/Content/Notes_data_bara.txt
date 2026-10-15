@@ -1,0 +1,164 @@
+
+
+
+:: No Model :  
+
+- Large File Size.
+- Slow Refreshes.
+- Slow Reports.
+- Complex DAX. 
+- Wrong Numbers.
+- Losing trust. 
+
+
+
+
+:: Data Model :
+
+- Small.
+- Easy DAX.
+- Fast.
+- Scalable.
+- Standards.
+
+
+___________________________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________________
+
+
+:: Chapter_1 :   [ What is Data Modelling ]
+
+
+
+
+## Data Model : 
+- It Describes the business data and how the pieces related to each other. 
+
+
+
+- Three Main Component : 
+
+
+
+1. Tables :
+
+- Inspect Data ( Raw Data ). 
+- Clear Business Structure ( Specific to the domains ).
+
+
+
+2.  Relationships : 
+
+- Connect those tables into Each other.
+- Design for Consumption.
+
+
+
+3. Calculations and Aggregations
+
+- In order to answer business Query.
+
+
+
+
+
+:: NOTE :-   [Different Shapes & Roles]
+
+
+## In the context of Data Vault :
+
+-> Table : [ Hub , Satellite , Link , Bridge ].
+
+
+
+
+
+
+
+## In the context of Operational Database :
+
+-> Table : [ Entity , Object ]
+
+
+
+
+
+## In the Context of PowerBI Dimensional Modelling :
+
+-> Table : [ Fact Table , Dimension Table ]
+
+
+
+
+___________________________________________________________________________________________________________________________________________________
+
+
+
+
+
+:: PowerBI Dimensional Modelling :
+
+-> Table : [ Fact Table , Dimension Table ]
+
+
+
+
+1. Fact Table :  [ What happened ]
+- It stores business events , transactions or activity that we can use in order to calculate something.
+- Every row is showing an event.
+- [ Id/keys , Dates and time , Numbers]. 
+
+
+
+
+
+2. Dimension Table : [ Description 'context' ]
+- It describes the context around the facts.
+- Every row is describing something about context
+- [ category , color  , status].
+
+
+
+
+
+
+#### How to Connect Those two tables :  
+
+
+
+
+1. ## STAR SCHEMA : 
+- [ It gives PowerBI a clean way to filter the data ].
+- [ It helps to apply Easy DAX ]. 
+- [ It helps to make Easy Visuls ].
+
+
+
+
+2. ## SnowFlake Schema :
+- [ Used for Big Dimension ].
+- [ Complex ].
+- [ Slower ( too many joins ) ].
+- [ Smaller Size ].
+
+
+
+
+3. ## Galaxy Schema :
+- [ Used for multiple Facts ].
+- [ Never Connect Fact table directly but through an dimension].
+
+
+
+
+
+
+
+
+___________________________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________________
+
+
+
+:: Data Modelling in PowerBI : 
+
