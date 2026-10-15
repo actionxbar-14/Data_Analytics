@@ -3567,47 +3567,730 @@ cc.card_id IS NOT NULL
    SECTION J — NON-RECURSIVE CTE
 ============================================================================= */
 
-Q131. Create a CTE containing Premium customers.
 
-Q132. Use a CTE to calculate branch-wise customer count.
 
-Q133. Use a CTE to calculate branch-wise average customer income.
 
-Q134. Use a CTE to find branches having average customer income
-     above 1500000.
 
-Q135. Use a CTE to calculate customer-wise total loan amount.
 
-Q136. Use a CTE to find customers whose total loan amount exceeds 3000000.
 
-Q137. Use a CTE to calculate customer-wise total account balance.
 
-Q138. Use a CTE to find high-balance customers.
+/*  Q131. Create a CTE containing Premium customers.  */
 
-Q139. Use a CTE to calculate account-wise transaction count.
+Ans:
 
-Q140. Use a CTE to identify highly active accounts.
 
-Q141. Use a CTE to calculate customer-wise total transaction amount.
+WITH CTE_Premium_Customers As
+(
+SELECT
+     *
+FROM Customers
+WHERE customer_segment = 'Premium'
+)
 
-Q142. Use a CTE to identify customers having total transactions
-     above 500000.
 
-Q143. Use a CTE to calculate customer-wise credit card outstanding.
+SELECT 
+     *
+FROM CTE_Premium_Customers
 
-Q144. Use a CTE to identify customers with outstanding above 200000.
 
-Q145. Use a CTE to calculate branch-wise total loan amount.
 
-Q146. Find the branch with the highest total loan amount.
 
-Q147. Use a CTE to calculate loan_type-wise average loan amount.
 
-Q148. Find the loan type having the highest average loan amount.
 
-Q149. Use a CTE to calculate state-wise total loan amount.
+
+/*  Q132. Use a CTE to calculate branch-wise customer count.   */
+
+
+Ans:
+
+
+WITH CTE_Branch_Customer AS(
+SELECT
+     b.branch_name ,
+     COUNT(c.customer_id) As Customer_Count
+FROM Branches As b
+LEFT JOIN 
+Customers As c
+ON
+c.branch_id = b.branch_id
+GROUP BY b.branch_name
+)
+
+
+SELECT 
+     *
+FROM CTE_Branch_Customer
+
+
+
+
+/* Q133. Use a CTE to calculate branch-wise average customer income. */
+
+Ans:
+
+
+
+WITH CTE_Branch_income AS (
+SELECT
+     b.branch_name,
+     c.annual_income
+FROM Customers As c
+LEFT JOIN 
+Branches As b
+ON 
+b.branch_id = c.branch_id
+)
+
+
+SELECT
+     DISTINCT branch_name,
+     AVG(annual_income) OVER(PARTITION BY branch_name) AS Avg_BranchIncome
+FROM CTE_Branch_income
+
+
+
+
+
+
+
+
+
+
+/*  Q134. Use a CTE to find branches having average customer income
+     above 1500000.  */
+
+Ans:
+
+
+
+
+WITH CTE_Branch_income AS (
+SELECT
+     b.branch_name,
+     c.annual_income
+FROM Customers As c
+LEFT JOIN 
+Branches As b
+ON 
+b.branch_id = c.branch_id
+)
+,
+AVG_CTE_BranchIncome As (
+SELECT
+     DISTINCT branch_name,
+     AVG(annual_income) OVER(PARTITION BY branch_name) AS Avg_BranchIncome
+FROM CTE_Branch_income
+)
+
+
+SELECT
+     *
+FROM AVG_CTE_BranchIncome
+WHERE Avg_BranchIncome > 150000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q135. Use a CTE to calculate customer-wise total loan amount.  */
+
+Ans:
+
+
+WITH CTE_Customer_loan As (
+SELECT
+     c.customer_id,
+     c.customer_name,
+     l.loan_type,
+     l.loan_amount
+FROM Customers As c
+LEFT JOIN 
+Loans As l 
+ON
+c.customer_id = l.customer_id
+)
+
+
+SELECT 
+     *
+FROM CTE_Customer_loan
+
+
+
+
+
+
+
+
+
+
+
+ 
+/*  Q136. Use a CTE to find customers whose total loan amount exceeds 3000000.   */
+
+Ans:
+
+
+WITH CTE_Customer_loan As (
+SELECT
+     c.customer_id,
+     c.customer_name,
+     l.loan_type,
+     l.loan_amount
+FROM Customers As c
+LEFT JOIN 
+Loans As l 
+ON
+c.customer_id = l.customer_id
+)
+
+
+SELECT 
+     *
+FROM CTE_Customer_loan
+WHERE loan_amount > 3000000
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q137. Use a CTE to calculate customer-wise total account balance.  */
+
+Ans:
+
+
+With CTE_Customer_balance As (
+SELECT 
+     c.customer_id ,
+     c.customer_name,
+     a.balance
+FROM Customers As c
+LEFT JOIN 
+Accounts As a
+ON 
+c.customer_id = a.customer_id
+)
+
+SELECT 
+     *
+FROM CTE_Customer_balance
+
+
+
+
+
+
+
+
+
+/*  Q138. Use a CTE to find high-balance customers. */
+
+Ans:
+
+
+WITH CTE_high_balance As (
+SELECT
+     c.customer_id,
+     c.customer_name,
+     a.balance,
+     CASE
+         WHEN a.balance > 300000 THEN 'HIGH'
+         WHEN a.balance < 150000 and a.balance > 20000 THEN 'MEDIUM'
+         WHEN a.balance < 200000 THEN 'LOW'
+     END As balance_segment
+FROM Customers As c
+LEFT JOIN 
+Accounts As a 
+ON 
+c.customer_id = a.customer_id
+)
+
+SELECT
+     *
+FROM CTE_high_balance
+WHERE balance_segment = 'HIGH'
+
+
+
+
+
+
+
+
+ 
+/*   Q139. Use a CTE to calculate account-wise transaction count.  */
+
+Ans:
+
+
+WITH CTE_Account_Transaction AS (
+SELECT 
+     a.account_id,
+     a.account_type,
+     t.transaction_id
+FROM Accounts As a
+LEFT JOIN 
+Transactions As t
+ON 
+a.account_id = t.account_id
+)
+
+SELECT 
+     DISTINCT account_id,
+     COUNT(transaction_id) OVER(PARTITION BY account_id) As Transaction_Count
+FROM CTE_Account_Transaction
+
+
+
+
+
+
+
+
+
+
+/*  Q140. Use a CTE to identify highly active accounts.  */
+
+Ans:
+
+
+
+
+WITH CTE_Account_Transaction AS (
+SELECT 
+     a.account_id,
+     a.account_type,
+     t.transaction_id
+FROM Accounts As a
+LEFT JOIN 
+Transactions As t
+ON 
+a.account_id = t.account_id
+)
+
+
+, CTE_Transaction_count As (
+SELECT 
+     DISTINCT account_id,
+     COUNT(transaction_id) OVER(PARTITION BY account_id) As Transaction_Count
+FROM CTE_Account_Transaction
+),
+
+
+CTE_Active_segment As(
+SELECT
+     *,
+     CASE
+        WHEN Transaction_Count = '3' THEN 'HIGHLY ACTIVE'
+        WHEN Transaction_Count = '2' THEN 'MEDIUM ACTIVE'
+        WHEN Transaction_Count = '1' THEN 'LOW ACTIVE'
+    END AS Active_segmemt
+FROM CTE_Transaction_count
+)
+
+
+
+SELECT
+     *
+FROM CTE_Active_segment 
+WHERE Active_segmemt = 'HIGHLY ACTIVE';
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q141. Use a CTE to calculate customer-wise total transaction amount.   */
+
+Ans:
+
+
+WITH Customer_Transaction AS (
+SELECT
+     c.customer_id,
+     t.amount
+FROM Customers As c
+LEFT JOIN 
+Accounts As a
+ON 
+c.customer_id = a.customer_id
+LEFT JOIN 
+Transactions As t 
+ON 
+a.account_id = t.account_id
+)
+
+SELECT
+     DISTINCT customer_id,
+     SUM(amount) OVER(PARTITION BY customer_id) As Sum_amount
+FROM Customer_Transaction
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q142. Use a CTE to identify customers having total transactions
+     above 500000.  */
+
+Ans:
+
+
+
+
+WITH Customer_Transaction AS (
+SELECT
+     c.customer_id,
+     t.amount
+FROM Customers As c
+LEFT JOIN 
+Accounts As a
+ON 
+c.customer_id = a.customer_id
+LEFT JOIN 
+Transactions As t 
+ON 
+a.account_id = t.account_id
+)
+
+, CTE_sum_amount As (
+SELECT
+     DISTINCT customer_id,
+     SUM(amount) OVER(PARTITION BY customer_id) As Sum_amount
+FROM Customer_Transaction
+)
+
+
+SELECT 
+     *
+FROM CTE_sum_amount
+WHERE Sum_amount > 250000
+
+
+
+
+
+
+
+
+
+  
+/*  Q143. Use a CTE to calculate customer-wise credit card outstanding.  */
+
+Ans:
+
+
+WITH CTE_Customer_Credit As (
+
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     cc.outstanding_amount
+FROM Customers As c
+LEFT JOIN 
+Credit_Cards As cc
+ON
+c.customer_id = cc.customer_id
+)
+
+SELECT 
+     *
+FROM CTE_Customer_Credit
+
+
+
+
+
+
+
+/*  Q144. Use a CTE to identify customers with outstanding above 200000.  */
+
+Ans:
+
+
+WITH CTE_Customer_Credit As (
+
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     cc.outstanding_amount
+FROM Customers As c
+LEFT JOIN 
+Credit_Cards As cc
+ON
+c.customer_id = cc.customer_id
+)
+
+, CTE_Outstanding_amount As (
+SELECT 
+     *
+FROM CTE_Customer_Credit
+)
+
+
+SELECT
+     *
+FROM CTE_Outstanding_amount
+WHERE outstanding_amount > 20000
+
+
+
+
+
+
+
+
+/*  Q145. Use a CTE to calculate branch-wise total loan amount.   */
+
+Ans:
+
+
+
+
+WITH CTE_Branch_loan_amount As (
+SELECT
+     DISTINCT b.branch_name,
+     SUM(l.loan_amount) OVER(PARTITION BY b.branch_name) As total_loan_amount
+FROM Branches As b
+LEFT JOIN 
+Customers As c
+ON
+c.branch_id = b.branch_id
+LEFT JOIN 
+Loans As l
+ON 
+c.customer_id = l.customer_id
+)
+
+
+
+SELECT 
+     *
+FROM CTE_Branch_loan_amount
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q146. Find the branch with the highest total loan amount.  */
+
+Ans:
+
+
+WITH CTE_Branch_loan_amount As (
+SELECT
+     DISTINCT b.branch_name,
+     SUM(l.loan_amount) OVER(PARTITION BY b.branch_name) As total_loan_amount
+FROM Branches As b
+LEFT JOIN 
+Customers As c
+ON
+c.branch_id = b.branch_id
+LEFT JOIN 
+Loans As l
+ON 
+c.customer_id = l.customer_id
+)
+
+
+, CTE_Max_LoanAmount AS (
+SELECT 
+     *,
+     MAX(total_loan_amount) OVER() AS Max_total_LoanAmount
+FROM CTE_Branch_loan_amount
+)
+
+
+SELECT
+     *
+FROM CTE_Max_LoanAmount
+WHERE total_loan_amount = Max_total_LoanAmount
+
+
+
+
+
+
+
+
+
+
+
+/*   Q147. Use a CTE to calculate loan_type-wise average loan amount.  */
+
+Ans:
+
+
+WITH CTE_AVG_loan AS(
+SELECT
+     DISTINCT loan_type,
+     AVG(loan_amount) OVER(PARTITION BY loan_type) AS AVG_loan_amount
+FROM Loans
+)
+
+
+
+SELECT
+     *
+FROM CTE_AVG_loan
+
+
+
+
+
+
+
+
+  
+/*  Q148. Find the loan type having the highest average loan amount.  */
+
+
+Ans:
+
+
+
+WITH CTE_AVG_loan AS(
+SELECT
+     DISTINCT loan_type,
+     AVG(loan_amount) OVER(PARTITION BY loan_type) AS AVG_loan_type
+FROM Loans
+)
+
+
+, CTE_MAX_loan As (
+SELECT
+     *,
+     MAX(AVG_loan_type) OVER() As MAX_loan_type
+FROM CTE_AVG_loan
+)
+
+
+, CTE_MAX_AVG_loan AS (
+SELECT
+     *
+FROM CTE_MAX_loan
+) 
+
+
+SELECT
+     *
+FROM CTE_MAX_AVG_loan
+WHERE AVG_loan_type = MAX_loan_type
+
+
+
+
+
+
+
+
+
+
+/*  Q149. Use a CTE to calculate state-wise total loan amount.  */
+
+Ans:
+
+WITH CTE_state_loan AS (
+SELECT
+     DISTINCT c.state,
+     SUM(l.loan_amount) OVER(PARTITION BY c.state) As Total_loan_amount
+FROM Customers As c
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+)
+
+SELECT
+     *
+FROM CTE_state_loan
+
+
+
+
+
+
+
+
 
 Q150. Find states whose total loan amount exceeds 10000000.
+
+Ans:
+
+
+WITH CTE_state_loan AS (
+SELECT
+     DISTINCT c.state,
+     SUM(l.loan_amount) OVER(PARTITION BY c.state) As Total_loan_amount
+FROM Customers As c
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+)
+
+
+, CTE_state_loan_exceed As (
+SELECT
+     *
+FROM CTE_state_loan
+) 
+
+
+SELECT
+     *
+FROM CTE_state_loan_exceed
+WHERE Total_loan_amount > 10000000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3622,6 +4305,11 @@ Q150. Find states whose total loan amount exceeds 10000000.
 /* =============================================================================
    SECTION K — MULTIPLE CTEs
 ============================================================================= */
+
+
+
+
+
 
 Q151. Use two CTEs to calculate:
 
