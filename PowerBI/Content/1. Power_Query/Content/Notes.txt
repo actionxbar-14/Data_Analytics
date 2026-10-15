@@ -57,11 +57,19 @@
 
 
 
+
+
+
+
 ## STEP_2 : [ Filter Data ]
 
 -- Remove Unnecessary Columns.
 -- Remove Blank Rows.
 -- Filter Rows. 
+
+
+
+
 
 
 
@@ -98,12 +106,38 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 ## STEP_4 : [ Transform Data ]
 
 
 - Split Columns.
 - Merge Columns.
 - Extract Parts.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -126,4 +160,85 @@ i) Connect Using Relations :
 ii) Combine :
 
 - Append Table. [ Union ]. ( Combining Rows ) 
+
 - Merge Table [ Join ].  ( Combining Columns )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## STEP_6 : [ Clean Data ]
+
+
+- Remove Unnecessary Columns.
+- Rename Tables & Columns "Naming Convenstions".
+- Reorder the columns in logical order.
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+:: Bonus [ Reshape Data ] :
+
+- Changing the layout of the table without changing the meaning and the values of your data inside the table.
+
+## Two Methods :-
+
+
+
+1. Pivot :
+- [ PowerBI Friendly shape   TO  PowerBI - Friendly Shape ].
+- [ Rows To Columns ].
+
+- Go to transform tab under power query and select pivot columns option ( select that column which you want to unpivot ).
+
+
+
+
+
+2. Un-Pivot : 
+- [ Human - Friendly Shape  To  PowerBI - Friendly Shape ].
+- [ Columns To Rows ].
+
+- Go to transform tab under power query and select pivot columns option. ( Select pivot by value / default aggregate : sum).
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+:: Duplicate V/s Refrences Queries :
+
+
+
+
+1. Duplicate :  [ Copying the Query ]
+
+- Both have the same steps but are disconnected.
+--> Dimension to Fact.
+--> Disconnected to Original Query.
+
+
+
+
+
+2. Reference : 
+
+- Starts from the original query and inherits all applied steps.
+- main query ke changes refrence wale mai reflect honge.
