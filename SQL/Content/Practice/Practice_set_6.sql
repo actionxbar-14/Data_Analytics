@@ -4248,7 +4248,9 @@ FROM CTE_state_loan
 
 
 
-Q150. Find states whose total loan amount exceeds 10000000.
+ /* Q150. Find states whose total loan amount exceeds 10000000.  */
+
+
 
 Ans:
 
@@ -4311,47 +4313,127 @@ WHERE Total_loan_amount > 10000000
 
 
 
-Q151. Use two CTEs to calculate:
+/* Q151. Use two CTEs to calculate:
 
      Customer Total Loan
-     Customer Total Account Balance
+     Customer Total Account Balance  */
 
-Q152. Use multiple CTEs to identify customers having both:
-     high loan exposure and high account balance.
 
-Q153. Use multiple CTEs to calculate:
+Ans:
 
-     Total Loans
-     Total Transaction Amount
-     Total Account Balance
 
-Q154. Use multiple CTEs to calculate customer-level financial exposure.
+WITH CTE_Customer_TotalLoan AS (
+SELECT
+     c.customer_id,
+     c.customer_name,
+     l.loan_type,
+     l.loan_amount
+FROM Loans As l 
+LEFT JOIN 
+Customers As c
+ON 
+c.customer_id = l.customer_id
+) ,
 
-Q155. Use multiple CTEs to calculate branch-level:
+CTE_Customer_AccountBalance As (
+SELECT 
+     c.customer_id,
+     a.account_type,
+     a.balance
+FROM Customers As c
+LEFT JOIN 
+Accounts As a 
+On 
+c.customer_id = a.customer_id
+)
 
-     Customer Count
-     Total Deposits
-     Total Loans
 
-Q156. Find branches where total loan amount is greater than
-     total account balance.
 
-Q157. Use multiple CTEs to calculate customer-level:
+SELECT 
+     *
+FROM CTE_Customer_TotalLoan As ctl
+LEFT JOIN 
+CTE_Customer_AccountBalance As cab
+ON 
+ctl.customer_id = cab.customer_id
 
-     Income
-     Loan Amount
-     Account Balance
 
-Q158. Identify customers whose loan exposure is greater than
-     their annual income.
 
-Q159. Use multiple CTEs to calculate customer-wise:
 
-     Loan Count
-     Credit Card Count
-     Account Count
 
-Q160. Identify customers having all three product relationships.
+
+
+
+/*  Q152. Use multiple CTEs to identify customers having both:
+     high loan exposure and high account balance.  */
+
+Ans:
+
+
+
+
+WITH CTE_loan_Exposure As (
+SELECT
+     c.customer_id,
+     l.loan_type,
+     l.loan_amount,
+     MAX(l.loan_amount) OVER() As Max_loan_amount
+FROM Customers As c 
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+),
+
+
+
+
+
+CTE_High_loan_exposure As (
+SELECT
+     *
+FROM CTE_loan_Exposure
+WHERE loan_amount = Max_loan_amount
+),
+
+
+
+
+
+CTE_Account_balance AS (
+SELECT
+     c.customer_id,
+     c.customer_name,
+     a.account_type,
+     a.balance,
+     MAX(a.balance) OVER() AS MAX_balance
+FROM Customers As c
+LEFT JOIN 
+Accounts As a
+ON 
+c.customer_id = a.customer_id
+),
+
+
+
+CTE_High_AccountBalance AS (
+SELECT
+     * 
+FROM CTE_Account_balance
+WHERE balance = Max_balance
+)
+
+
+
+SELECT 
+     *
+FROM CTE_High_loan_exposure As hle
+LEFT JOIN 
+CTE_High_AccountBalance As hab
+ON 
+hle.customer_id = hab.customer_id
+
+
 
 
 
@@ -4370,7 +4452,29 @@ Q160. Identify customers having all three product relationships.
    SECTION L — RECURSIVE CTE : GENERATE SEQUENCE
 ============================================================================= */
 
-Q161. Generate numbers from 1 to 10 using a recursive CTE.
+
+
+
+
+
+
+
+
+
+
+
+
+/* Q161. Generate numbers from 1 to 10 using a recursive CTE.  */
+
+Ans:
+
+
+
+
+
+
+
+
 
 Q162. Generate numbers from 1 to 100.
 
@@ -4390,6 +4494,10 @@ Q169. Generate a sequence representing loan tenure months
      from 1 to 12.
 
 Q170. Generate the first 12 monthly periods for loan repayment analysis.
+
+
+
+
 
 
 
