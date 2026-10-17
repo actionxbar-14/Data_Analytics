@@ -162,3 +162,154 @@ ________________________________________________________________________________
 
 :: Data Modelling in PowerBI : 
 
+- There are two Layers : 
+
+
+1. Model Layer.
+2. Visual Layer.
+
+
+## NOTE : 
+- [ Bad Model Going to defined bad rules that going to lead bad numbers ].
+
+
+
+## Three main Steps :- 
+
+
+i.) Keys. :
+- Both table should have one common key.
+
+ii.) Relationship : 
+- It is a contract between two tables that defines the rules, helping PowerBI combine data from both in the Visual layer.
+
+
+iii.) Filter direction :
+- left table to right table.
+- right table to left table.
+- both left to right and right to left.
+
+
+
+
+___________________________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________________
+
+
+:: Building Model: 
+
+
+## NOTE  : 
+
+--> [ The Best Practices in the 'star schema' is , The filter should move from the 'dimension' to the centre to the 'fact' and not both direction because this is going create something called ambiguity in filtering ].
+
+--> [ always check in the model that the aggregation sign in the id's columns , if it not exist then it's ok because we don't aggregate the id's column , if it show aggregation sign then go to the report view click the id column and column tool opens then in the properties section chosse the don't summarize option ].
+
+-->[ For identifying the key column like , product_id in dim_product  , go to the properties pain inside it go to the key column and select the product_id .]
+
+
+
+
+
+
+
+
+___________________________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________________
+
+
+
+
+
+:: Master Dimensions Ambiguity : 
+
+
+- Two types of Relationships :- 
+1. Active Relationship
+2. In-Active Relationship.
+
+
+
+## NOTE : 
+
+- [ PowerBI automatically uses the Active relationships , but for using the In-Active relationships we have to use a DAX Function 'USERELATIONSHIP' for one specific calculation ].
+- [So , If you have In-Active relationship , then you havet two options :
+    
+    i.)  if you don't need it , then Delete it. 
+    ii.) for one calculaltion , Use it through DAX. 
+
+  ]
+
+
+
+
+
+___________________________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________________
+
+
+
+
+
+:: One - to - One Dimensions :
+
+- [ If We have One-to-One relationship between two tables,  than we merge that two tables that containing this relation].
+- [ Sometimes we use One-to-One relationship to segrate out or to split out the two table for security concernes.]
+
+
+
+
+
+
+
+
+
+
+___________________________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________________
+
+
+:: Dimensions in Disguise : 
+
+
+- [If some text is present inside the Fact table , that can be convertable into the dimension table , so we use power query  , in the power query we copy the fact table and then only keep the text column of related dimension and delete all other columns].
+
+- [ For newely created dimension if key is present then it's ok , otherwise go to the add column option , and then select the index column and inside it select 'start from 1' for creating the key column ].
+
+- [Then we have to connect the newely created dim_table to the fact table by merging the table. ]
+
+
+
+
+
+
+
+
+
+
+
+
+___________________________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________________
+
+
+
+
+:: Junk / Flag Dimensions :
+
+- [ It describe a small dimension that bundles several unrelated low-level flags. ]
+
+- [ So all those junk or garbage , let's say columns that are actually not related to each other and take space inside the facts , we're going to go and bundle them into a junk table , a junk dimension. And each time you find a new flag / column that is unrelated for anything , you're going to go and put it in this junk dimension ].
+
+
+
+
+
+___________________________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________________
+
+
+
+
+
+:: Role - Playing Dimensions : 
