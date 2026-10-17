@@ -4469,6 +4469,26 @@ hle.customer_id = hab.customer_id
 Ans:
 
 
+WITH CTE_Series As (
+
+SELECT
+     1
+As MyNumber 
+
+
+UNION ALL 
+
+
+SELECT 
+     MyNumber + 1
+FROM CTE_Series
+WHERE MyNumber < 10
+
+) 
+
+SELECT
+     * 
+FROM CTE_Series
 
 
 
@@ -4476,24 +4496,218 @@ Ans:
 
 
 
-Q162. Generate numbers from 1 to 100.
 
-Q163. Generate even numbers from 2 to 20.
 
-Q164. Generate odd numbers from 1 to 25.
 
-Q165. Generate dates from '2024-01-01' to '2024-01-31'.
 
-Q166. Generate all months of 2024.
+/*  Q162. Generate numbers from 1 to 100.  */
 
-Q167. Generate quarterly periods for 2024.
+Ans:
 
-Q168. Generate numbers from 100 to 500 with an increment of 50.
 
-Q169. Generate a sequence representing loan tenure months
-     from 1 to 12.
 
-Q170. Generate the first 12 monthly periods for loan repayment analysis.
+
+WITH CTE_Series As (
+
+SELECT
+     1
+As MyNumber 
+
+
+UNION ALL 
+
+
+SELECT 
+     MyNumber + 1
+FROM CTE_Series
+WHERE MyNumber < 100
+
+) 
+
+SELECT
+     * 
+FROM CTE_Series
+
+
+
+
+
+
+
+
+
+
+/*  Q163. Generate even numbers from 2 to 20.  */
+
+
+
+WITH CTE_Series As (
+
+SELECT
+     2
+As MyNumber 
+
+
+UNION ALL 
+
+
+SELECT 
+     MyNumber + 1 
+FROM CTE_Series
+WHERE MyNumber <= 20
+
+
+) 
+
+SELECT
+     * 
+FROM CTE_Series
+WHERE MyNumber % 2 = 0;
+
+
+
+
+
+
+
+/*  Q164. Generate odd numbers from 1 to 25.  */
+
+Ans:
+
+
+
+WITH CTE_Series As (
+
+SELECT
+     2
+As MyNumber 
+
+
+UNION ALL 
+
+
+SELECT 
+     MyNumber + 1 
+FROM CTE_Series
+WHERE MyNumber <= 25
+
+
+) 
+
+SELECT
+     * 
+FROM CTE_Series
+WHERE MyNumber % 2 <> 0;
+
+
+
+
+
+
+SELECT
+     '2024-01-01' + 1
+AS inc_date
+
+
+
+
+
+
+
+/* Q165. Generate dates from '2024-01-01' to '2024-01-31'.  */
+
+Ans:
+
+
+WITH CTE_Dates As (
+
+SELECT 
+     CAST('2024-01-01' As DATE) As start_date
+
+ 
+UNION ALL 
+
+SELECT
+     DATEADD(DAY , 1 , start_date) As Date_range
+FROM CTE_Dates
+WHERE start_date < '2024-01-31'
+)
+
+SELECT
+     *
+FROM CTE_Dates
+
+
+
+
+
+
+
+/*  Q166. Generate all months of 2024.  */
+
+
+Ans:
+
+
+
+WITH CTE_Dates As (
+SELECT 
+     CAST('2023-12-01' As DATE) As start_date
+
+ 
+UNION ALL 
+
+SELECT
+     DATEADD(DAY , 31 , start_date) As Date_range
+FROM CTE_Dates
+WHERE start_date <= '2024-10-31'
+)
+
+SELECT
+     YEAR(DATEADD(DAY , 31 , start_date)) As Year_Of_Month,
+     DATENAME(MONTH ,  DATEADD(DAY , 31 , start_date)) AS Month_name
+FROM CTE_Dates
+
+
+
+
+
+
+
+
+
+
+/*  Q167. Generate quarterly periods for 2024.  */
+
+Ans:
+
+
+
+
+
+/* Q168. Generate numbers from 100 to 500 with an increment of 50.  */
+
+Ans:
+
+
+
+/*  Q169. Generate a sequence representing loan tenure months
+     from 1 to 12.   */
+
+Ans:
+
+
+
+/*  Q170. Generate the first 12 monthly periods for loan repayment analysis.  */
+
+Ans:
+
+
+
+
+
+
+
 
 
 
