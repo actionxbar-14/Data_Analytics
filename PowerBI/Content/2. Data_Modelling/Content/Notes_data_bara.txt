@@ -26,7 +26,7 @@ ________________________________________________________________________________
 ___________________________________________________________________________________________________________________________________________________
 
 
-:: Chapter_1 :   [ What is Data Modelling ]
+:: [ What is Data Modelling ]
 
 
 
@@ -313,3 +313,46 @@ ________________________________________________________________________________
 
 
 :: Role - Playing Dimensions : 
+
+- It is just a dimension that is playing a different role.
+- Basically one dimemsion joined to the same fact through several relationships so it plays different roles. only one is active at a time.
+- [ We Switch role by using DAX function called 'theuseRelationship'].
+
+
+
+
+
+
+___________________________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________________
+
+
+:: Master Facts [ The Grain ] :
+
+## Grain : 
+- The level of details that one row in a fact table represents.
+- If two Fact have same grain then we have two options :
+
+1.) Append : [ Append only if they are exactly identical and shape are same ].
+2.) Merge  : [ Merge only if they are not in identical shape but have follow one-to-one relationship ].
+
+
+--> NOTE  : 
+- [ If the two fact does not have same grain , does not have same shape , then never ever merge or append or make direct relationship between them]
+- [ Such two fact can be combined with related 'Shared Dimensions' that both fact can understand it. ]
+
+
+--> Shared ( Conformed ) Dimension :
+- One Complete dimension that both facts connect to , so you can safely compare their measure. 
+
+
+
+
+
+
+___________________________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________________
+
+
+
+:: Row-Level Security : 
