@@ -4469,27 +4469,23 @@ hle.customer_id = hab.customer_id
 Ans:
 
 
-WITH CTE_Series As (
+WITH CTE_Series AS (
 
-SELECT
-     1
-As MyNumber 
+SELECT 
+     1 As MyNumber 
 
-
-UNION ALL 
-
+UNION ALL
 
 SELECT 
      MyNumber + 1
 FROM CTE_Series
-WHERE MyNumber < 10
+WHERE MyNumber < 20
 
-) 
+)
 
-SELECT
-     * 
+SELECT 
+     *
 FROM CTE_Series
-
 
 
 
@@ -4507,27 +4503,23 @@ Ans:
 
 
 
-WITH CTE_Series As (
+WITH CTE_Series AS (
 
-SELECT
-     1
-As MyNumber 
+SELECT 
+     1 As MyNumber 
 
-
-UNION ALL 
-
+UNION ALL
 
 SELECT 
      MyNumber + 1
 FROM CTE_Series
-WHERE MyNumber < 100
+WHERE MyNumber <= 100
 
-) 
+)
 
-SELECT
-     * 
+SELECT 
+     *
 FROM CTE_Series
-
 
 
 
@@ -4539,30 +4531,32 @@ FROM CTE_Series
 
 /*  Q163. Generate even numbers from 2 to 20.  */
 
+Ans:
 
 
-WITH CTE_Series As (
-
-SELECT
-     2
-As MyNumber 
 
 
-UNION ALL 
 
+WITH CTE_Series AS (
 
 SELECT 
-     MyNumber + 1 
+     2 As MyNumber 
+
+UNION ALL
+
+SELECT 
+     MyNumber + 1
 FROM CTE_Series
 WHERE MyNumber <= 20
 
+)
 
-) 
-
-SELECT
-     * 
+SELECT 
+     *
 FROM CTE_Series
-WHERE MyNumber % 2 = 0;
+WHERE MyNumber % 2 = 0
+
+
 
 
 
@@ -4576,37 +4570,28 @@ Ans:
 
 
 
-WITH CTE_Series As (
 
-SELECT
-     2
-As MyNumber 
-
-
-UNION ALL 
-
+WITH CTE_Series AS (
 
 SELECT 
-     MyNumber + 1 
+     1 As MyNumber 
+
+UNION ALL
+
+SELECT 
+     MyNumber + 1
 FROM CTE_Series
-WHERE MyNumber <= 25
+WHERE MyNumber < 20
 
+)
 
-) 
-
-SELECT
-     * 
+SELECT 
+     *
 FROM CTE_Series
-WHERE MyNumber % 2 <> 0;
+WHERE MyNumber % 2 <> 0
 
 
 
-
-
-
-SELECT
-     '2024-01-01' + 1
-AS inc_date
 
 
 
@@ -4618,24 +4603,28 @@ AS inc_date
 
 Ans:
 
-
 WITH CTE_Dates As (
 
-SELECT 
-     CAST('2024-01-01' As DATE) As start_date
+SELECT
+     CAST('2024-01-01' AS DATE) AS MyDate
 
- 
 UNION ALL 
 
-SELECT
-     DATEADD(DAY , 1 , start_date) As Date_range
-FROM CTE_Dates
-WHERE start_date < '2024-01-31'
+SELECT 
+     DATEADD(Day , 1 , MyDate) AS DateRange
+FROM CTE_Dates 
+WHERE MyDate < '2024-01-31'
+
+
 )
 
-SELECT
+SELECT 
      *
 FROM CTE_Dates
+
+
+
+
 
 
 
@@ -4650,23 +4639,31 @@ Ans:
 
 
 
-WITH CTE_Dates As (
-SELECT 
-     CAST('2023-12-01' As DATE) As start_date
 
- 
+WITH CTE_Dates As (
+
+SELECT
+     CAST('2024-01-01' AS DATE) AS MyDate
+
 UNION ALL 
 
-SELECT
-     DATEADD(DAY , 31 , start_date) As Date_range
-FROM CTE_Dates
-WHERE start_date <= '2024-10-31'
+SELECT 
+     DATEADD(MONTH , 1 , MyDate) AS DateRange
+FROM CTE_Dates 
+WHERE MyDate < '2024-12-01'
+
+
 )
 
-SELECT
-     YEAR(DATEADD(DAY , 31 , start_date)) As Year_Of_Month,
-     DATENAME(MONTH ,  DATEADD(DAY , 31 , start_date)) AS Month_name
+SELECT 
+     MyDate,
+     DATENAME(MONTH , MyDate) As MonthName,
+     YEAR(MyDate) As Year
 FROM CTE_Dates
+
+
+
+
 
 
 
@@ -4683,11 +4680,68 @@ Ans:
 
 
 
+WITH CTE_Dates As (
+
+SELECT
+     CAST('2024-01-01' AS DATE) AS MyDate
+
+UNION ALL 
+
+SELECT 
+     DATEADD(QUARTER , 1 , MyDate) AS DateRange
+FROM CTE_Dates 
+WHERE MyDate < '2024-12-01'
+
+
+)
+
+SELECT 
+     MyDate,
+     DATENAME(MONTH , MyDate) As MonthName,
+     YEAR(MyDate) As Year
+FROM CTE_Dates
+
+
+
+
+
+
+
+
 
 
 /* Q168. Generate numbers from 100 to 500 with an increment of 50.  */
 
 Ans:
+
+
+
+WITH CTE_Series AS (
+
+SELECT 
+     100 As MyNumber 
+
+UNION ALL
+
+SELECT 
+     MyNumber + 50
+FROM CTE_Series
+WHERE MyNumber < 500
+
+)
+
+SELECT 
+     *
+FROM CTE_Series
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4698,78 +4752,55 @@ Ans:
 
 
 
+
+WITH LoanTenure AS (
+    SELECT 1 AS Month_No
+
+    UNION ALL
+
+    SELECT Month_No + 1
+    FROM LoanTenure
+    WHERE Month_No < 12
+)
+SELECT Month_No
+FROM LoanTenure;
+
+
+
+
+
+
+
+
+
+
 /*  Q170. Generate the first 12 monthly periods for loan repayment analysis.  */
 
 Ans:
 
 
+WITH CTE_loan_repayment AS (
 
+SELECT 
+     1 AS Month_No,
+     CAST('2024-01-01' AS DATE) As Start_Date
 
+UNION ALL 
 
+SELECT 
+     Month_No + 1,
+     DATEADD(MONTH ,1 , Start_Date) As DateRange
+FROM CTE_loan_repayment
+WHERE Month_No < 13
+AND 
+Start_Date < '2024-12-01'
 
+)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* =============================================================================
-   SECTION M — RECURSIVE CTE : BUILD CUSTOMER / BRANCH HIERARCHY
-============================================================================= */
-
-Q171. Display the complete branch-to-customer relationship hierarchy.
-
-Q172. Display branch name along with customer name.
-
-Q173. Generate a hierarchy level for every branch-customer relationship.
-
-Q174. Find all customers belonging directly to a specific branch.
-
-Q175. Find all customers belonging to branches located in a specific state.
-
-Q176. Find all customers under a specific branch.
-
-Q177. Find all customers under each branch.
-
-Q178. Find the branch having the maximum number of customers.
-
-Q179. Display state → branch → customer relationship.
-
-Q180. Generate a complete location path for every customer.
-
-Q181. Count customers under each branch.
-
-Q182. Find customers belonging to branches having more than 2 customers.
-
-Q183. Find branches having customers from multiple cities.
-
-Q184. Display the branch hierarchy for customers belonging to the Risk
-     or high-value customer segment.
-
-Q185. Find the number of customers under each branch.
-
-
-
-
-
-
-
-
-
-
-
-
+SELECT 
+     *,
+     EOMONTH(Start_Date) AS End_Date
+FROM CTE_loan_repayment
 
 
 
@@ -4781,11 +4812,6 @@ Q185. Find the number of customers under each branch.
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
 
 
 
