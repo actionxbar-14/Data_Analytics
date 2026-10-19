@@ -356,3 +356,36 @@ ________________________________________________________________________________
 
 
 :: Row-Level Security : 
+
+- Row-Level Security (RLS) Power BI ka ek security feature hai jo control karta hai ki kaunsa user report ke andar kaunsa data dekh sakta hai.
+
+- Simple words mein: same Power BI report, different users ko different data show kar sakti hai.
+
+Ex :
+
+- Maan lo tumne ek Banking Analytics Dashboard banaya hai, jisme multiple branches ka data hai.
+
+
+- Power BI mein RLS kaise kaam karta hai?
+- RLS implement karne ke 3 main steps hain:
+
+
+##Step 1: Data model
+
+- Tumhare paas Transactions table hai, jisme Branch column available hai.
+
+
+
+
+## Step 2: Create a role
+
+Power BI Desktop mein role create karke DAX filter lagate ho, jaise Branch = "Delhi".
+
+
+
+
+## Step 3: Assign users
+
+Power BI Service mein users ya security groups ko role assign karte ho.
+
+
