@@ -4834,52 +4834,276 @@ FROM CTE_loan_repayment
    SECTION N — VIEWS
 ============================================================================= */
 
-Q186. Create a view containing:
+
+
+
+
+
+/*  Q186. Create a view containing:
 
      Customer Name
      State
      Annual Income
-     Customer Segment
+     Customer Segment  */
 
-Q187. Create a view containing customer and account information.
 
-Q188. Create a view containing customer and loan information.
+Ans:
 
-Q189. Create a view containing customer and credit card information.
 
-Q190. Create a view containing branch-wise customer count.
 
-Q191. Create a view containing branch-wise total loan amount.
+CREATE VIEW Customer_View As (
+SELECT 
+     customer_id,
+     customer_name,
+     state,
+     annual_income,
+     customer_segment
+FROM Customers
+)
 
-Q192. Create a view containing customer-wise total loan exposure.
 
-Q193. Create a view containing customer-wise total account balance.
 
-Q194. Create a view containing customer-wise credit card outstanding.
+SELECT * FROM Customer_View
 
-Q195. Create a view containing account-wise transaction summary.
 
-Q196. Create a view containing customer-wise transaction summary.
+      
 
-Q197. Create a view containing customer name, branch name, city
-     and state.
 
-Q198. Create a view that hides the complexity of a multi-table
-     customer financial profile.
 
-Q199. Modify an existing view using ALTER VIEW.
 
-Q200. Drop an existing view.
 
-Q201. Create a view that exposes only non-sensitive customer information.
 
-Q202. Create a view that hides annual_income from the Customers table.
+/*  Q187. Create a view containing customer and account information.   */
 
-Q203. Create a view showing only active loans.
+Ans:
 
-Q204. Create a view showing only active credit cards.
 
-Q205. Create a view showing only successful transactions.
+
+
+CREATE VIEW Account_info_view As (
+SELECT
+     customer_id,
+     account_type,
+     account_status,
+     balance
+FROM Accounts
+)
+
+
+
+SELECT 
+     * 
+FROM Customer_View As cv
+LEFT JOIN
+Account_info_view aiv
+ON 
+cv.customer_id = aiv.customer_id
+
+
+
+
+
+
+/*  Q188. Create a view containing customer and loan information.  */
+
+Ans:
+
+
+
+CREATE VIEW Customer_Loan_View As (
+SELECT 
+     c.customer_id,
+     c.customer_name,
+     c.annual_income,
+     l.loan_type,
+     l.loan_amount
+FROM Customers As c
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+)
+
+
+
+SELECT
+     * 
+FROM Customer_Loan_View
+
+
+
+
+
+
+
+/*  Q189. Create a view containing customer and credit card information.  */
+
+Ans:
+
+CREATE VIEW Customer_Credit_Info AS (
+
+SELECT
+     c.customer_id,
+     c.customer_name,
+     c.annual_income,
+     cc.card_type,
+     cc.outstanding_amount
+FROM Customers As c
+LEFT JOIN 
+Credit_Cards As cc
+ON 
+c.customer_id = cc.customer_id
+)
+
+
+
+SELECT 
+     *
+FROM Customer_Credit_Info
+
+
+
+
+
+
+
+
+
+
+/*  Q190. Create a view containing branch-wise customer count.   */
+
+Ans:
+
+
+CREATE VIEW Branch_Customer_View AS (
+
+SELECT 
+     b.branch_name,
+    COUNT(c.customer_id) As Customer_count
+FROM Branches As b
+LEFT JOIN 
+Customers As c 
+ON 
+c.branch_id = b.branch_id
+GROUP BY b.branch_name
+)
+
+
+SELECT 
+     *
+FROM Branch_Customer_View
+
+
+
+
+
+
+/*  Q191. Create a view containing branch-wise total loan amount.  */
+
+Ans:
+
+
+
+CREATE VIEW Branch_loan_View As (
+SELECT
+     b.branch_name ,
+     SUM(l.loan_amount) AS Total_loan_amount
+FROM Branches As b 
+LEFT JOIN 
+Customers As c 
+ON 
+b.branch_id = c.branch_id 
+LEFT JOIN 
+Loans As l 
+ON 
+c.customer_id = l.customer_id
+GROUP BY b.branch_name
+)
+
+
+SELECT 
+     * 
+FROM Branch_loan_View
+
+
+
+
+
+
+
+
+/*  Q203. Create a view showing only active loans.  */
+
+Ans:
+
+
+
+CREATE VIEW Active_Loans AS (
+SELECT
+     *
+FROM Loans
+WHERE loan_status = 'Active'
+)
+
+
+SELECT 
+     *
+FROM Active_Loans
+
+
+
+
+
+
+
+/*  Q204. Create a view showing only active credit cards.   */
+
+Ans:
+
+
+
+CREATE VIEW Active_Credit_Cards As (
+SELECT
+     *
+FROM Credit_Cards
+WHERE card_status = 'Active'
+) 
+
+SELECT 
+     *
+FROM Active_Credit_Cards
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q205. Create a view showing only successful transactions.  */
+
+Ans:
+
+
+
+CREATE VIEW Succussful_Transaction AS (
+SELECT 
+     * 
+FROM Transactions
+WHERE transaction_status = 'Success'
+) 
+
+
+SELECT 
+     * 
+FROM Succussful_Transaction
+
 
 
 
