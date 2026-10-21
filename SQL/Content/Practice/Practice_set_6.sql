@@ -5143,47 +5143,323 @@ FROM Succussful_Transaction
    SECTION O — TEMPORARY TABLES
 ============================================================================= */
 
-Q206. Create a temporary table containing Premium customers.
 
-Q207. Create a temporary table containing customer-wise total loan amount.
 
-Q208. Find the top 10 customers from the temporary table.
 
-Q209. Create a temporary table containing branch-wise loan exposure.
 
-Q210. Find branches whose loan exposure exceeds 10000000.
 
-Q211. Create a temporary table containing account-wise transaction count.
 
-Q212. Find accounts having more than 2 transactions.
 
-Q213. Create a temporary table containing customer-wise total
-     transaction amount.
 
-Q214. Find customers whose transaction amount exceeds 500000.
+/*  Q206. Create a temporary table containing Premium customers.   */
 
-Q215. Create a temporary table containing customer-wise total
-     credit card outstanding.
+Ans:
 
-Q216. Identify high outstanding customers using the temporary table.
 
-Q217. Create a temporary table for monthly transaction analysis.
+SELECT
+     * 
+INTO Premium_customers
+FROM Customers
+WHERE customer_segment = 'Premium'
 
-Q218. Create a temporary table for customer-level financial exposure.
 
-Q219. Update values inside a temporary table.
 
-Q220. Delete records from a temporary table using a condition.
+SELECT
+     *
+FROM Premium_customers
 
-Q221. Use a temporary table in a JOIN.
 
-Q222. Use a temporary table for a multi-step financial analysis.
 
-Q223. Use a temporary table to perform a customer segmentation exercise.
 
-Q224. Use a temporary table for a loan portfolio analysis.
 
-Q225. Drop the temporary table explicitly after completing the analysis.
+
+
+
+/*  Q207. Create a temporary table containing customer-wise total loan amount.  */
+
+Ans:
+
+
+
+SELECT 
+     c.customer_id , 
+     c.customer_name,
+     l.loan_type,
+     l.loan_amount,
+     SUM(l.loan_amount) OVER () As Total_loan_amount
+INTO Customer_loanWise
+FROM Customers AS c 
+LEFT JOIN 
+Loans as l 
+ON 
+c.customer_id = l.customer_id
+
+
+
+
+
+
+
+
+
+
+/* Q208. Find the top 10 customers from the temporary table.  */
+
+
+Ans:
+
+
+SELECT
+     TOP(10)
+     *
+INTO Top_Customers
+FROM Customer_loanWise
+
+
+SELECT
+     *
+FROM Top_Customers
+
+
+
+
+
+
+
+/* Q209. Create a temporary table containing branch-wise loan exposure.  */
+
+Ans:
+
+
+SELECT 
+     DISTINCT b.branch_name , 
+     SUM(l.loan_amount) OVER(PARTITION BY b.branch_name) As Total_loan_amount
+INTO Branch_loan
+FROM Branches As b 
+LEFT JOIN 
+Customers As c
+ON 
+b.branch_id = c.branch_id
+LEFT JOIN 
+Loans As l
+ON 
+c.customer_id = l.customer_id
+
+
+SELECT
+     *
+FROM Branch_loan
+
+
+
+
+
+
+
+
+
+
+/*  Q211. Create a temporary table containing account-wise transaction count.  */
+
+Ans:
+
+
+
+SELECT 
+     a.account_id ,
+     COUNT(t.transaction_id) AS Transaction_count
+INTO Account_TransactionCount
+FROM Accounts As a 
+LEFT JOIN 
+Transactions As t 
+ON
+a.account_id = t.account_id
+GROUP BY a.account_id
+
+SELECT 
+     *
+FROM Account_TransactionCount
+
+
+
+
+
+/* Q212. Find accounts having more than 2 transactions.  */
+
+Ans:
+
+
+SELECT 
+     a.account_id ,
+     COUNT(t.transaction_id) AS Transaction_count
+INTO Account_TransactionCountTOP
+FROM Accounts As a 
+LEFT JOIN 
+Transactions As t 
+ON
+a.account_id = t.account_id
+GROUP BY a.account_id
+HAVING COUNT(t.transaction_id) > 2
+
+SELECT 
+     *
+FROM Account_TransactionCountTOp
+
+
+
+
+
+
+
+
+
+
+/*  Q213. Create a temporary table containing customer-wise total
+     transaction amount.  */
+
+Ans:
+
+
+
+
+SELECT 
+     DISTINCT c.customer_id ,
+     COUNT(t.transaction_id) OVER(PARTITION BY c.customer_id) AS Transaction_count
+INTO Customer_TransactionCount
+FROM Customers As c
+LEFT JOIN 
+Accounts As a
+ON 
+c.customer_id = a.customer_id
+LEFT JOIN 
+Transactions As t 
+ON
+a.account_id = t.account_id
+
+
+
+
+
+SELECT 
+     *
+FROM Customer_TransactionCount
+
+
+
+
+
+
+
+
+
+
+
+
+/*   Q214. Find customers whose transaction amount exceeds 500000.   */
+
+Ans:
+
+
+SELECT
+     * 
+INTO Customer_Transaction_Amount
+FROM (
+SELECT 
+     DISTINCT c.customer_id ,
+     SUM(t.amount) OVER(PARTITION BY c.customer_id) AS Transaction_amount
+-- INTO Customer_TransactionCount
+FROM Customers As c
+LEFT JOIN 
+Accounts As a
+ON 
+c.customer_id = a.customer_id
+LEFT JOIN 
+Transactions As t 
+ON
+a.account_id = t.account_id
+)t
+WHERE Transaction_amount > 500000
+
+
+SELECT 
+     *
+FROM Customer_Transaction_Amount
+
+
+
+
+
+
+
+/*  Q215. Create a temporary table containing customer-wise total
+     credit card outstanding.  */
+
+Ans:
+
+
+SELECT 
+     c.customer_id,
+     cc.outstanding_amount
+INTO Customer_CreditOutstanding
+FROM Customers As c 
+LEFT JOIN 
+Credit_Cards As cc 
+ON 
+c.customer_id = cc.customer_id
+WHERE cc.card_id IS NOT NULL
+
+
+SELECT 
+     *
+FROM Customer_CreditOutstanding
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q217. Create a temporary table for monthly transaction analysis.  */
+
+Ans:
+
+
+
+SELECT 
+     DISTINCT a.account_id,
+     COUNT(t.transaction_id) OVER(PARTITION BY a.account_id) AS Transaction_count,
+     DATENAME(MONTH  , t.transaction_date) As Month_Name,
+     YEAR(t.transaction_date) AS Year
+INTO transaction_analysis
+FROM Transactions As t
+LEFT JOIN 
+Accounts As a
+ON 
+a.account_id = t.account_id
+
+
+SELECT
+     *
+FROM transaction_analysis
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5197,6 +5473,9 @@ Q225. Drop the temporary table explicitly after completing the analysis.
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 
 
@@ -5243,6 +5522,10 @@ Q232. Create a stored procedure that returns customers belonging
 
 
 
+
+
+
+
 /* =============================================================================
    SECTION Q — STORED PROCEDURES : PARAMETERS
 ============================================================================= */
@@ -5272,6 +5555,17 @@ Q241. Create a procedure accepting branch_id and minimum loan amount.
 
 Q242. Create a procedure accepting customer_id and date range
      for transactions.
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* =============================================================================
@@ -5309,6 +5603,19 @@ Q246. Create a procedure that accepts customer_id and returns:
      Total Card Outstanding
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* =============================================================================
    SECTION S — STORED PROCEDURES : VARIABLES
 ============================================================================= */
@@ -5326,6 +5633,19 @@ Q249. Create a procedure using variables to calculate:
 
 Q250. Create a procedure using variables to calculate customer-level
      financial exposure.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* =============================================================================
@@ -5370,7 +5690,12 @@ Q262. Return ERROR_NUMBER(), ERROR_MESSAGE() and ERROR_LINE()
 
 
 
-     ------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
