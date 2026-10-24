@@ -5496,22 +5496,67 @@ FROM transaction_analysis
    SECTION P — STORED PROCEDURES : BASICS
 ============================================================================= */
 
-Q226. Create a stored procedure that returns all customers.
 
-Q227. Create a stored procedure that returns all active accounts.
 
-Q228. Create a stored procedure that returns all active loans.
 
-Q229. Create a stored procedure that returns all active credit cards.
 
-Q230. Execute the customer procedure.
 
-Q231. Create a stored procedure that returns customers from a
-     specified state.
+/* Q226. Create a stored procedure that returns all customers.  */
 
-Q232. Create a stored procedure that returns customers belonging
-     to a specified customer segment.
+Ans:
 
+
+CREATE PROCEDURE All_Customer AS(
+SELECT
+     *
+FROM Customers
+);
+
+
+EXEC All_Customer;
+
+
+
+
+
+
+
+
+
+/* Q227. Create a stored procedure that returns all active accounts.  */
+
+Ans:
+
+
+
+CREATE PROCEDURE Active_Accounts AS(
+SELECT
+     *
+FROM Accounts
+WHERE account_status = 'Active'
+);
+
+
+EXEC Active_Accounts;
+
+
+
+
+
+
+/*  Q228. Create a stored procedure that returns all active loans.  */
+
+Ans:
+
+CREATE PROCEDURE Active_Loan As(
+SELECT
+     *
+FROM Loans 
+WHERE loan_status = 'Active'
+);
+
+
+EXEC Active_Loan;
 
 
 
@@ -5530,31 +5575,200 @@ Q232. Create a stored procedure that returns customers belonging
    SECTION Q — STORED PROCEDURES : PARAMETERS
 ============================================================================= */
 
-Q233. Create a procedure accepting customer_id and returning
-     all accounts of that customer.
 
-Q234. Create a procedure accepting customer_id and returning
-     all loans of that customer.
 
-Q235. Create a procedure accepting customer_id and returning
-     all credit cards.
 
-Q236. Create a procedure accepting branch_id and returning
-     all customers of that branch.
 
-Q237. Create a procedure accepting minimum loan amount.
 
-Q238. Create a procedure accepting loan_type.
 
-Q239. Create a procedure accepting minimum customer income.
+/*  Q233. Create a procedure accepting customer_id and returning
+     all accounts of that customer.  */
 
-Q240. Create a procedure accepting transaction start_date
-     and end_date.
+Ans:
 
-Q241. Create a procedure accepting branch_id and minimum loan amount.
+ALTER PROCEDURE All_Customer @CustomerID INT AS
+BEGIN
+    SELECT
+         *
+    FROM Customers
+    WHERE customer_id = @CustomerID
+END
 
-Q242. Create a procedure accepting customer_id and date range
-     for transactions.
+
+EXEC All_Customer @CustomerID = 1001;
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q234. Create a procedure accepting customer_id and returning
+     all loans of that customer.  */
+
+Ans:
+
+
+ALTER PROCEDURE loans_customer @CustomerID INT As
+BEGIN
+    SELECT
+         *
+    FROM Loans 
+    WHERE customer_id = @CustomerID
+END
+
+EXEC loans_customer @CustomerID = 1001
+
+
+
+
+
+
+
+
+
+
+
+/*   Q235. Create a procedure accepting customer_id and returning
+     all credit cards.  */
+
+Ans:
+
+
+
+ALTER PROCEDURE Credit_customer @CustomerID INT As
+BEGIN
+    SELECT
+         *
+    FROM Credit_Cards
+    WHERE customer_id = @CustomerID
+END
+
+EXEC Credit_customer @CustomerID = 1001;
+
+
+
+
+
+
+
+
+
+/*  Q236. Create a procedure accepting branch_id and returning
+     all customers of that branch.  */
+
+
+Ans:
+
+
+
+
+ALTER PROCEDURE branch_Customer @BranchID INT As
+BEGIN
+    SELECT
+         *
+    FROM Credit_Cards
+    WHERE customer_id = @BranchID
+END
+
+
+
+EXEC branch_Customer @BranchID = 1001;
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*   Q237. Create a procedure accepting minimum loan amount.   */
+
+Ans:
+
+CREATE PROCEDURE MINloan_amount As 
+BEGIN 
+    SELECT
+         *
+    FROM Loans 
+    WHERE loan_amount = (
+    SELECT
+      MIN(loan_amount) As Min_loan
+    FROM Loans)
+END
+
+
+EXEC MINloan_amount;
+
+
+
+
+
+
+
+
+
+
+/*  Q238. Create a procedure accepting loan_type.  */
+
+Ans:
+
+
+CREATE PROCEDURE loanTypes_Customers @loanType VARCHAR(50) As
+BEGIN
+    SELECT
+         *
+    FROM Loans
+    WHERE loan_type = @loanType
+END
+
+EXEC loanTypes_Customers @loanType = 'Business Loan';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
