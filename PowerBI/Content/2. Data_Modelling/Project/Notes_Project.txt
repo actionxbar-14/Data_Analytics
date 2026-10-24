@@ -1,0 +1,21 @@
+
+
+
+
+
+___________________________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________________
+
+
+:: Data Modelling Project : 
+
+
+
+## STEPS :
+
+
+1. Build a star Schema . [ a fact in the middle , dimensions around it ] 
+2. Understand before you change. [ always read the grain first ] 
+3. Protect the numbers [ Facts ]. [ know your totals , re-check after every change ]
+4. Every column earns its place. [ If it does not help the report , drop it ]
+5. Follow the Standards [ Language( English ), Naming( snake_case ) , Tables( fact and dim ) , keys( _key , _id ) , readable ]

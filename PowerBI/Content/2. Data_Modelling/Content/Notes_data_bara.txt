@@ -389,3 +389,8 @@ Power BI Desktop mein role create karke DAX filter lagate ho, jaise Branch = "De
 Power BI Service mein users ya security groups ko role assign karte ho.
 
 
+
+
+
+
+
