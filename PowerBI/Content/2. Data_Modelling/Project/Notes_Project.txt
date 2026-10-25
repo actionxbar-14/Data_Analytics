@@ -3,30 +3,128 @@
 
 
 
-___________________________________________________________________________________________________________________________________________________
-___________________________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________________________________________________
+
+
 
 
 :: Data Modelling Project : 
 
 
 
-## STEPS :
+## STEPs :
+
+1. Prepare & Explore : [ open the mess and understand the data ]
+
+- Opens the messy model.
+- Prepare the workspace.
+- Understand the business. 
+- Understand the data. 
+- Spot dimensions v/s Facts.
 
 
-1. Build a star Schema . [ a fact in the middle , dimensions around it ] 
-2. Understand before you change. [ always read the grain first ] 
-3. Protect the numbers [ Facts ]. [ know your totals , re-check after every change ]
-4. Every column earns its place. [ If it does not help the report , drop it ]
-5. Follow the Standards [ Language( English ), Naming( snake_case ) , Tables( fact and dim ) , keys( _key , _id ) , readable ]
+
+2. Dimensions :  [ build them , and clean one by one ]
+
+- Group the tables for one entity. 
+- Reshape into one clean dimension. 
+- Clean it to the standards. 
+- Repeat for every dimension. 
+
+
+
+
+3. Facts :  [ build , connect  , and test the numbers ]
+
+- Pick an event  , read its grain. 
+- Build the fact from the details. 
+- Connect every dimension. 
+- Test so the numbers never break. 
+
+
+
+4. Polish : [ Secure it and validate the model ]
+
+- Re-check the standards. 
+- Add the data dimension. 
+- Build the measures. 
+- Add row-level security. 
+- Final Validation. 
 
 
 
 
 
-___________________________________________________________________________________________________________________________________________________
+
+
+
+
+
+
+
+## Rules :
+
+
+--> RULE_1 :  Build a Star Schema . [ a fact in the middle , dimensions around it ] :
+--> RULE_2 :  Understand before you change. [ always read the grain first ] 
+--> RULE_3 :  Protect the numbers [ Facts ]. [ know your totals , re-check after every change ]
+--> RULE_4 :  Every column earns its place. [ If it does not help the report , drop it ]
+--> RULE_5 :  Follow the Standards [ Language( English ), Naming( snake_case ) , Tables( fact and dim ) , keys( _key , _id ) , readable ]
+
+
+
+
+
+________________________________________________________________________________________________________________________________________________________________________________
 
 
 :: Phase_1 :   [ Prepare & Explore ]
 
--- ( 2 : 47 : 05 )
+
+--> Get a feel for the data , not every detail. 
+- What's the business ?
+- What are the entities ?
+- Which are the dimensions ?
+- Which are facts ?
+
+
+
+________________________________________________________________________________________________________________________________________________________________________________
+
+
+
+:: Phase_2 : [ The dimension loop ]
+
+
+--> The same three moves , for every dimension. 
+- Collect the tables for one entity. 
+- Combine them into one dimension. [ split , merge , append , fix , drop ].
+- Clean it to the standards.  [ snake_case names , table names , prefixes , suffixes ]
+
+
+
+
+
+==========================================
+:--> Building The Dim_Customers : 
+==========================================
+
+- Making CUST_MASTER As a Central Table and rename it to Dim_Customers. 
+- Merging the tables having Context related to the Customers. [ address  , cities , customer_contacts , user_details] 
+
+
+
+
+
+
+
+
+
+## Data_Cleansing[ Dim_Customers ] : 
+
+
+
+
+
+
