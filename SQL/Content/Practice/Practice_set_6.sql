@@ -5771,50 +5771,68 @@ EXEC loanTypes_Customers @loanType = 'Business Loan';
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 /* =============================================================================
    SECTION R — STORED PROCEDURES : MULTIPLE QUERIES
 ============================================================================= */
 
-Q243. Create a procedure that accepts customer_id and returns:
+
+
+
+
+
+
+
+/*  Q243. Create a procedure that accepts customer_id and returns:
 
      1. Customer Details
      2. Account Details
      3. Loan Details
-     4. Credit Card Details
+     4. Credit Card Details  */
 
-Q244. Create a procedure that accepts branch_id and returns:
+Ans:
 
-     1. Customer Count
-     2. Total Account Balance
-     3. Total Loan Amount
-     4. Total Credit Card Outstanding
 
-Q245. Create a procedure that accepts loan_id and returns:
+ALTER PROCEDURE ALL_Customers @CustomerID INT AS
+BEGIN
+    SELECT
+         c.customer_id ,
+         c.customer_name,
+         a.account_type,
+         a.balance,
+         a.account_status,
+         l.loan_type,
+         l.loan_amount,
+         cc.card_type,
+         cc.outstanding_amount
+    FROM Customers AS c
+    LEFT JOIN 
+    Accounts As a 
+    ON 
+    c.customer_id = a.customer_id
+    LEFT JOIN 
+    Loans AS l 
+    On 
+    c.customer_id = l.customer_id
+    LEFT JOIN 
+    Credit_Cards As cc 
+    ON 
+    c.customer_id = cc.customer_id
+    WHERE c.customer_id = @CustomerID;
+END
 
-     1. Loan Details
-     2. Customer Details
-     3. Customer Total Loan Amount
-     4. Customer Account Balance
 
-Q246. Create a procedure that accepts customer_id and returns:
 
-     Total Accounts
-     Total Loans
-     Total Cards
-     Total Loan Amount
-     Total Account Balance
-     Total Card Outstanding
+EXEC ALL_Customers @CustomerID = 1001;
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5834,19 +5852,125 @@ Q246. Create a procedure that accepts customer_id and returns:
    SECTION S — STORED PROCEDURES : VARIABLES
 ============================================================================= */
 
-Q247. Create a procedure using variables to calculate the average
-     customer income.
 
-Q248. Create a procedure using variables to calculate total loan exposure.
 
-Q249. Create a procedure using variables to calculate:
+
+
+
+
+
+/*  Q247. Create a procedure using variables to calculate the average
+     customer income.  */
+
+
+Ans:
+
+ALTER PROCEDURE FIND_AVGCutomerIncome AS
+BEGIN
+    
+    DECLARE @CustomerAVGIncome INT;
+    SELECT
+        @CustomerAVGIncome = AVG(annual_income)
+    FROM Customers
+
+    PRINT ('THE AVG Customer Income is : ' + CAST(@CustomerAVGIncome AS NVARCHAR));
+END
+
+
+EXEC FIND_AVGCutomerIncome;
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q248. Create a procedure using variables to calculate total loan exposure.  */
+
+Ans:
+
+
+ALTER PROCEDURE Total_LoanExposure AS
+BEGIN
+    DECLARE @Total_loan INT;
+    SELECT
+         @Total_loan = SUM(loan_amount)
+    FROM Loans
+
+    PRINT('The Total Loan Exposure is : ' + CAST(@Total_loan AS NVARCHAR))
+END
+
+
+EXEC Total_LoanExposure;
+
+
+
+
+
+
+
+/*  Q249. Create a procedure using variables to calculate:
 
      Total Loan Amount
      Total Account Balance
-     Total Transaction Amount
+     Total Transaction Amount  */
 
-Q250. Create a procedure using variables to calculate customer-level
-     financial exposure.
+
+Ans:
+
+
+ALTER PROCEDURE DetailsCustomers As 
+BEGIN 
+
+    DECLARE @Loan_amount INT , @Account_balance INT , @Transaction_amount INT
+    SELECT
+         @Loan_amount = SUM(l.loan_amount) ,
+         @Account_balance = SUM(a.balance),
+         @Transaction_amount = SUM(t.amount)
+    FROM Accounts As a 
+    LEFT JOIN 
+    Transactions As t
+    ON 
+    a.account_id = t.account_id
+    LEFT JOIN 
+    Customers As c
+    ON 
+    c.customer_id = a.customer_id
+    LEFT JOIN 
+    Loans As l 
+    ON 
+    l.customer_id = c.customer_id
+
+
+    PRINT('The total Loan amount is : ' + CAST(@Loan_amount AS NVARCHAR))
+    PRINT('The total account balance is : ' + CAST(@Account_balance AS NVARCHAR))
+    PRINT('The total transaction amount is : ' + CAST(@Transaction_amount AS NVARCHAR))
+
+END
+
+
+EXEC DetailsCustomers;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5866,12 +5990,33 @@ Q250. Create a procedure using variables to calculate customer-level
    SECTION T — STORED PROCEDURES : IF / ELSE + TRY / CATCH
 ============================================================================= */
 
-Q251. Create a procedure that accepts customer income and returns:
+
+
+
+
+
+
+
+/*   Q251. Create a procedure that accepts customer income and returns:
 
      'High Income'
      'Medium Income'
-     'Low Income'
+     'Low Income'  */
 
+
+Ans:
+
+
+
+
+
+
+
+
+
+
+
+      
 Q252. Create a procedure that checks whether a customer exists.
 
 Q253. Create a procedure that checks whether a customer has an active loan.
