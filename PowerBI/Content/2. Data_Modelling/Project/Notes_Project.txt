@@ -121,10 +121,40 @@ ________________________________________________________________________________
 
 
 
-## Data_Cleansing[ Dim_Customers ] : 
+## Data_Cleansing [ Dim_Customers ] : 
+
+
+:: RULE : 
+
+- [ Every column must earn its place , it it's not needed then just drop it ]. 
+- Waste space.
+- Slows performance.
+- Confuses reports.
+
+
+
+:: STEPS :
+
+i.)  [Remove unwanted columns ] : 
+
+--> Removing the 'AddressID' column. [ because we added the address details in the dim_customer columms as we don't need to make the snowflake schema ]
+--> Removing the 'hash key' column [ Slows down the performance ].
+--> Removing the columns 'SorceID' and 'IsPrimary' [ Garbage column ].
+
+
+
+ii.) [ Rename the column name to Snake_case ]:
+
+
+iii.) de-activate the staged column that are immerged into the dim_customer. [ by Enable load option so that it does not show in the model view ].
 
 
 
 
 
+
+________________________________________________________________________________________________________________________________________________________________________________
+
+
+:: Phase_3 : [ Building Facts ]
 
