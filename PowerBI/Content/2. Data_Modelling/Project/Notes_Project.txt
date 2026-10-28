@@ -158,3 +158,26 @@ ________________________________________________________________________________
 
 :: Phase_3 : [ Building Facts ]
 
+
+
+
+## RULE [ Header & Details ] : 
+- [ A Fact table always sits at the level of what you measure ].
+
+1. Header are converted into one dimension 
+2. Details are converted into the Facts. 
+
+
+
+
+
+
+## RULE [ Protect your numbers ] :
+- [ Know your total by heart , Recheck after every change ]
+
+
+
+## RULE [ One Column , One Place ] :
+- [ Reduce the noise from the source systems ]
+
+
