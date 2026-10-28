@@ -5986,61 +5986,6 @@ EXEC DetailsCustomers;
 
 
 
-/* =============================================================================
-   SECTION T — STORED PROCEDURES : IF / ELSE + TRY / CATCH
-============================================================================= */
-
-
-
-
-
-
-
-
-/*   Q251. Create a procedure that accepts customer income and returns:
-
-     'High Income'
-     'Medium Income'
-     'Low Income'  */
-
-
-Ans:
-
-
-
-
-
-
-
-
-
-
-
-      
-Q252. Create a procedure that checks whether a customer exists.
-
-Q253. Create a procedure that checks whether a customer has an active loan.
-
-Q254. Create a procedure that checks whether a customer has an active
-     credit card.
-
-Q255. Create a procedure that checks whether a loan exists.
-
-Q256. Create a procedure that checks whether sufficient account balance
-     exists for a withdrawal.
-
-Q257. Create a procedure that inserts a new customer using TRY/CATCH.
-
-Q258. Handle duplicate customer_id using TRY/CATCH.
-
-Q259. Handle invalid branch_id using TRY/CATCH.
-
-Q260. Create a procedure that updates customer income with error handling.
-
-Q261. Create a procedure that inserts a new loan using TRY/CATCH.
-
-Q262. Return ERROR_NUMBER(), ERROR_MESSAGE() and ERROR_LINE()
-     from the CATCH block.
 
 
 
@@ -6080,33 +6025,254 @@ Q262. Return ERROR_NUMBER(), ERROR_MESSAGE() and ERROR_LINE()
    SECTION U — TRIGGERS
 ============================================================================= */
 
-Q263. Create an AFTER INSERT trigger on Customers.
 
-Q264. Create an audit table and log newly inserted customers.
 
-Q265. Insert a new customer and verify that the trigger executes.
 
-Q266. Create an AFTER UPDATE trigger on Customers.
 
-Q267. Log customer annual_income changes.
 
-Q268. Log customer customer_segment changes.
 
-Q269. Create an AFTER DELETE trigger on Customers.
 
-Q270. Log deleted customers into an audit table.
 
-Q271. Create a trigger that logs changes to customer information.
+/*  Q263. Create an AFTER INSERT trigger on Customers.  */
 
-Q272. Create a trigger that logs both INSERT and UPDATE operations
-     on Customers.
+Ans:
 
-Q273. Create a trigger that records GETDATE() as action_date.
 
-Q274. Create a trigger that prevents deleting a customer who has
-     active loans.
 
-Q275. Create a trigger that logs changes made to customer annual_income.
+
+
+-- Step 1: Drop old trigger if it exists
+IF OBJECT_ID('trg_AfterInsert_Customers', 'TR') IS NOT NULL
+    DROP TRIGGER trg_AfterInsert_Customers;
+GO
+
+
+
+
+
+
+
+
+-- Step 2: Create audit table if it does not exist
+IF OBJECT_ID('CustomerAudit', 'U') IS NULL
+BEGIN
+    CREATE TABLE CustomerAudit
+    (
+        audit_id INT IDENTITY(1,1) PRIMARY KEY,
+        customer_id INT,
+        action_type VARCHAR(20),
+        action_date DATETIME
+    );
+END;
+GO
+
+
+
+
+
+
+
+
+-- Step 3: Create AFTER INSERT trigger
+CREATE TRIGGER trg_Customers_Insert
+ON Customers
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO CustomerAudit
+        (customer_id, action_type, action_date)
+    SELECT
+        customer_id,
+        'INSERT',
+        GETDATE()
+    FROM inserted;
+END;
+GO
+
+
+
+
+SELECT * FROM CustomerAudit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q264. Create an audit table and log newly inserted customers.  */
+
+Ans:
+
+
+-- Step 1 : Create audit table if it does not exist
+CREATE TABLE Customer_Audit
+(
+    audit_id INT IDENTITY(1,1) PRIMARY KEY,
+    customer_id INT,
+    customer_name VARCHAR(100),
+    action_type VARCHAR(20),
+    action_date DATETIME DEFAULT GETDATE()
+);
+GO
+
+
+
+
+-- Step 2 : Create AFTER INSERT trigger
+ALTER TRIGGER trg_Customer_Audit_Insert
+ON Customers
+AFTER INSERT
+AS
+BEGIN
+    INSERT INTO Customer_Audit
+        (customer_id, customer_name, action_type, action_date)
+    SELECT
+        customer_id,
+        customer_name,
+        'INSERT',
+        GETDATE()
+    FROM inserted;
+END;
+GO
+
+
+
+SELECT * FROM Customer_Audit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q265. Insert a new customer and verify that the trigger executes.  */
+
+Ans : 
+
+
+
+-- Step 1: Insert a new customer
+INSERT INTO Customers
+(
+    customer_id,
+    customer_name,
+    gender,
+    age,
+    city,
+    state,
+    occupation,
+    annual_income,
+    customer_segment,
+    branch_id
+)
+VALUES
+(
+    9999,
+    'Test Customer',
+    'Male',
+    25,
+    'Faridabad',
+    'Haryana',
+    'Analyst',
+    500000,
+    'Regular',
+    1
+);
+GO
+
+-- Step 2: Verify the trigger's audit log
+SELECT *
+FROM Customer_Audit
+WHERE customer_id = 9999;
+GO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Q266. Create an AFTER UPDATE trigger on Customers.  */
+
+
+Ans:
+
+
+
+-- Step 1: Insert a new customer
+INSERT INTO Customers
+(
+    customer_id,
+    customer_name,
+    gender,
+    age,
+    city,
+    state,
+    occupation,
+    annual_income,
+    customer_segment,
+    branch_id
+)
+VALUES
+(
+    9999,
+    'Test Customer',
+    'Male',
+    25,
+    'Faridabad',
+    'Haryana',
+    'Analyst',
+    500000,
+    'Regular',
+    1
+);
+GO
+
+-- Step 2: Verify the trigger's audit log
+SELECT *
+FROM Customer_Audit
+WHERE customer_id = 9999;
+GO
+
+
+
+
+
+
+
 
 
 
