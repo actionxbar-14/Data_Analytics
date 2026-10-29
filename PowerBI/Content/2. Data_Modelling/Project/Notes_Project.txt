@@ -164,8 +164,8 @@ ________________________________________________________________________________
 ## RULE [ Header & Details ] : 
 - [ A Fact table always sits at the level of what you measure ].
 
-1. Header are converted into one dimension 
-2. Details are converted into the Facts. 
+1. Header are converted into one dimension .
+2. Details [line_items] are converted into the Facts. 
 
 
 
@@ -179,5 +179,40 @@ ________________________________________________________________________________
 
 ## RULE [ One Column , One Place ] :
 - [ Reduce the noise from the source systems ]
+
+
+
+
+
+## RULE [ Protect the core ] :
+
+- Understand the business & domain. 
+- Build only core facts & dimensions. 
+- A seperate model for special cases. 
+- Protect the core data model.
+
+
+
+
+________________________________________________________________________________________________________________________________________________________________________________
+
+
+:: Phase_4 : [ Polishing the Model ]
+
+- Checking the Standards of Our data Modelling Project. [ Language ( English ) , Naming ( snake_case ) , Tables (fact_ , dim_) , Keys(_key , _id) , Friendly(readable) ].
+- Connecting dim_date.
+- The Measures [ the obvious ones that every model needs ].
+- Secure the Model [ Row-level security ].
+
+
+
+
+
+## Create Measures : 
+
+
+- 
+
+________________________________________________________________________________________________________________________________________________________________________________
 
 
