@@ -1,0 +1,65 @@
+
+
+
+
+
+==========================================================================================================================================
+                                                          LECTURE 1 : The Basics
+===========================================================================================================================================
+
+
+
+1. The Basics : 
+   - What is DAX. 
+   - The Machine. 
+   - The Four Homes. 
+   - Column v/s Measure. 
+   - Implicit v/s Explicit. 
+
+
+
+===========================================================================================================================================
+
+
+
+:: What is DAX ? [ Data Analysis EXpressions ]
+
+- The language to build your own calculations on top of the data model. 
+- DAX is just a machine that you feed it data and then it does some calculations may be aggregations and then at the end it return back the results.
+
+
+
+===========================================================================================================================================
+
+:: DAX Types : 
+
+
+1. Persisting [ Save Data Physicallly ] : 
+  - Calculated Columns. 
+  - Calculated Tables. 
+
+
+2. On the Fly [ Nothing is Stored ] : 
+  - Measures. 
+
+
+
+===========================================================================================================================================
+
+:: The Measures : 
+
+- One Formula answers many questions. 
+- Every Measure will exist in the visual report.
+
+
+
+===========================================================================================================================================
+
+
+## NOTE : 
+
+--> Push Calculations as far upstream [ Source System ] as possible.
+
+## Extra column Creation Order : 
+
+--> Source System > Power Query  > DAX ( Measure ) > DAX ( Calculation ). 
