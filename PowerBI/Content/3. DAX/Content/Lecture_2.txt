@@ -1,0 +1,53 @@
+
+
+
+
+
+==========================================================================================================================================
+                                                          LECTURE 2 : DAX Context
+===========================================================================================================================================
+
+
+2. Context : 
+   - Row Context. 
+   - Filter Context. 
+   - OverWriting Context.
+   - Context Readers. 
+   - Context Transitions.
+
+
+
+===========================================================================================================================================
+
+
+
+
+:: Context :
+
+- Everything surrounding your calculation at the moment it runs. 
+- Contexts Ways :
+
+1. Automatic : --> PowerBI does the whole thing. 
+2. Manual : --> You decide the context. 
+
+
+===========================================================================================================================================
+
+
+:: Context Types : 
+
+
+1. Filter Context. [ Automatically done by PowerBI ].
+2. Overwriting Context [ Calculate() Function ].
+3. Row Context. 
+4. Context Transition.
+
+
+
+## Syntax : CALCULATE( what to calc  , Your Context( things you want to filter out) )
+
+--> Ex : CALCULATE( SUM(Sales) , ALL() )
+--> Ex : CALCULATE( SUM(Sales) , dim_customers )
+--> Ex : CALCULATE( SUM(Sales) , dim_products[Family] = 'SUV' )
+
+
