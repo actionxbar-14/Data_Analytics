@@ -39,8 +39,8 @@
 
 1. Filter Context. [ Automatically done by PowerBI ].
 2. Overwriting Context [ Calculate() Function ].
-3. Row Context. 
-4. Context Transition.
+3. Row Context.  [ Automatically done by PowerBI ]
+4. Context Transition.  [ Measure to Row Context ].
 
 
 
