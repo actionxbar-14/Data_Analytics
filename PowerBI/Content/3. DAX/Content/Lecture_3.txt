@@ -1,0 +1,35 @@
+
+
+
+
+
+
+==========================================================================================================================================
+                                                          LECTURE 3 : DAX Aggregations
+===========================================================================================================================================
+
+
+
+
+:: Granualarity :
+
+- The level of detail you show in your report. [So , how far you aggregate your data].
+
+
+
+
+===========================================================================================================================================
+
+## The Counting family : 
+
+1. COUNTROWS() : Counts the number of rows in a table.
+
+2. COUNT() : Counts the values that are not missing. 
+
+3. COUNTBLANK() : Counts only the missing values. 
+
+4. DISTINCTCOUNT() : Counts only the unique values. 
+
+5. DISTINCTCOUNTNOBLANK() : Counts the unique values , ignoring the missing values.
+
+6. COUNTA() : Counts like COUNT() , but for every data type. [ Ex : Text, Number, Date, etc..]

@@ -1,0 +1,33 @@
+
+
+
+
+
+==========================================================================================================================================
+                                                          LECTURE 4 : DAX Iterators
+===========================================================================================================================================
+
+:: DAX Iterators :
+- A function that repeats a calculation across every row of a table. 
+- Steps : 
+
+1. It walks tha table row by row and calculates one expression each time. 
+2. Then it combines every result into a single number. 
+
+
+
+
+===========================================================================================================================================
+
+:: Iterator Functions : 
+
+1. SUMX() : Calculates each row , then adds the results. 
+
+2. AVERAGEX() : Calculates each row , then averages the results.
+
+3. MAXX() : Returns the largest result across the rows. 
+
+4. MINX() :  Returns the smallest result across the rows. 
+
+5. COUNTX() : Counts nonblank number , date or text results.
+
