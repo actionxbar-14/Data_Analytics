@@ -50,7 +50,14 @@
 
 - One Formula answers many questions. 
 - Every Measure will exist in the visual report.
+- Ex : Total Sales = SUM( Sales[Amount] )
 
+
+:: The Calucalted Column / Table : 
+
+- It is the Persisted solution of Creating an Column, Table.
+- Every Calculated Column / Table remain persisted into the Disk or RAM. 
+- Ex : Profit = Sales[Amount] - Sales[Cost].
 
 
 ===========================================================================================================================================
@@ -63,3 +70,98 @@
 ## Extra column Creation Order : 
 
 --> Source System > Power Query  > DAX ( Measure ) > DAX ( Calculation ). 
+
+
+
+
+
+===========================================================================================================================================
+
+
+
+:: Measure Syntax :-
+
+
+
+# NOTE : While Creating Measure remember it must start with an function.
+
+- Syntax : 
+
+Measure Name = Function( table_name[column] )
+
+--> Ex_1 :  Total sales is the sum of the amount column from the sales table.
+--> Formula :  [    Total Sales = SUM(Sales[Amount])   ]
+
+
+
+
+
+
+
+
+## NOTE : [ In Real Projects ]
+
+--> Create Your Measures explicitly , Don't rely on implicit measures.
+
+
+
+
+===========================================================================================================================================
+
+
+
+
+
+
+:: Three Types Of DAX Calculations : 
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+
+1. Data-to-Data :  'Physical World'
+
+- Calculated Columns : [ [ SUM() , AVERAGE() , COUNT() , MIN() , MAX() , DistinctCount() , COuntRows() ].
+
+- Calculated Tables : [ Summarize() , GroupBy() , SummarizeColumns() , Filter() , All() , AllSelected() , Distinct() , Values() , CrossJoin() , Union() , Intersect() , Except() ].
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+2. Data-to-Visuals :  'Fly-on'
+
+
+- Measures : 
+
+  i.)  Simple Measures  :  [Use When column already exists] 
+  SUM() , AVERAGE() , COUNT() , MIN() , MAX() , DistinctCount() , COuntRows(). 
+
+
+  ii.) Iterator Measures : [Use When the column is missing]
+  SUMX() , AVERAGEX() , COUNTX() , MINX() , MAXX().
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+3. Visual-to-Visuals :  'Visual World'
+
+- Visual Calculation : [ the value is in the visual and not in the data model ]
+[ Previous() , Next() , First() , Last() , RunningTotal() , MovingAverage() , Rank() ].

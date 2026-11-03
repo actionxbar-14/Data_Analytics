@@ -1,0 +1,109 @@
+
+
+
+
+==========================================================================================================================================
+                                                          LECTURE 6 : Calculated Table / Calculated Table Functions 
+===========================================================================================================================================
+
+
+:: Calculated Table : 
+- A DAX calculation that creates a new table in the data model.
+
+
+:: Table Functions :
+- A function that returns a table as a result.
+
+
+
+===========================================================================================================================================
+
+
+
+## Categories of Table Functions :
+
+
+------------------------------------------------------------------------------------
+
+1. Aggregation Table Functions :
+- We Generally use these functions to create a table that is based on the aggregation of another table.
+- We store the result of these functions.
+
+
+
+
+-->  SUMMARIZE() :- 
+- Syntax :
+ SUMMARIZE( <Table> , <GroupBy_ColumnName1> , <GroupBy_ColumnName2> , ... , [ <Name1> , <Expression1> ] , [ <Name2> , <Expression2> ] , ... )
+- Example : 
+  SUMMARIZE( Sales , Sales[Product] , Sales[Region] , "Total Sales" , SUM( Sales[Amount] ) , "Total Profit" , SUM( Sales[Profit] ) )
+
+
+
+
+
+
+--> GROUPBY() :-
+
+
+
+
+
+
+
+--> SUMMARIZECOLUMNS()
+
+------------------------------------------------------------------------------------
+
+2. Filtering :-
+- We Generally use these functions to create a table that is based on the filtering of another table.
+- We hand it over to another function to do the aggregation or calculation.
+
+- FILTER()
+- TOPN()
+- ALL()
+- ALLEXCEPT()
+- ALLSELECTED()
+- VALUES()
+- DISTINCT()
+- CALCULATETABLE()
+
+------------------------------------------------------------------------------------
+
+
+3. Relationship :-
+- We Generally use these functions to create a table that is based on the relationship of another table.
+- We hand it over to another function to do the aggregation or calculation.
+
+
+- RELATEDTABLE()
+- TREATAS()
+
+
+------------------------------------------------------------------------------------
+
+4. Time Intelligence :- 
+- We Generally use these functions to create a table that is based on the time intelligence of another table.
+- We hand it over to another function to do the aggregation or calculation.
+
+- DATESYTD()
+- SAMEPERIODLASTYEAR()
+- DATEADD()
+- DATESINPERIOD()
+
+------------------------------------------------------------------------------------
+
+
+5. Construction :- 
+- We Generally use these functions to create a table that is based on the construction of another table.
+- We store the result of these functions.
+
+- CALENDER()
+- UNION()
+- ADDCOLUMNS()
+
+
+
+
+
+
