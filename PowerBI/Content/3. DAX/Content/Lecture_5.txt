@@ -4,3 +4,21 @@
 ==========================================================================================================================================
                                                           LECTURE 5 : Visual Calculations
 ===========================================================================================================================================
+
+
+:: Visual Calculations : 
+- A DAX calculation that works on the result of your visual.
+- This calculations is lives and exists only in the visual and not in the data model.
+- Visual calcualtions live only in the visual. Unlike measures , you can't reuse them. 
+
+
+## Types : 
+
+1. Previous() : Returns the value of a measure in the previous row of a visual.
+2. Next() : Returns the value of a measure in the next row of a visual.
+3. First() : Returns the value of a measure in the first row of a visual.
+4. Last() : Returns the value of a measure in the last row of a visual.
+
+5. RunningTotal() : Returns the cumulative total of a measure in a visual.
+6. MovingAverage() : Returns the average of a measure over a specified number of rows in a visual.
+7. Rank() : Returns the rank of a measure in a visual based on a specified order.
