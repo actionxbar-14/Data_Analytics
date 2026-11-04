@@ -14,7 +14,7 @@
 
 
 1.Implicit Measures :
-- Implicit measures are automatically created by Power BI when you drag a numeric field into the Values.
+- Implicit measures are automatically created by Power BI when you drag a numeric field into the Values/visual charts.
 
 
 
@@ -37,9 +37,12 @@
 Tax = SalesData[Total_Sales] * 18/100. 
 
 
---> Use Case : Suitable for scenarios where you need a value for each row in the table , such as adding a new field derived from existing data(e.g., creating a "Total Price" column by multiplying "Quantity" and "Price"). 
+--> Use Case : 
+- Suitable for scenarios where you need a value for each row in the table , such as adding a new field derived from existing data(e.g., creating a "Total Price" column by multiplying "Quantity" and "Price"). 
 
---> Performance : Since calculated columns are stored in the model , they can affect performance , especially if the model is large. 
+
+--> Performance : 
+- Since calculated columns are stored in the model , they can affect performance , especially if the model is large. 
 
 
 
@@ -195,16 +198,15 @@ ________________________________________________________________________________
 
 3. COUNT Formula :
 
-- COUNT counts the number of non-blank values in a column. 
-
+- COUNT counts the number of 'non-blank' values in a column. 
 - Syntax : COUNT(<column>)
 
-- Example : 
-
-Number of Customers = COUNT('Table'[Customer ID])
 
 
---> Use Case : When you want to count the non-empty values in a column. 
+- Ex :  Number of Customers = COUNT('Table'[Customer ID])
+
+
+## Use Case : When you want to count the non-empty values in a column. 
 
 
 
@@ -216,15 +218,15 @@ ________________________________________________________________________________
 4. COUNTA Formula : 
 
 - COUNTA counts the number of non-blank values in a column , including text , numeric values and logical values even counts "Boolean values" where only Count will not count Boolean data type. 
-
 - Syntax : COUNTA(<column>)
 
-- Ex : 
-
-Number of Reviews  = COUNTA('Table'[Review Status])
 
 
---> Use Case : 
+- Ex : Number of Reviews  = COUNTA('Table'[Review Status])
+
+
+
+## Use Case : 
 - When you need to count all non-blank values , regardless of the data type (text , numbers , etc). 
 
 
@@ -239,15 +241,14 @@ ________________________________________________________________________________
 5. COUNTBLANK Formula : 
 
 - COUNTBLANK counts the number of blank(empty) values in a column. 
-
 - Syntax : COUNTBLANK(<column>)
 
-- Ex : 
-
-Blank Reviews = COUNTBLANK('Table'[Review Points])
 
 
---> Use Case : When you want to count the number of blank or missing values in a column. 
+- Ex :  Blank Reviews = COUNTBLANK('Table'[Review Points])
+
+
+## Use Case : When you want to count the number of blank or missing values in a column. 
 
 
 
@@ -259,21 +260,19 @@ ________________________________________________________________________________
 6. COUNTROWS Formula : 
 
 - COUNTROWS counts the number of rows in a table.
-
 - Syntax : COUNTROWS(Table_name)
 
-- Ex : 
-
-Total Records = COUNTROWS('Table')
 
 
-
-NOTE : ( COUNTROWS with Filter)
-
-- Ex : 
+- Ex :  Total Records = COUNTROWS('Table')
 
 
---> Use Case :  When you want to count the total number of rows in a table or in a filtered table. 
+## [ COUNTROWS with Filter ]
+
+- Ex :  Total Records Filter = COUNTROWS(FILTER('Table' , 'Table'[State] = "Maharashtra"))
+
+
+## Use Case :  When you want to count the total number of rows in a table or in a filtered table. 
 
 
 
@@ -283,15 +282,15 @@ ________________________________________________________________________________
 7. DISTINCTCOUNT : 
 
 - DISTINCTCOUNT counts the number of unique , non-blank values in a column. 
-
 - Syntax : DISTINCT(<column>)
 
-- Ex : 
-
-Unique States = DISTINCTCOUNT('Table'[State])
 
 
---> Use Case : When you need to count the distinct (Unique) values in a column , excluding blanks. 
+- Ex :  Unique States = DISTINCTCOUNT('Table'[State])
+
+
+
+## Use Case : When you need to count the distinct (Unique) values in a column , excluding blanks. 
 
 
 __________________________________________________________________________________________________________________________________________
@@ -301,24 +300,20 @@ ________________________________________________________________________________
 8. COUNTX Formula : 
 
 - COUNTX is an iterator function that counts non-blank results of an expression evaluated row by row over a table. 
-
 - Syntax : COUNTX(Table_name , Expressions(for ex : IF , ..))
+
 
 - Ex : CountX = COUNTX('Table' , IF('Table'[Review Points] >= 7 , 1 , BLANK()) )
 
 
 
 
-NOTE :-  ( COUNTX with FILTER )
+## [ COUNTX with FILTER ]
 
-- Ex : 
-
-CountXFilter = COUNTX(FILTER('Table' , 'Table'[State] = "Maharashtra") , 'Table'[State])
+- Ex : CountXFilter = COUNTX(FILTER('Table' , 'Table'[State] = "Maharashtra") , 'Table'[State])
 
 
-
-
---> Use Case : When you need to count based on an expression that is evaluated for each row in a table. 
+## Use Case : When you need to count based on an expression that is evaluated for each row in a table. 
 
 
 __________________________________________________________________________________________________________________________________________
@@ -328,25 +323,19 @@ ________________________________________________________________________________
 9. COUNTAX Formula : 
 
 - COUNTAX is the iterator version of COUNTA. It evalutes and expression for each row and counts the number of non-blanks results. 
-
 - Syntax : COUNTAX(Table_name , Expressions(for ex : IF , ..))
 
-- Ex : 
 
-CountAX = COUNTAX('Table' , IF('Table'[Review Status]=TRUE, 1 , BLANK()) )
-
-
-
-NOTE :-    ( COUNTAX with Filter )
-
-
-- Ex : 
-
-CountAXFilter = COUNTAX(FILTER('Table' , 'Table'[Review Status] = FALSE()) , 'Table'[Review Status])
+- Ex :  CountAX = COUNTAX('Table' , IF('Table'[Review Status]=TRUE, 1 , BLANK()) )
 
 
 
---> Use Case :  When you need to count based on an expression that is evaluated for each row in a table even there is Binary data type. 
+## [ COUNTAX with Filter ]
+
+- Ex : CountAXFilter = COUNTAX(FILTER('Table' , 'Table'[Review Status] = FALSE()) , 'Table'[Review Status])
+
+
+## Use Case :  When you need to count based on an expression that is evaluated for each row in a table even there is Binary data type. 
 
 
 
@@ -354,5 +343,50 @@ ________________________________________________________________________________
 
 
 10. DATE & TIME Functions : 
+
+
+- DAY(<datetime>)    : Extracts the day from a date value.
+
+- MONTH(<datetime>)  : Extracts the month from a date value.
+
+- YEAR(<datetime>)   : Extracts the year from a date value.
+
+- HOUR(<datetime>)   : Extracts the Hour from a date and time value.
+
+- MINUTE(<datetime>) : Extracts the Minute from a date and time value.
+
+- SECOND(<datetime>) : Extracts the Second from a date and time value.
+
+- Today()            : Show Current date.
+
+- Now()              : Show current date and Time.
+ 
+- Weekday()          : Show Weekday in numbers between 1 to 7.
+
+- Weeknum()          : Show Week number in Month/Year.
+
+- FORMAT             : Formats a value as text according to a specified format. ( Ex : FORMAT(SalesData[Date].[Date] , "DDD")  )
+
+
+
+
+__________________________________________________________________________________________________________________________________________
+
+
+11. DATEDIFF :
+
+- Returns the difference between two dates in the specified interval (days, months, years, etc.).
+- Syntax : DATEDIFF(<start_date>, <end_date>, <interval>)
+
+- Example :  DATEDIFF(Sales[OrderDate], Sales[ShipDate], DAY)
+
+
+__________________________________________________________________________________________________________________________________________
+
+
+
+12. Create Custom Calendar : 
+
+
 
 
