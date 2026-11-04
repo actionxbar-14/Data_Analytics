@@ -41,27 +41,40 @@
 ===========================================================================================================================================
 
 
-4. Relationships :
-   - Fetch.
-   - Sleeping.
-   - Direction.
-   - Missing. 
 
-===========================================================================================================================================
-
-5. Time intelligence :
-   - Window Makers. 
-   - Date Calculators. 
-   - DATEADD v/s DATEDIFF. 
+4. All Formula In DAX : 
 
 
+- SUM Formula in DAX. 
+- Calculated Columns in Power BI. 
+- Difference Between Calculated Columns and Measures. 
+- SUMX Formula. 
+- Difference Between SUM & SUMX.
+- COUNT Formula. 
+- COUNTA Formula. 
+- COUNTBLANK Formula. 
+- COUNTROWS Formula. 
+- DISTINCTCOUNT Formula. 
+- COUNTX FOrmula. 
+- COUNTAX Formula. 
+- COUNTROWS with FILTER Formula. 
+- Extract Day , Month & Year. 
+- Extract Hour , Minute & Second. 
+- DATEDIFF Formula. 
+- Create Custom Calender.
+- MTD , QTD & YTD DAX Formula. 
+- NETWORKDAYS DAX Formula. 
+- DATESINPERIOD & DATESBETWEEN DAX Formula.
+- SAMEPERIODLASTYEAR DAX Formula.
+- Advanced DAX Formulas. 
+- Create Calender Table. 
+- Creating Seperate Table for Measures. 
+- KEEPFILTERS Formula. 
+- REMOVEFILTERS Formula.
+- DISTINCT Formula. 
+- RANKX Function. 
+- CALCULATETABLE Formula. 
+- PARALLELPERIOD Formula. 
 
-===========================================================================================================================================
 
-6. DAX Tools :
-   - Toolkit.
-   - Variables. 
-   - Performance. 
-   - AI & DAX. 
 
-===========================================================================================================================================
