@@ -7,6 +7,7 @@
                                                           LECTURE 4 : DAX Iterators
 ===========================================================================================================================================
 
+
 :: DAX Iterators :
 - A function that repeats a calculation across every row of a table. 
 - Steps : 
