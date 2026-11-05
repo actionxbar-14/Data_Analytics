@@ -390,3 +390,159 @@ ________________________________________________________________________________
 
 
 
+:: Method_1  :
+
+- Go to the transform data section in Power BI and click on "New Table" to create a custom calendar table using DAX. and then write the DAX :
+
+=  List.Dates(#date(2023,1,1),731,#duration(1,0,0,0))
+
+
+
+
+
+
+
+
+
+
+:: Method_2 : 
+
+Calender_Table = CALENDAR(MIN(SalesData[Date]) , MAX(SalesData[Date]))   #-->  ( from minimum date to maximum date of the table )
+
+
+
+
+
+
+
+
+
+
+
+
+:: Method_3 : 
+
+
+Calender_Table_AUTO = CALENDARAUTO() #-->  ( from 1st month of the year to next 1st month of the year )
+
+Calender_Table_AUTO = CALENDARAUTO(3) #-->  ( from 3rd month of the year to next 3rd month of the year )
+
+
+
+
+
+
+__________________________________________________________________________________________________________________________________________
+
+
+
+
+
+13. MTD / QTD / YTD Functions : 
+
+
+
+i).  MTD (Month-To-Date)    : 
+- Calculates the total from the beginning of the current month up to the current date.
+- Ex :  MTD = TOTALMTD([Total_Sales] , Custom_Calender[Date])
+
+
+
+
+
+ii). QTD (Quarter-To-Date) : 
+- Calculates the total from the beginning of the current quarter up to the current date.
+- Ex :  QTD = TOTALQTD([Total_Sales] , Custom_Calender[Date])
+
+
+
+
+
+iii). YTD (Year-To-Date)   : 
+- Calculates the total from the beginning of the current year up to the current date.
+- Ex :  YTD = TOTALYTD([Total_Sales] , Custom_Calender[Date])
+
+
+
+
+
+
+__________________________________________________________________________________________________________________________________________
+
+
+
+14. Networkdays Function :
+
+- The NETWORKDAYS function calculates the number of working days between two dates, excluding weekends and optionally specified holidays. It is useful for project management and scheduling tasks.
+
+- Ex: 
+
+Network Days = NETWORKDAYS("01-01-2023","31-01-2023", 1 ,Holidays)
+
+
+1 or omitted: Saturday, Sunday
+2: Sunday, Monday
+3: Monday, Tuesday
+4: Tuesday, Wednesday
+5: Wednesday, Thursday
+6: Thursday, Friday
+7: Friday, Saturday
+11: Sunday only
+12: Monday only
+13: Tuesday only
+14: Wednesday only
+15: Thursday only
+16: Friday only
+17: Saturday only
+
+
+
+
+
+
+
+__________________________________________________________________________________________________________________________________________
+
+
+15.  DATESINPERIOD Function : 
+
+- The DATESINPERIOD function returns a table that contains a column of dates that begins with a specified start date and continues for a specified number of intervals (days, months, quarters, or years). It is useful for creating dynamic date ranges in time intelligence calculations.
+- Syntax : 
+DATESINPERIOD(<dates>, <start_date>, <number_of_intervals>, <interval>)
+
+- Ex :
+
+Sep2023DatesINPeriod = CALCULATE([Total_Sales] , DATESINPERIOD(Custom_Calender[Date],
+"24-09-2023" ,7, DAY))
+
+
+
+
+__________________________________________________________________________________________________________________________________________
+
+
+16. DATESBETWEEN Function :
+
+- The DATESBETWEEN function returns a table that contains a column of dates that fall between two specified dates. It is useful for filtering data within a specific date range.
+- Syntax : DATESBETWEEN(<dates>, <start_date>, <end_date>)
+
+- Ex :
+Sep2023DatesBETWEEN = CALCULATE([Total_Sales] , DATESBETWEEN(Custom_Calender[Date] , 
+ "24-09-2023" , "30-09-2023"))
+
+
+
+
+ __________________________________________________________________________________________________________________________________________
+
+
+17. SAMEPERIODLASTYEAR Function :
+
+- The SAMEPERIODLASTYEAR function returns a table that contains a column of dates that represent the same period in the previous year. It is useful for year-over-year(YoY) comparisons in time intelligence calculations.
+
+- Syntax : SAMEPERIODLASTYEAR(<dates>)
+
+- Ex :
+
+
+
