@@ -546,3 +546,75 @@ Sep2023DatesBETWEEN = CALCULATE([Total_Sales] , DATESBETWEEN(Custom_Calender[Dat
 
 
 
+__________________________________________________________________________________________________________________________________________
+
+
+18. TEXT Formulas :
+
+
+
+## FIND(<find_text>, <within_text>, [<start_num>]) :
+- Returns the starting position of one text string within another text string. The search is case-sensitive
+- Ex: 
+
+FName = LEFT(SalesData[Customer Name] , FIND(" " , SalesData[Customer Name] , 1)-1)
+
+
+
+
+
+
+
+
+## LEFT(<text>, <num_chars>) /  RIGHTT(<text>, <num_chars>) :
+- Returns the first/last character(s) in a text string based on the number of characters specified.
+- Ex :
+
+FName_LEFT = LEFT(SalesData[Customer Name] , FIND(" " , SalesData[Customer Name] , 1)-1)
+
+FName_RIGHT = RIGHT(SalesData[Customer Name] , LEN(SalesData[Customer Name]) - FIND(" " , SalesData[Customer Name] , 1)) 
+
+
+
+
+
+## UPPER / LOWER : 
+
+
+- Ex :
+
+Name_UPPER = UPPER(SalesData[Customer Name])
+Name_LOWER = LOWER(SalesData[Customer Name])
+
+
+
+
+## MID : 
+
+- Ex : MID(SalesData[Customer Name] , 7 , 5) 
+
+
+
+
+## LEN : 
+
+- Ex:  LEN(SalesData[Customer Name])
+
+
+__________________________________________________________________________________________________________________________________________
+
+
+19. Advanced DAX : [ Go to the PowerBI files for description ]
+
+- CALCULATE()
+- KEEPFILTER()
+- REMOVEFILTER()
+- ALL()
+- DISTINCT()
+- RANKX()
+- FILTER()
+- CALCULATE TABLE()
+- PARALLELPERIOD()
+
+
+
