@@ -1,0 +1,81 @@
+
+
+
+
+
+
+______________________________________________________________________________________________________________________________________________
+
+
+
+--------------------------
+:: Concepts :
+--------------------------
+
+
+
+
+## Cell : 
+
+- It is a intersection of row and columns. 
+
+
+
+
+## Workbook: 
+
+- It is a collection of multiple sheets.
+
+
+
+
+
+______________________________________________________________________________________________________________________________________________
+
+
+-----------------------------------
+:: Formulas / Functions :
+-----------------------------------
+
+
+## RANDBETWEEN(bottom , top) : 
+
+- ye selected range mai random number mai 
+
+
+
+
+
+
+
+
+______________________________________________________________________________________________________________________________________________
+
+
+
+
+------------------------------
+:: Shortcuts :
+------------------------------
+
+
+
+
+1. [ ctrl + right arrow ] :- sheet ke last column tkk le jayega. 
+
+2. [ ctrl + down arrow ] :- sheet ke last row tkk le jayega. 
+
+3. [ ctrl + F11 ] :- Creating a new sheet.
+
+4. [ ctrl + shift + down arrow ] : start se leker last row tkk ke data ko select krr lega. 
+
+5. [ ctrl + shift + right arrow ] : start se leker last column ke data ko select krr lega. 
+
+6. [ ctrl + 1 ] : Format cells wala tab khulta hai.
+
+7. [ ctrl + ]
+
+
+
+
+
