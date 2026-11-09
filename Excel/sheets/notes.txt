@@ -29,6 +29,13 @@ ________________________________________________________________________________
 
 
 
+## Relative Refrence :
+ 
+- jiss cell ka relative refrence jiss cell mai use krna hai , uss cell ke value ko click krke F4 press krna hota hai
+- Ex : $K$22
+
+
+
 
 ______________________________________________________________________________________________________________________________________________
 
@@ -40,7 +47,11 @@ ________________________________________________________________________________
 
 ## RANDBETWEEN(bottom , top) : 
 
-- ye selected range mai random number mai 
+- ye selected range mai random number generate krta hai. 
+- [ ctrl + R : Fill Right ]
+- [ ctrl + D : Fill Down ]
+
+
 
 
 
@@ -73,7 +84,7 @@ ________________________________________________________________________________
 
 6. [ ctrl + 1 ] : Format cells wala tab khulta hai.
 
-7. [ ctrl + ]
+7. [ alt + = ] : Row-wise sum calculate krta hai.
 
 
 
