@@ -1,0 +1,19 @@
+
+
+
+:: Content :
+
+1. Page Formatting.
+2. Table Visual. 
+3. Conditional Formatting. 
+4. Matrix Visual. 
+5. Bar Charts. 
+6. Line Charts. 
+7. Area Charts. 
+8. Pie and donut Charts. 
+9. Tree Map.
+10. Ribbon Chart. 
+11. Funnel Chart. 
+12. Card And MultiRow Card Visual. 
+13. Decomposition Tree.
+14. Q & A.
