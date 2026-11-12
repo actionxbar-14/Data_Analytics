@@ -35,6 +35,65 @@ ________________________________________________________________________________
 - Ex : $K$22
 
 
+______________________________________________________________________________________________________________________________________________
+
+
+
+
+
+--------------------------
+:: Data Cleaning :
+--------------------------
+
+1. Remove Duplicates :
+- [ Go to the data section and inside the data section ribbon  , data tools group contains 'remove duplicates' ].
+
+
+2. Remove space(column without data) :
+- [Press Ctrl + G and then select 'blank' option , after that press 'ctrl + minus(-) and then select the 'entire row' option.'].
+
+
+3. Remove Blank space(column have both data + space) :
+- [ Use TRIM() Formula ]
+
+
+4. Remove Unbreakable Space : 
+- [ Use SUBSTITUTE(column_name , CHAR(160),  "")] 
+
+
+5. Structuring TEXT :
+- [ Using PROPER() , UPPER() , LOWER() ]
+
+
+6. Fixing Negative Values : 
+- [ BY using IF(condition , TRUE , FALSE ) ].
+
+
+7. Splitting Data : 
+- [ By Using Flash Fill ( Ctrl + E ) ]
+- [ By Using LEFT() , RIGHT() ]
+- [ By Using FIND(find_text , within_text , start_num) ] 
+
+
+
+8. Data Validation :
+- [ In the Data Tab , we have Data tools Group and inside it , we have 'settings' , 'input message' , 'Error alert' ]
+
+
+
+
+
+
+______________________________________________________________________________________________________________________________________________
+
+
+
+--------------------------
+:: Logical Function :
+--------------------------
+
+
+
 
 
 ______________________________________________________________________________________________________________________________________________
@@ -85,6 +144,8 @@ ________________________________________________________________________________
 6. [ ctrl + 1 ] : Format cells wala tab khulta hai.
 
 7. [ alt + = ] : Row-wise sum calculate krta hai.
+
+8. [ shift + F11 ] : add a new sheet in the excel workbook.
 
 
 
