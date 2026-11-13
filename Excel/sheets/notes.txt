@@ -82,16 +82,13 @@ ________________________________________________________________________________
 
 
 
-
-
 ______________________________________________________________________________________________________________________________________________
 
+:: VLOOKUP :
 
-
---------------------------
-:: Logical Function :
---------------------------
-
+- Vertical Lookup. 
+- Look For a value in the left most column of the table , and then returns a value in the same row from a column you specify. By default the column must be sorted in the ascending order. 
+- Formula : VLOOKUP( lookup_value , table_array , col_index_num , [range_lookup] )
 
 
 
@@ -112,7 +109,53 @@ ________________________________________________________________________________
 
 
 
+## VLOOKUP(lookup_value, table_array, col_index_num, [range_lookup]) :
 
+- Ye kisi table ke first column mein given value ko search karta hai aur usi row ke specified column se matching value return karta hai.
+- `TRUE` : Approximate Match (default).
+- `FALSE` : Exact Match.
+- **Limitation:** Ye sirf Left to Right lookup perform karta hai.
+
+
+
+
+
+## MATCH(lookup_value, lookup_array, [match_type]) :
+
+- Ye selected range mein given value ki position (index number) return karta hai.
+- `0` : Exact Match.
+- `1` : Approximate Match (Ascending Order).
+- `-1` : Approximate Match (Descending Order).
+
+
+
+
+
+
+## INDEX(array, row_num, [column_num]) :
+
+- Ye given range ya array mein specified row aur column position par available value return karta hai.
+- MATCH ke saath combine karke dynamic lookup perform kar sakte hain.
+
+
+
+
+
+
+## INDEX + MATCH :
+
+- Ye VLOOKUP ka advanced alternative hai, jisme MATCH se position find karke INDEX se corresponding value return karte hain.
+- Left to Right aur Right to Left dono lookup perform kar sakte hain.
+- Column insert/delete hone par VLOOKUP ke comparison mein zyada flexible hai.
+
+**Example:**
+
+```excel
+=INDEX(C2:C10, MATCH(E2, A2:A10, 0))
+```
+
+- `MATCH(E2, A2:A10, 0)` : E2 ki exact position find karega.
+- `INDEX(C2:C10, ...)` : Us position ki corresponding value return karega.
 
 
 
@@ -146,6 +189,8 @@ ________________________________________________________________________________
 7. [ alt + = ] : Row-wise sum calculate krta hai.
 
 8. [ shift + F11 ] : add a new sheet in the excel workbook.
+
+9. [ alt + A + T ] : Applying Filter to the columns.
 
 
 
