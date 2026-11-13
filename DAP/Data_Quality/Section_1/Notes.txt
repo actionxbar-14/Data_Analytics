@@ -1,0 +1,125 @@
+
+-------------------------------
+:: What is Data Quality :
+-------------------------------
+
+--> Data Quality refers to the overall health of your data, it incompasis features like :
+
+1. Accuracy [ Is the data free from error and typos ? ]
+2. Consistency [ Is the data formatted uniformly throughout ? ]
+3. Completeness [ Does the data have all the necessary information ? ]
+4. Timeliness [ Is the data up-to-date & reflects the current state ? ]
+
+
+
+
+
+-------------------------------
+:: Data Profiling & Analysis :
+-------------------------------
+
+- Conduct in-depth analysis of data to identify patterns , anomalies , potential quality issues. 
+- Access data characteristics - data types , missing values , outliers &  inconsistencies. 
+- Employ data analysis , visualizations techniques to identify data quality issues. 
+
+
+
+
+-------------------------------------
+:: Data Validation & Verification :
+-------------------------------------
+
+- Define and enforce data validation rules to ensure data accuracy & consistency. 
+- Cross-referencne data with other sources to verify accuracy. 
+- Perform manual reviews and use automated validation tools. 
+
+
+
+
+
+
+-------------------------------------
+:: Root Cause Analysis :
+-------------------------------------
+
+- Investigate the root causes of data quality problems & recommend solutions. 
+- Ex : if data inconsistencies appear , they investigate whether it's due to system issues , user error , or integration problems to work on targeted fixes. 
+
+
+
+-------------------------------------
+:: Data Cleansing & Standardization :
+-------------------------------------
+
+- Correct errors , remove duplicates and handle missing values. 
+- Standardize data formats , normalize data and apply consistent naming conventions. 
+- Implement data cleansing and standardization processses to improve data quality. 
+
+## NOTE : 
+- It is optional and depends on Organization data architecture standards. 
+
+
+
+
+--------------------------------------------
+:: Data Quality Monitoring and Reporting :
+--------------------------------------------
+
+- Establish metrics / KPIs( Key Performance Indicators ) to measure data quality. 
+- Set up automated monitoring systems to track data quality metrics. 
+- Generate regular reports on data quality metrics & trends. 
+
+
+
+
+
+
+--------------------------------------------
+:: Business Stakeholder Engagement :
+--------------------------------------------
+
+- Work closely with business stakeholders to understand their data needs. 
+- Communicate data quality insights to stakeholders. 
+
+
+
+
+--------------------------------------------
+:: Data Governance & Metadata Management :
+--------------------------------------------
+
+- Enforce data governance policies & standards. 
+- Maintain accurate and up-to-date metadata. 
+- Assist in populating & maintaining data catalogs. 
+
+
+## NOTE : 
+- It is optional and depends on Organization data architecture standards. 
+
+
+
+
+--------------------------------------------
+:: Automation & Tool Development :
+--------------------------------------------
+
+- Responsible to build & maintain data quality tools & automation scripts. 
+- Some Organization procure Data Quality tools like , Informatica , Talend , Collibra etc. 
+- while others choose to build inhouse automation frameworks. 
+
+
+
+
+
+--------------------------------------------
+:: 7-Most common data quality issues :
+--------------------------------------------
+
+1. Duplicate. 
+2. Inaccurate. 
+3. Ambiguous. 
+4. Hidden. 
+5. Inconsistent. 
+6. Stale. 
+7. Orphaned. 
+

@@ -1,0 +1,83 @@
+
+
+----------------------------------------------------------
+:: Section_1  :-  [ Getting Started with Data Quality ]
+----------------------------------------------------------
+
+- What is Data Quality? Why is it important?
+- Data Quality Professionals - Job Responsibilities & Required Skills. 
+- ETL Tester V/s Data Quality Engineer - Role Comparison. 
+- 7 Most Common Data Quality Issues & Thier Root Causes. 
+
+
+
+
+
+
+----------------------------------------------------------
+:: Section_2  :-  [ How to Measure Data Quality? ]
+----------------------------------------------------------
+
+- How to Measure Data Quality | Key Data Quality Dimensions.
+- Data Quality Dimensions v/s Metrics - Understand the key Differences. 
+- How to uncover insights from your data? [ Profiling ]
+
+
+
+
+
+
+
+----------------------------------------------------------------
+:: Section_3  :-  [ Discovering Insights with Data Profiling ]
+----------------------------------------------------------------
+
+- Data Profiling | Uncovering Insights for Data Quality. 
+- Data Profiling vs Data Quality Assessment. 
+- Types of Data Profiling | Techniques Explained. 
+- How to Profile Data using Excel ( Power Query ). 
+- How to Profile Data using Snowflake.  
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------
+:: Section_4  :-  [ Turning Insights into Action - Rules & Monitoring ]
+-------------------------------------------------------------------------
+
+- Creating Data Quality Rules based on Data Profiling in Snowflake. 
+- How to Monitor Data Quality Metrices on Snowflake Dashboard. 
+
+
+
+
+
+
+
+-------------------------------------------------------------------------
+:: Section_5  :-  [ Cracking the interview - Real-World Q&A ]
+-------------------------------------------------------------------------
+
+- Top 5 Scenario-Based Interview Q&A | Beginner Level . 
+- Top 5 Scenario-Based Interview Q&A | Intermediate to Senior. 
+
+
+
+
+-------------------------------------------------------------------------
+:: Section_6  :-  [ Scalling Data Quality with Snowflake Automation! ]
+-------------------------------------------------------------------------
+
+
+- Snowflake Data Metric Functions | Automate your Data Quality Monitoring! 
+- Snowflake System DMFs | Built-in Data Quality Checks. 
+- Snowflake Custom DMFs | Build your own checks. 
+- Snowflake Custom DMFs | Cross-Table Checks. 
+- Automate Data Qualtiy Checks | Schedule & Trigger DMFs. 
+- How to Access DMF Results in Snowflake. 
+- How to Remediate Data Quality Issues with DMFs. 
+- Snowflake DMFs - Interview Q&A for Data Engineers & ETL Testers. 
