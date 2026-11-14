@@ -84,16 +84,296 @@ ________________________________________________________________________________
 
 ______________________________________________________________________________________________________________________________________________
 
-:: VLOOKUP :
 
-- Vertical Lookup. 
-- Look For a value in the left most column of the table , and then returns a value in the same row from a column you specify. By default the column must be sorted in the ascending order. 
-- Formula : VLOOKUP( lookup_value , table_array , col_index_num , [range_lookup] )
+
+--------------------------------
+:: Statistical Formulas :
+--------------------------------
+
+
+
+## 1. SUMIF(range, criteria, [sum_range]) :
+
+- Ye given condition ke basis par selected range ki values ka SUM calculate karta hai.
+- Single condition apply karta hai.
+- Example: =SUMIF(A2:A10,"Delhi",B2:B10)
+- Delhi ke corresponding sales ka total calculate karega.
+
+
+
+### 2. SUMIFS(sum_range, criteria_range1, criteria1, ...) :
+
+- Ye multiple conditions ke basis par selected range ki values ka SUM calculate karta hai.
+- Multiple conditions simultaneously apply karta hai.
+- **Example:** `=SUMIFS(C2:C10,A2:A10,"Delhi",B2:B10,"Laptop")`
+- Delhi mein Laptop ki total sales calculate karega.
+
+
+
+
+
+
+### 3. COUNTIF(range, criteria) :
+
+- Ye given condition ke basis par matching cells ki COUNT calculate karta hai.
+- Single condition apply karta hai.
+- **Example:** `=COUNTIF(A2:A10,"Delhi")`
+- Delhi city ke total records count karega.
+
+
+
+
+
+
+
+### 4. COUNTIFS(criteria_range1, criteria1, ...) :
+
+- Ye multiple conditions ke basis par matching cells ki COUNT calculate karta hai.
+- Multiple conditions simultaneously apply karta hai.
+- **Example:** `=COUNTIFS(A2:A10,"Delhi",B2:B10,"Laptop")`
+- Delhi mein Laptop ke total records count karega.
+
+
+
+
+
+
+### 5. AVERAGEIF(range, criteria, [average_range]) :
+
+- Ye given condition ke basis par selected range ki values ka AVERAGE calculate karta hai.
+- Single condition apply karta hai.
+- **Example:** `=AVERAGEIF(A2:A10,"Delhi",B2:B10)`
+- Delhi ki average sales calculate karega.
+
+
+
+
+
+
+### 6. AVERAGEIFS(average_range, criteria_range1, criteria1, ...) :
+
+- Ye multiple conditions ke basis par selected range ki values ka AVERAGE calculate karta hai.
+- Multiple conditions simultaneously apply karta hai.
+- **Example:** `=AVERAGEIFS(C2:C10,A2:A10,"Delhi",B2:B10,"Laptop")`
+- Delhi mein Laptop ki average sales calculate karega.
+
+
+
+
+
+
+
+
+### 7. MAXIFS(max_range, criteria_range1, criteria1, ...) :
+
+- Ye given condition ya multiple conditions ke basis par maximum value return karta hai.
+- **Example:** `=MAXIFS(C2:C10,A2:A10,"Delhi")`
+- Delhi ki maximum sales value return karega.
+
+
+
+
+
+
+
+### 8. MINIFS(min_range, criteria_range1, criteria1, ...) :
+
+- Ye given condition ya multiple conditions ke basis par minimum value return karta hai.
+- **Example:** `=MINIFS(C2:C10,A2:A10,"Delhi")`
+- Delhi ki minimum sales value return karega.
+
+
+
+
+
+
+
+:: Note:
+- `SUMIF`, `COUNTIF`, `AVERAGEIF` : Single condition.
+- `SUMIFS`, `COUNTIFS`, `AVERAGEIFS` : Multiple conditions.
+- `MAXIFS`, `MINIFS` : Multiple conditions supported.
+- Excel mein `MAXIF` aur `MINIF` naam ke built-in functions available nahi hain.
+
+
+
+______________________________________________________________________________________________________________________________________________
+
+
+--------------------------
+:: Date Formulas :
+-------------------------- 
+
+
+
+## 1. DAY(serial_number) :
+
+- Ye given date se day (1–31) extract karta hai.
+- **Example:** `=DAY("14-Nov-2026")`
+- Output: `14`
+
+
+
+
+## 2. MONTH(serial_number) :
+
+- Ye given date se month number (1–12) extract karta hai.
+- **Example:** `=MONTH("14-Nov-2026")`
+- Output: `11`
+
+
+
+
+
+## 3. YEAR(serial_number) :
+
+- Ye given date se year extract karta hai.
+- **Example:** `=YEAR("14-Nov-2026")`
+- Output: `2026`
+
+
+
+
+
+## 4. DATE(year, month, day) :
+
+- Ye given year, month aur day ko combine karke valid Excel date create karta hai.
+- **Example:** `=DATE(2026,11,14)`
+- Output: `14-Nov-2026`
+
+
+
+
+
+## 5. TEXT(value, format_text) :
+
+- Ye date ya number ko specified format mein text ke form mein convert karta hai.
+- **Example:** `=TEXT(A2,"DD-MMM-YYYY")`
+- Output: `14-Nov-2026`
+
+
+
+
+
+
+## 6. EOMONTH(start_date, months) :
+
+- Ye given date se specified months aage ya peeche ki month ki last date return karta hai.
+- **Example:** `=EOMONTH(A2,0)`
+- Output: `30-Nov-2026`
+- `0` : Current month ki last date.
+- `1` : Next month ki last date.
+- `-1` : Previous month ki last date.
+
+
+
+
+
+
+
+
+## 7. DATEDIF(start_date, end_date, unit) :
+
+- Ye do dates ke beech ka difference years, months ya days mein calculate karta hai.
+- **Example:** `=DATEDIF(A2,B2,"Y")`
+- Output: Complete years ka difference.
+- `"M"` : Complete months.
+- `"D"` : Total days.
+- `"YM"` : Years exclude karke remaining months.
+- `"MD"` : Months aur years exclude karke remaining days.
+
+
+
+
+
+
+## 8. NETWORKDAYS(start_date, end_date, [holidays]) :
+
+- Ye two dates ke beech working days calculate karta hai.
+- Saturday aur Sunday ko automatically exclude karta hai.
+- **Example:** `=NETWORKDAYS(A2,B2)`
+- Output: Total working days (excluding weekends).
+- Holidays exclude karne ke liye: `=NETWORKDAYS(A2,B2,E2:E10)`
+
+
+
+
+
+
+
+
+**Note:**
+- `DAY`, `MONTH`, `YEAR` : Date components extract karte hain.
+- `DATE` : Valid date create karta hai.
+- `TEXT` : Date ko required text format mein convert karta hai.
+- `EOMONTH` : Month ki last date return karta hai.
+- `DATEDIF` : Two dates ke beech difference calculate karta hai.
+- `NETWORKDAYS` : Working days calculate karta hai.
+
+
+______________________________________________________________________________________________________________________________________________
+
+--------------------------
+:: Pivot Table :
+--------------------------
+
+
+
+## 1. Create Pivot Table :
+
+- Ye large dataset ko summarize, analyze aur aggregate karne ke liye use hota hai.
+- Rows, Columns, Values aur Filters ki help se data ko different perspectives se analyze kar sakte hain.
+- **Example:** Sales dataset se Region-wise Total Sales calculate karna.
+- **Shortcut:** `Alt + N + V` (Create Pivot Table).
+
+
+
+
+
+
+## 2. Pivot Chart :
+
+- Ye Pivot Table ke summarized data ko visual representation (Charts) mein display karta hai.
+- Data changes hone par Pivot Chart ko Refresh karke updated visualization dekh sakte hain.
+- **Example:** Region-wise Sales ko Column Chart ya Pie Chart mein represent karna.
+
+
+
+
+
+## 3. Slicer :
+
+- Ye Pivot Table aur Pivot Chart ko visually filter karne ke liye interactive buttons provide karta hai.
+- Multiple categories ke basis par data filter kar sakte hain.
+- **Example:** Region, Product ya Category ke basis par sales data filter karna.
+
+
+
+
+
+## 4. Timeline :
+
+- Ye Pivot Table aur Pivot Chart mein date-based data ko visually filter karne ke liye use hota hai.
+- Year, Quarter, Month aur Day ke basis par data filter kar sakte hain.
+- **Example:** January 2026 se March 2026 tak ki sales ko filter karna.
+
+
+
+
+
+**Note:**
+- Pivot Table : Data Summarization & Aggregation.
+- Pivot Chart : Data Visualization.
+- Slicer : Category-based Interactive Filtering.
+- Timeline : Date-based Interactive Filtering.
+
+
+
 
 
 
 
 ______________________________________________________________________________________________________________________________________________
+
 
 
 -----------------------------------
