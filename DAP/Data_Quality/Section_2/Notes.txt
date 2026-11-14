@@ -1,0 +1,153 @@
+
+
+
+-----------------------------------------
+:: How Data Quality is Measured ?
+-----------------------------------------
+
+-  Data Quality is Measured by the Data Quality Dimensions.
+-  Data Quality dimensions are the Different factors that tells us , How good your Data is?
+
+
+
+## Key Dimensions of Data Quality :
+
+1. Accuracy.
+2. Completeness.
+3. Consistency. 
+4. Validity.
+5. Uniqueness. 
+6. Integrity. 
+7. Timeliness. 
+
+
+
+________________________________________________________________________________________________________________________________________________
+
+
+
+
+
+-----------------------------------------
+::  Dimensions v/s Metrics :
+-----------------------------------------
+
+
+## Dimensions : 
+
+- Qualitative nature. 
+- Mainly Focus on , What to monitor and tells us about the Context. 
+- Dimensions are the Different factors that tells us , How good your Data is.
+- Types :
+
+1. [ Completeness ] ->  necessary data is present. 
+2. [ Accuracy ]     ->  data reflects real-world values. 
+3. [ Consistency ]  ->  data uniform across systems. 
+4. [ Timeliness ]   ->  data is up-to-date and available when needed. 
+5. [ Validity ]     ->  data conforms to defined formats & rules. 
+6. [ Uniqueness ]   ->  no duplicate data exists within the dataset. 
+7. [ Integrity ]    ->  properly linked across systems. 
+
+
+
+
+
+
+
+
+
+## Metrics : 
+
+- Quantitative nature. 
+- Mainly Focus on How much ? , How Well and it tells us about Performance Tracking. 
+- Quantifiable ways we measure those dimensions. , that tells us How well we are doing? 
+- Types :
+
+1. [ Error Rate ]                        ->    % of incorrect / invalid data. 
+2. [ Data Availability % ]               ->    % of missing data. 
+3. [ Inconsistency Rate ]                ->    % conflicting records across datasets. 
+4. [ Data Latency ]                      ->    Delays in data availability. 
+5. [ Duplicates Rate ]                   ->    % of duplicate records. 
+6. [ Data reconciliation error rate ]    ->    % of broken links b/w related datasets. 
+
+
+
+
+
+________________________________________________________________________________________________________________________________________________
+
+
+
+
+
+
+---------------------------------------------
+## Relation b/w Dimensions and Metrics :
+---------------------------------------------
+
+
+
+# Relation_1 :
+
+- [ Dimension ] : Accuracy/Validity.
+- [ Metrics  ]  : Error Rate. 
+- Ex : ( % Incorrect Customer Records ) , ( % Invalid Customer Emails ).
+
+
+
+
+
+# Relation_2 :
+
+- [ Dimension ] :  Completeness.
+- [ Metrics ]   :  Data Availability % 
+- Ex : ( % Missing Shipping Addresses ) 
+
+
+
+
+
+# Relation_3 : 
+
+- [ Dimension ] : Consistency.
+- [ Metrics ]   : Inconsistency Rate.
+- Ex : ( Conflicting Account Balances )
+
+
+
+
+
+# Relation_4 : 
+
+- [ Dimension ] : Timeliness.
+- [ Metrics ]   : Data Latency. 
+- Ex : Time Delay in Transaction Data Availability. 
+
+
+
+
+
+# Relation_5 :
+
+- [ Dimension ] : Uniqueness. 
+- [ Metrics ]   : % Duplicate Rate. 
+- Ex : ( % Duplicate Customer Profiles )
+
+
+
+
+
+# Relation_6 :
+
+- [ Dimension ] : Integrity.
+- [ Metrics ]   : Data Reconciliation Error Rate. 
+- Ex : ( % Orders with Missing Product Information )
+
+
+
+
+
+________________________________________________________________________________________________________________________________________________
+
+
+

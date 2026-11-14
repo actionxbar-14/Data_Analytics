@@ -1,0 +1,151 @@
+
+
+
+-----------------------------------
+:: What is Data Profiling ?
+-----------------------------------
+
+- It is the process of understanding the data , to understanding it's characteristics. 
+- It envolves statistics and collecting summary of the data to gain insights of How the data is structured? , What type of content it contains? and How the datasets are related?
+
+
+
+
+
+##  How Data Profiling Help Data Quality :-
+
+
+1. Anomalies:
+- It help to find out the incorrct or invaild anamolies in the data. 
+- Ex : Customer's Age = 200 yrs.
+
+
+
+
+2. Missing data:
+- It help to find the missing data. 
+- Ex : missing customer Addresses 
+
+
+
+
+3. Inconsistent formats:
+- It helps us find the Inconsistent data between multiple data source. 
+- Ex: date format( 'YYYY-MM-DD' , 'DD-MM-YYYY' )
+
+
+
+
+
+
+
+________________________________________________________________________________________________________________________________________________
+
+
+
+-----------------------------------
+:: How to profile the data ?
+-----------------------------------
+
+- Excel.
+- SQL functions.
+- Automated Data Quality tools. 
+
+
+________________________________________________________________________________________________________________________________________________
+
+
+
+
+-------------------------------------------------
+:: Data Profiling v/s Data Quality Assessment :
+-------------------------------------------------
+
+- Data profiling can be done using SQL Queries and can be done using Data quality tools. 
+- When we connect the data to the Data quality tools then it gives us the Data quality assesments ,because we get stats and measure of the data.
+- This part is called Data quality requirements.
+
+
+## STPES :
+
+1. Discover Data Quality Requirements :
+- Rules & Standards like,
+- Value frequencies
+- Data formats 
+- Patterns
+
+
+
+
+2. Define Data Quality Requirements :
+- Rules for the Data Quality Assessments.
+- Ex: 
+
+# Assessment : Plant Equipment ( 40 % of missing location data ) but some of the equipment was retired. other equipment belonged to partner organizations. 
+# Rule : location data is required for equipments , but with some exceptions. 
+
+
+
+
+
+
+3. Evaluate the Data :
+- Evaluate the data with the rules and check whether the data follows the standard or not.
+
+
+
+________________________________________________________________________________________________________________________________________________
+
+
+
+
+
+--------------------------------
+:: Data Profiling - Types 
+--------------------------------
+
+
+1. Structure Discovery. 
+2. Content Discovery. 
+3. Relationship Discovery. 
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+1.  Structure Discovery :
+
+- It is also called as Structure Analysis. 
+- It help to Summarizing & understanding Datasets. 
+- Identifying outliers. 
+- Making comparison.
+- Drawing conclusions about Data characterestics. 
+
+- Some Example and functions of Structure Analysis are ;
+--> Descriptive Statistics , Pattern Matching. 
+--> SUM , MIN , MAX.
+--> Mean , Mode , Median , Standard Deviation. 
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+2. Content Discovery :
+
+- It generally identify Records with errors. 
+- It help to deal with :
+--> Missing values.
+--> Incorrect Data.
+--> Ambiguous Data.
+--> Invalid Data.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+3. Relationship Discovery :
+
+- It differs the data structure with the Data values. 
+- It established the connections between Records within the Tables connections between different Tables. 
+- For Ex : Foreign Key , Primary key. 

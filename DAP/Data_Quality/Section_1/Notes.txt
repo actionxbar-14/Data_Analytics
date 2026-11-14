@@ -13,6 +13,11 @@
 
 
 
+__________________________________________________________________________________________________________________________________________________
+
+
+
+
 
 -------------------------------
 :: Data Profiling & Analysis :
@@ -23,6 +28,9 @@
 - Employ data analysis , visualizations techniques to identify data quality issues. 
 
 
+
+
+_________________________________________________________________________________________________________________________________________________
 
 
 -------------------------------------
@@ -37,6 +45,11 @@
 
 
 
+__________________________________________________________________________________________________________________________________________________
+
+
+
+
 
 -------------------------------------
 :: Root Cause Analysis :
@@ -44,6 +57,12 @@
 
 - Investigate the root causes of data quality problems & recommend solutions. 
 - Ex : if data inconsistencies appear , they investigate whether it's due to system issues , user error , or integration problems to work on targeted fixes. 
+
+
+
+
+
+__________________________________________________________________________________________________________________________________________________
 
 
 
@@ -61,6 +80,11 @@
 
 
 
+__________________________________________________________________________________________________________________________________________________
+
+
+
+
 --------------------------------------------
 :: Data Quality Monitoring and Reporting :
 --------------------------------------------
@@ -72,6 +96,10 @@
 
 
 
+__________________________________________________________________________________________________________________________________________________
+
+
+
 
 
 --------------------------------------------
@@ -80,6 +108,10 @@
 
 - Work closely with business stakeholders to understand their data needs. 
 - Communicate data quality insights to stakeholders. 
+
+
+
+__________________________________________________________________________________________________________________________________________________
 
 
 
@@ -98,6 +130,9 @@
 
 
 
+__________________________________________________________________________________________________________________________________________________
+
+
 
 --------------------------------------------
 :: Automation & Tool Development :
@@ -111,15 +146,61 @@
 
 
 
+__________________________________________________________________________________________________________________________________________________
+
+
+
 --------------------------------------------
 :: 7-Most common data quality issues :
 --------------------------------------------
 
-1. Duplicate. 
-2. Inaccurate. 
-3. Ambiguous. 
-4. Hidden. 
-5. Inconsistent. 
-6. Stale. 
-7. Orphaned. 
+1. Duplicate Data. 
+2. Inaccurate Data. 
+3. Ambiguous Data. 
+4. Hidden Data. 
+5. Inconsistent Data. 
+6. Stale Data. 
+7. Orphaned Data. 
 
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+1.) Duplicate Data : 
+- Duplicate data can be occured in the system when , there is Data Silos( data present in multiple systme )  , Human error and Inconsistent Data Entry. 
+
+
+2.) Inaccurate Data :
+- Inaccurate Data is the data which is not relevant and not upto date for the analysis and consist many errors. 
+
+
+3.) Ambiguous Data :
+- Ambiguous Data is the data which Contain Missing Context(relevant information) , abbreviation( CA -> california , CA -> Charted Accountant ) , inconsistent formatting( date format written in String format ).
+
+
+4.) Hidden Data :
+- Data Silos , Embedded Files ( documents , pdf ) , Legacy Systems( old data system ) , Lack of documentation.
+
+
+5.) Inconsistent Data :
+- Same data present in different format( Ex : Customer Address [ '123 Main St.' , '123 Main Street' ]).
+- Different Data entry formats ( Ex : Date [ YYYY-MM-DD , MM/DD/YYYY ]  , Measurments [ Mts , Ft] ).
+- Missing Standards like ( Ex : State[ 'NY' , 'NewYork'] ).
+- Manual data update ( Ex : data migration , Merging the large data into one system ). 
+- Lack of Data validation. 
+
+
+
+
+6.) Stale Data :
+- Stale Data means the data is not static , information change over time such as ( Ex : Customer address , Phone number , product preferences ). 
+- However data does not always get updated regularly , this can lead to stale data which is information that is no longer current. 
+- Lack of Update processes , Data silos , Customer Churn Are the main reason. 
+
+
+
+7.) Orphan Data:
+- Orphaned Data occures due to the Deleted parent current records , Incomplete data migration , System changes.
+- It can Waste storage space , Clutter databases ,  difficult to get a complete picture of the information. 
